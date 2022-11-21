@@ -96,10 +96,9 @@ DROP TABLE IF EXISTS REFERRAL_LETTER;
 CREATE TABLE REFERRAL_LETTER 
 (
 	PatAHC		CHAR(9) NOT NULL,
-    RefDate 	DATE,
-    
-	FOREIGN KEY(PatAHC) REFERENCES PATIENT(AHC),
-    PRIMARY KEY(PatAHC, RefDate)
+    	RefDate 	DATE,
+    	FOREIGN KEY(PatAHC) REFERENCES PATIENT(AHC),
+    	PRIMARY KEY(PatAHC, RefDate)
 );
 
 DROP TABLE IF EXISTS WRITES;
@@ -114,3 +113,57 @@ CREATE TABLE WRITES
     FOREIGN KEY(ExamID) REFERENCES EXAM_DETAIL(ExamID),
     PRIMARY KEY(MedStaffSIN, ExamID, PatAHC)
 );
+	
+DROP TABLE IF EXISTS INVOICE;
+CREATE TABLE INVOICE (
+	InvoiceID		int(10) not null,
+    	PatAHC			CHAR(9) not null,
+    	InvoiceDate		DATE,
+    	CONSTRAINT INVOIPK PRIMARY KEY (InvoiceID),
+    	CONSTRAINT INVOIFK FOREIGN KEY(PatAHC) references PATIENT(AHC)
+    );
+    
+DROP TABLE IF EXISTS CONTAINS;
+CREATE TABLE CONTAINS (
+	ProductID	int(10) not null,
+	InvoiceID 	int(10) not null,
+	PatAHC		CHAR(9) not null,
+	CONSTRAINT CONTFK1 FOREIGN KEY(InvoiceID) references INVOICE(InvoiceID),
+	CONSTRAINT CONTFK2 FOREIGN KEY(ProductID) references PRODUCTS(ProductID),
+	CONSTRAINT CONTFK1 FOREIGN KEY(PatAHC) references PATIENT(AHC),
+	PRIMARY KEY (ProductID, InvoiceID, PatAHC)
+);
+   
+DROP TABLE IF EXISTS GOV_BILLING;
+CREATE TABLE GOV_BILLING (
+	BillingNo	int(10) not null,
+	PatAHC 		CHAR(9) not null,
+	Total		int not null,
+	BillingDate DATE,
+	FOREIGN KEY(PatAHC) references PATIENT(AHC)
+);
+
+DROP TABLE IF EXISTS PRODUCTS;   
+CREATE TABLE PRODUCTS (
+	ID			int(7) not null,
+	PName		varchar(20),
+	Supplier 	varchar(25)
+);
+
+DROP TABLE IF EXISTS PAST_EXAM_RECORD;
+CREATE TABLE PAST_EXAM_RECORD (
+	PatAHC		CHAR(9)	not null,
+	RecordID	int(9) not null,
+	FOREIGN KEY(PatAHC) references PATIENT(AHC),
+	FOREIGN KEY(RecordID) references EXAM_DETAIL(RecordID)
+);
+   
+DROP TABLE IF EXISTS EXAM_DETAIL;
+CREATE TABLE EXAM_DETAIL (
+	ExamID 	int(5) not null,
+	PatAHC 	CHAR(9) not null,
+	RecordID int(9),
+	FOREIGN KEY (ExamID) references WRITES(ExamID),
+	FOREIGN KEY (PatAHC) references PATIENT(AHC) 
+);
+   
