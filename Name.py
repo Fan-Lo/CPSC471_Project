@@ -1,33 +1,33 @@
 class Name:
     def __init__(self, Fname, Lname, MiddleIn, Preferred):
-        self.Fname = Fname
-        self.Lname = Lname
-        self.MiddleIn = MiddleIn
-        self.Preferred = Preferred
+        self.__Fname = Fname
+        self.__Lname = Lname
+        self.__MiddleIn = MiddleIn
+        self.__Preferred = Preferred
     
     def setFname(self, f):
-        self.Fname = f
+        self.__Fname = f
     
     def getFname(self):
-        return self.Fname
+        return self.__Fname
     
     def setLname(self,l):
-        self.Lname = l
+        self.__Lname = l
     
     def getLname(self):
-        return self.Lname
+        return self.__Lname
     
     def setMiddleIn(self, m):
-        self.MiddleIn = m
+        self.__MiddleIn = m
     
     def getMiddleIn(self):
-        return self.MiddleIn
+        return self.__MiddleIn
     
     def setPreferred(self, p):
-        self.Preferred = p
+        self.__Preferred = p
     
     def getPreferred(self):
-        return self.Preferred
+        return self.__Preferred
     
     def getFullName(self):
-        return f"{self.Fname} ({self.Preferred}) {self.MiddleIn} {self.Lname}"
+        return f"{self.__Fname} ({self.__Preferred}) {self.__MiddleIn} {self.__Lname}"
