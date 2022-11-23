@@ -1,11 +1,11 @@
 import mysql.connector
 
 db = mysql.connector.connect(
-    host="localhost",
     user="student",
-    passwd="ensf",
-    database="471"
-)
+    password='ensf',
+    host='localhost',
+    database='471',
+    auth_plugin='mysql_native_password')
 
-mycursor = db.cursor()
+db.close()
 
