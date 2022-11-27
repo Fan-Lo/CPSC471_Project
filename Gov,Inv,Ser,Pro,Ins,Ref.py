@@ -66,7 +66,7 @@ class Insurance:
         return self.MEMBERID
     
     
-    class ReferralLetter:
+class ReferralLetter:
     def __init__(self, Date, notes, EXAMID):
         self.Date = Date
         self.notes = notes
@@ -77,6 +77,6 @@ class Insurance:
 
     def getNotes(self):
         return self.notes
-    
+
     def CreateLetter(self):
         return ReferralLetter
