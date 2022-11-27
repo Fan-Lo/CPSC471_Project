@@ -53,6 +53,7 @@ class Service:
     def getCost(self):
         return self.cost
     
+    
 class Insurance:
     def __init__(self, MEMBERID, POLICYNO):
         self.MEMBERID = MEMBERID
@@ -63,3 +64,19 @@ class Insurance:
 
     def getMemberID(self):
         return self.MEMBERID
+    
+    
+    class ReferralLetter:
+    def __init__(self, Date, notes, EXAMID):
+        self.Date = Date
+        self.notes = notes
+        self.EXAMID = EXAMID
+
+    def getDate(self):
+        return self.Date
+
+    def getNotes(self):
+        return self.notes
+    
+    def CreateLetter(self):
+        return ReferralLetter
