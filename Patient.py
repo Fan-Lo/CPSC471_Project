@@ -4,7 +4,7 @@ from datetime import date
 
 class Patient:
 
-    def __init__(self, name, ahc, DOB, sex, phone):
+    def __init__(self, name=None, ahc=None, DOB=None, sex=None, phone=None):
         self.__name = name
         self.__ahcNum = ahc
         self.__DOB = DOB
@@ -62,3 +62,17 @@ class Patient:
 
     def getAHC(self):
         return self.__ahcNum
+    
+    def verifyAHC(self, ahc):
+        result = ahc.isdigit()
+        if len(ahc) != 9 :
+            result = False
+        return result
+
+'''
+if __name__ == '__main__':
+    px = Patient()
+    print(px.verifyAHC('hello'))
+    print(px.verifyAHC('123'))
+    print(px.verifyAHC('123456789'))
+'''
