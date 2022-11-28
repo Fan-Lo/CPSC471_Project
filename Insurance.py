@@ -1,10 +1,10 @@
 class Insurance:
     def __init__(self, MEMBERID, POLICYNO):
-        self.MEMBERID = MEMBERID
-        self.POLICYNO = POLICYNO
+        self.__MEMBERID = MEMBERID
+        self.__POLICYNO = POLICYNO
 
     def getPolicyNO(self):
-        return self.POLICYNO
+        return self.__POLICYNO
 
     def getMemberID(self):
-        return self.MEMBERID
+        return self.__MEMBERID
