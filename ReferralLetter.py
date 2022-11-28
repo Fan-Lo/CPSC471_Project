@@ -1,14 +1,14 @@
 class ReferralLetter:
     def __init__(self, Date, notes, EXAMID):
-        self.Date = Date
-        self.notes = notes
-        self.EXAMID = EXAMID
+        self.__Date = Date
+        self.__notes = notes
+        self.__EXAMID = EXAMID
 
     def getDate(self):
-        return self.Date
+        return self.__Date
 
     def getNotes(self):
-        return self.notes
+        return self.__notes
 
     def CreateLetter(self):
         return ReferralLetter
