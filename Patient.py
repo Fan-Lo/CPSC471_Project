@@ -3,18 +3,16 @@ from PastExamRecord import PastExamRecord
 from datetime import date
 
 class Patient:
-    __patientPhone = []
-    __invoice = []
-    __insurance = []
 
-    def __init__(self, name, ahc, DOB, sex, phone, invoice, insurance):
+    def __init__(self, name, ahc, DOB, sex, phone):
         self.__name = name
         self.__ahcNum = ahc
         self.__DOB = DOB
         self.__sex = sex
-        self.__patientPhone = phone
-        self.__invoice = invoice
-        self.__insurance = insurance
+        self.__patientPhone = []
+        self.__patientPhone.append(phone)
+        self.__invoice = []
+        self.__insurance = []
         self.__examRecord = PastExamRecord()
     
     def getPatientPhone(self):
@@ -61,3 +59,6 @@ class Patient:
     def calcAge(self):
         today = date.today()
         return today.year - self.__DOB.year - ((today.month, today.day) < (self.__DOB.month, self.__DOB.day))
+
+    def getAHC(self):
+        return self.__ahcNum
