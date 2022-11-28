@@ -1,10 +1,10 @@
 class Service:
     def __init__(self, name, cost):
-        self.name = name
-        self.cost = cost
+        self.__name = name
+        self.__cost = cost
 
     def getName(self):
-        return self.name
+        return self.__name
 
     def getCost(self):
-        return self.cost
+        return self.__cost
