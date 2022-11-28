@@ -1,16 +1,16 @@
 class GovBilling:
     def __init__(self, billingNo, total, billingDate, billingCode, icd):
-        self.billingNo = billingNo
-        self.total = total
-        self.billingDate = billingDate
-        self.billingCode = billingCode
-        self.icd = icd
+        self.__billingNo = billingNo
+        self.__total = total
+        self.__billingDate = billingDate
+        self.__billingCode = billingCode
+        self.__icd = icd
 
     def getTotal(self):
-        return self.total
+        return self.__total
 
     def getBillingNo(self):
-        return self.billingNo
+        return self.__billingNo
 
     def getBillingDate(self):
-        return self.billingDate
+        return self.__billingDate
