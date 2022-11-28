@@ -9,15 +9,15 @@ class Invoice:
         self.__contains = []
         self.__service = []
 
-    def Invoice(self, s, p):
-        self.service.Service(s)
-        self.contains.Products(p)
+   def Invoice(self, s, p):
+        self.__service = self.__service.Service(s)
+        self.__contains = self.__contains.Products(p)
 
-    def Invoice(self, s):
-        self.service.Service(s)
+   def Invoice(self, s):
+        self.__service = self.__service.Service(s)
 
-    def Invoice(self, p):
-        self.__contains.Products(p)
+   def Invoice(self, p):
+        self.__contains = self.__contains.Products(p)
     
     def calculateTotal(self):
         return self.__total 
