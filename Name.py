@@ -34,6 +34,6 @@ class Name:
     
     def parseName(self, name):
         nameList = name.split()
-        self.__Fname = nameList[0]
-        self.__MiddleIn = nameList[1]
-        self.__Lname = nameList[2]
+        self.__Fname = nameList[0].strip()
+        self.__MiddleIn = nameList[1].strip()
+        self.__Lname = nameList[2].strip()
