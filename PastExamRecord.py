@@ -1,0 +1,2 @@
+class PastExamRecord:
+    detail = ExamDetail[]

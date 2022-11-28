@@ -30,3 +30,6 @@ class Patient:
     
     def getPastExamRecord(self, index):
         return self.__examRecord[index]
+    
+    def getInsurnace(self):
+        return self.__insurance
