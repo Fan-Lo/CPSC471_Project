@@ -31,3 +31,9 @@ class Name:
     
     def getFullName(self):
         return f"{self.__Fname} ({self.__Preferred}) {self.__MiddleIn} {self.__Lname}"
+    
+    def parseName(self, name):
+        nameList = name.split()
+        self.__Fname = nameList[0]
+        self.__MiddleIn = nameList[1]
+        self.__Lname = nameList[2]
