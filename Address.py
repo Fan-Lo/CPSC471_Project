@@ -1,6 +1,6 @@
 class Address:
     def __init__(self, country=None, city=None, address=None, posCode=None):
-        # member vars: country, city, address, posCode, 
+        # member vars: country, city, address, posCode, streetName, streetNum
         self.__country = country
         self.__city = city
         self.__address = address
