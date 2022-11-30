@@ -28,6 +28,13 @@ class DatabaseConnect:
         myresult = mycursor.fetchall()
         return myresult
 
+    def insert(self, query):
+        mycursor = self.connection.cursor()
+
+        mycursor.execute(query)
+        self.connection.commit()
+        #return mycursor.rowcount, 'record inserted'
+
     def close(self):
         if self.connection.is_connected():
             self.connection.close()
