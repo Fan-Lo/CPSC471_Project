@@ -26,7 +26,7 @@ Builder.load_string("""
             color: "#000000"
 
         TextInput:
-            id: name
+            id: AHC
             multiline: False
             size_hint: (1, 0.7)
             font_size: 20
@@ -264,6 +264,13 @@ Builder.load_string("""
     GridLayout:
         spacing: 20, 20 
         cols: 1
+    
+    TextInput:
+            id: notes
+            multiline: True
+            size_hint: (1, 0.7)
+            font_size: 20
+            on_text: root.storeNotes(self.text)
 
     Button:
         text: 'Add Exam Detail'
@@ -327,18 +334,33 @@ class EditPatient(Screen):
         self.country = c
     
     def makeChanges(self):
-        #first check if patient SIN already exists in database
-        #if it does exist then make changes to that patient
-        self.patient = Patient().exists(self.SIN)
-        if (self.patient == True):
-            if self.address != None:
-                self.patient.setAddress(self.address)
-                self.patient.setCity(self.city)
-                self.patient.setCountry()
-
         #if patient doesn't exist then create new patient
-        else: 
+        if(self.AHC != None):
             self.patient = Patient().addPatient(self.AHC, self.sex, self.DOB, self.name, self.address, self.city, self.country, self.pCode)
+            return
+
+        #first check if patient SIN already exists in database
+        #if it does exist then make changes to that patient and make changes only to things the user has changed
+        # AHC can nver change once it has been set (No reason why it should ever change)
+        self.AHC = app.root.get_screen('Choose Patient').AHC
+        self.patient = Patient().exists(self.AHC)
+        if (self.patient == True):
+            if self.name != None:
+                self.patient.setName(self.name)
+
+            if self.Sex != None:
+                self.patient.setSex(self.sex)
+            
+            if self.address != None:   
+                self.patient.setAddress(self.address)
+                self.patient.setPostalCode(self.pCode)
+
+            if self.city != None:
+                self.patient.setCity(self.city)
+
+            if self.country != None:    
+                self.patient.setCountry(self.country)
+       
 
 class ChoosePatient(Screen):
     def storeAHC(self, a):
@@ -355,7 +377,11 @@ class AddInvoice(Screen):
     pass 
 
 class AddExamDetail(Screen):
-    pass 
+    def storeNotes(self, d):
+        self.notes = d
+
+    def addExamDetail(self):
+        self.patient = Patient()
 
 class AddInsurance(Screen):
     pass 
