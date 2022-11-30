@@ -112,6 +112,21 @@ Builder.load_string("""
             size_hint: (1, 0.7)
             font_size: 20
             on_text: root.storeName(self.text)
+        
+        Label: 
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle'
+            text: 'Sex: '
+            font_size: 20
+            color: "#000000"
+
+        TextInput:
+            id: country
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            on_text: root.storeSex(self.text)
 
         Label:
             text_size: self.size
@@ -287,6 +302,8 @@ class EditPatient(Screen):
     
     def storeDOB(self, d = None):
         self.DOB = d
+    def storeSex(self, s = None):
+        self.sex = s
 
     def storeAddress(self, a = None):
         self.address = a
@@ -307,11 +324,12 @@ class EditPatient(Screen):
         if (self.patient == True):
             if self.address != None:
                 self.patient.setAddress(self.address)
-
+                self.patient.setCity(self.city)
+                self.patient.setCountry()
 
         #if patient doesn't exist then create new patient
         else: 
-            self.patient = Patient().addPatient(self.name, self.AHC, self.DOB, self.address, self.pCode, self.city, self.country)
+            self.patient = Patient().addPatient(self.AHC, self.sex, self.DOB, self.name, self.address, self.city, self.country, self.pCode)
 
 class ChoosePatient(Screen):
     def storeAHC(self, a):
