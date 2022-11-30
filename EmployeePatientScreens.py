@@ -54,7 +54,7 @@ Builder.load_string("""
             font_size: 20
             background_color: 0, 0, 8, 0.5
             on_press: 
-                app.root.get_screen('Edit Patient').name.text = root.patient.getName().getFullName().
+                app.root.get_screen('Edit Patient').name.text = root.patient.getName().getFullName()
                 app.root.get_screen('Edit Patient').AHC.text = root.employee.getAHC()
                 app.root.get_screen('Edit Patient').sex.text = root.employee.getSex()
                 app.root.get_screen('Edit Patient').DOB.text = root.employee.getDOB()

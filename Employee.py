@@ -4,13 +4,11 @@ from datetime import datetime
 class Employee:
     def __init__(self, S = None):
         if(S != None):
-            print(S)
             self.database = DatabaseConnect()
             if(S.isdigit() == True):
                 self.employeeInfo = self.database.performQuery(f"SELECT * FROM EMPLOYEE;") # WHERE SIN = '{S}';")
             elif(S.isalpha() == True):
                 self.employeeInfo = self.database.performQuery(f"SELECT * FROM EMPLOYEE WHERE LName = '{S}';")
-            print(self.employeeInfo)
             self.database.close()
             self.parseInfo()
         return
