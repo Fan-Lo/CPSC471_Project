@@ -5,25 +5,11 @@ from DatabaseConnect import *
 
 class Patient:
 
-    # def addPatientSQL(self, ahc, sex=None, DOB=None, phone=None):
-    #     self.__name = name
-    #     self.__ahcNum = ahc
-    #     self.__DOB = DOB
-    #     self.__sex = sex
-    #     self.__patientPhone = []
-    #     self.__patientPhone.append(phone)
-    #     self.createPatientSQL()
-    
-    # def createPatientSQL(self):
-    #     self.database = DatabaseConnect()
-    #     self.database.performQuery(
-    #         "INSERT INTO PATIENT VALUES" +
-    #         f"({self.__ahcNum}, {self.__sex}, {self.__DOB})"
-    #     )
-    #     self.database.close()
-    
     # retrieves inforamtion from the patient table
-    def __init__(self, AHC):
+    def __init__(self, AHC=None):
+        # do nothing if it's an default ctor
+        if AHC == None :
+            return
         self.__ahcNum = AHC
         self.database = DatabaseConnect()
         self.pxInfo = self.database.performQuery(f"SELECT * FROM PATIENT WHERE AHC = {AHC};")
@@ -34,6 +20,22 @@ class Patient:
         self.database.close()
         self.parseInfo()
 
+    # def addPatient(sel, AHC, sex, DOB, FName, LName, PName, HeadAHC):
+    #     self.__name = name
+    #     self.__ahcNum = ahc
+    #     self.__DOB = DOB
+    #     self.__sex = sex
+    #     self.__patientPhone = []
+    #     self.__patientPhone.append(phone)
+    #     self.createPatientSQL()
+    
+    def createPatientSQL(self):
+        self.database = DatabaseConnect()
+        self.database.performQuery(
+            "INSERT INTO PATIENT VALUES" +
+            f"({self.__ahcNum}, {self.__sex}, {self.__DOB})"
+        )
+        self.database.close()
     
     def parseInfo(self):
         self.__name = self.concatName(self.pxInfo[0][3],self.pxInfo[0][4],self.pxInfo[0][5],self.pxInfo[0][6])
