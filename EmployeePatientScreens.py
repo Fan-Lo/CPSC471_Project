@@ -302,6 +302,7 @@ class EditPatient(Screen):
     
     def storeDOB(self, d = None):
         self.DOB = d
+    
     def storeSex(self, s = None):
         self.sex = s
 
