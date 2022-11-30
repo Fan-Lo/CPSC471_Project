@@ -5,16 +5,22 @@ from DatabaseConnect import *
 
 class Patient:
 
-    # def __init__(self, name=None, ahc=None, DOB=None, sex=None, phone=None):
+    # def addPatientSQL(self, ahc, sex=None, DOB=None, phone=None):
     #     self.__name = name
     #     self.__ahcNum = ahc
     #     self.__DOB = DOB
     #     self.__sex = sex
     #     self.__patientPhone = []
     #     self.__patientPhone.append(phone)
-    #     self.__invoice = []
-    #     self.__insurance = []
-    #     self.__examRecord = PastExamRecord()
+    #     self.createPatientSQL()
+    
+    # def createPatientSQL(self):
+    #     self.database = DatabaseConnect()
+    #     self.database.performQuery(
+    #         "INSERT INTO PATIENT VALUES" +
+    #         f"({self.__ahcNum}, {self.__sex}, {self.__DOB})"
+    #     )
+    #     self.database.close()
     
     # retrieves inforamtion from the patient table
     def __init__(self, AHC):
@@ -24,6 +30,7 @@ class Patient:
         self.__phone = self.database.performQuery(f"SELECT PhoneNum FROM PATIENT_PHONE WHERE AHC = {AHC};")
         self.__invoice = self.database.performQuery(f"SELECT PhoneNum FROM INVOICE WHERE PatAHC = {AHC};")
         self.__insurance = self.database.performQuery(f"SELECT PhoneNum FROM INSURANCE WHERE PatAHC = {AHC};")
+        self.__examDetails = self.database.performQuery(f"SELECT PhoneNum FROM EXAM_DETAIL WHERE PatAHC = {AHC};")
         self.database.close()
         self.parseInfo()
 
@@ -36,7 +43,7 @@ class Patient:
         self.__phone = self.parsingDatabaseTuples(self.__phone)
         self.__invoice = self.parsingDatabaseTuples(self.__invoice)
         self.__insurance = self.parsingDatabaseTuples(self.__insurance)
-        self.__examRecord = PastExamRecord()
+        self.__examDetails = self.parsingDatabaseTuples(self.__examDetails)
 
     def parsingDatabaseTuples(self, tuples):
         list = []
