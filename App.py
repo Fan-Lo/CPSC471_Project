@@ -123,7 +123,7 @@ Builder.load_string("""
             on_press: root.manager.current = 'menu'
 
         Button:
-            text: 'Edit Employee'
+            text: 'Main Menu'
             font_size: 30
             background_color: 0, 0, 8, 0.5
             on_press: root.manager.current = 'menu'
