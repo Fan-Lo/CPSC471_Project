@@ -1,6 +1,7 @@
 from PhoneNumber import PhoneNumber
 from PastExamRecord import PastExamRecord
 from datetime import date
+from DatabaseConnect import *
 
 class Patient:
 
@@ -14,6 +15,8 @@ class Patient:
         self.__invoice = []
         self.__insurance = []
         self.__examRecord = PastExamRecord()
+        self.database = DatabaseConnect()
+        self.database.close()
     
     def getPatientPhone(self):
         return self.__patientPhone
