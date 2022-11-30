@@ -1,6 +1,9 @@
 from Login import *
 from Employee import * 
 from DatabaseConnect import *
+from AppointmentScreens import *
+from EditEmployeeScreens import *
+from EmployeePatientScreens import *
 
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
@@ -108,147 +111,33 @@ Builder.load_string("""
             text: 'Add Patient'
             font_size: 30
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'Add Patient'
+            on_press: root.manager.current = 'Edit Patient'
 
         Button:
             text: 'Edit Existing Patient'   
             font_size: 30
             background_color: 0, 0, 8, 0.5
             on_press: root.manager.current = 'menu'
-            
+    
         Button:
             text: 'Appointments'
             font_size: 30
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'menu'
+            on_press: 
+                root.manager.current = 'Appointment'
+                app.root.get_screen('Appointment').SIN = app.root.get_screen('Employee Login').username
 
         Button:
             text: 'Main Menu'
             font_size: 30
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'menu'
+            on_press: root.manager.current = root.verifySuper()
 
         Button:
             text: 'Logout'
             font_size: 30
             background_color: 0, 0, 8, 0.5
             on_press: root.manager.current = 'menu'
-
-<AddPatient>:
-    title: 'Add Patient'
-    GridLayout:
-        spacing: 20, 20
-        cols: 2
-
-        Label: 
-            text_size: self.size
-            halign: 'right'
-            valign: 'middle'
-            text: 'Name:    '
-            font_size: 20
-            color: "#000000"
-
-        TextInput:
-            id: name
-            multiline: False
-            size_hint: (1, 0.7)
-            font_size: 20
-
-        Label:
-            text_size: self.size
-            halign: 'right'
-            valign: 'middle' 
-            text: 'Alberta Health Card Number:  '
-            font_size: 20
-            color: "#000000"
-
-        TextInput:
-            id: AHC
-            multiline: False
-            size_hint: (1, 0.7)
-            font_size: 20
-        
-        Label: 
-            text_size: self.size
-            halign: 'right'
-            valign: 'middle'        
-            text: 'Date of Birth:   '
-            font_size: 20
-            color: "#000000"
-
-        TextInput:
-            id: DOB
-            multiline: False
-            size_hint: (1, 0.7)
-            font_size: 20
-
-        Label:
-            text_size: self.size
-            halign: 'right'
-            valign: 'middle' 
-            text: 'Address: '
-            font_size: 20
-            color: "#000000"
-
-        TextInput:
-            id: address
-            multiline: False
-            size_hint: (1, 0.7)
-            font_size: 20
-
-        Label: 
-            text_size: self.size
-            halign: 'right'
-            valign: 'middle'
-            text: 'Postal Code: '
-            font_size: 20
-            color: "#000000"
-
-        TextInput:
-            id: pCode
-            multiline: False
-            size_hint: (1, 0.7)
-            font_size: 20
-                
-        Label: 
-            text_size: self.size
-            halign: 'right'
-            valign: 'middle'
-            text: 'City:    '
-            font_size: 20
-            color: "#000000"
-
-        TextInput:
-            id: city
-            multiline: False
-            size_hint: (1, 0.7)
-            font_size: 20
-
-        Label: 
-            text_size: self.size
-            halign: 'right'
-            valign: 'middle'
-            text: 'Country: '
-            font_size: 20
-            color: "#000000"
-
-        TextInput:
-            id: country
-            multiline: False
-            size_hint: (1, 0.7)
-            font_size: 20
-
-        Button:
-            text: 'Add Patient'
-            font_size: 20
-            background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = root.addPatient()
-
-        Button:
-            text: 'Done'
-            font_size: 20
-            background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'Employee Page'
 
 <PatientLoginScreen>:
     GridLayout:
@@ -299,7 +188,7 @@ Builder.load_string("""
 
 <PatientHomePage>:
     GridLayout:
-        rows: 2    
+        cols: 1    
         
         Label: 
             id: welcome
@@ -373,8 +262,8 @@ class EmployeeLoginScreen(Screen):
         if (self.login.verifyEmployee(self.username, self.password) == True):
             self.employee = EmployeePage()
             return 'Employee Page'
-        else:
-            return 'Error'
+        return 'Error'
+
 
 class EmployeePage(Screen):
     def getName(self): 
@@ -382,16 +271,12 @@ class EmployeePage(Screen):
         self.employee = Employee(self.SIN)
         return 'Welcome ' + str(self.employee.getName()) + '!'
 
-class AddPatient(Screen):
-    def addPatient(self):
-        pass
-        self.AHC = app.root.get_screen('Add Patient').AHC
-        self.name = app.root.get_screen('Add Patient').name
-        self.DOB = app.root.get_screen('Add Patient').DOB
-        self.address = app.root.get_screen('Add Patient').address
-        self.pcode = app.root.get_screen('Add Patient').pCode
-        self.city = app.root.get_screen('Add Patient').city
-        self.country = app.root.get_screen('Add Patient').country
+    def verifySuper(self):
+        self.SIN = app.root.get_screen('Employee Login').username
+        self.Semp = Employee(self.SIN).verifySuper()
+        if (self.Semp == True):
+            return 'Edit Employee'
+        return 'Error'
 
 class PatientLoginScreen(Screen):
     def storeUsername(self, u):
@@ -420,10 +305,17 @@ class MobileApp(App):
         self.sm.add_widget(MenuScreen(name='menu'))
         self.sm.add_widget(EmployeeLoginScreen(name='Employee Login'))
         self.sm.add_widget(EmployeePage(name='Employee Page'))
-        self.sm.add_widget(AddPatient(name='Add Patient'))
+        self.sm.add_widget(EditPatient(name='Edit Patient'))
         self.sm.add_widget(PatientLoginScreen(name='Patient Login'))
         self.sm.add_widget(Error(name='Error'))
         self.sm.add_widget(PatientHomePage(name='Patient Home Page'))
+        self.sm.add_widget(AppointmentScreen(name='Appointment'))
+        self.sm.add_widget(CreateAppointment(name='Create Appointment'))
+        self.sm.add_widget(DeleteAppointment(name='Delete Appointment'))
+        self.sm.add_widget(ViewAppointment(name='View Appointment'))
+        self.sm.add_widget(EditEmployee(name='Edit Employee'))
+        self.sm.add_widget(AddEmployee(name='Add Employee'))
+        self.sm.add_widget(DeleteEmployee(name='Delete Employee'))
 
         return self.sm
         
