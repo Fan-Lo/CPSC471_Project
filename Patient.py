@@ -1,7 +1,8 @@
 from PhoneNumber import PhoneNumber
-from PastExamRecord import PastExamRecord
 from datetime import date
 from DatabaseConnect import *
+from Name import *
+from Address import *
 
 class Patient:
 
@@ -20,13 +21,17 @@ class Patient:
         self.database.close()
         self.parseInfo()
 
-    def addPatient(self, AHC, sex, DOB, Nname, address, City, Country, PostalCode, HeadAHC=None):
-        self.__name = name
-        self.__ahcNum = ahc
-        self.__DOB = DOB
+    def addPatient(self, AHC, sex, DOB, name, address, City, Country, PostalCode, HeadAHC=None):
+        self.__ahcNum = AHC
         self.__sex = sex
-        self.__patientPhone = []
-        self.__patientPhone.append(phone)
+        self.__DOB = DOB
+
+        self.__name = Name()
+        self.__name.parseName(name)
+
+        self.__address = Address(Country, City, address, PostalCode)
+
+
         self.createPatientSQL()
     
     # def createPatientSQL(self):
@@ -53,13 +58,6 @@ class Patient:
             list.append(i[0])
         return list
 
-    def concatName(self,fname, mIN, lname, pname):
-        if fname == pname:
-            name = f"{fname} {mIN} {lname}"
-        else:
-            name = f"{fname} ({pname}) {mIN} {lname}"
-        return name
-
     def getPatientPhone(self):
         return self.__patientPhone 
     
@@ -84,7 +82,7 @@ class Patient:
         return self.__insurance
     
     def setName(self, name):
-        self__name = name
+        self.__name = name
     
     def getName(self):
         return self.__name
@@ -100,6 +98,7 @@ class Patient:
     
     def displayInfo(self):
         str = self.__name.getFullname() + "\n"
+        #invoice, insurance, exam detail, appointment
         str += self.__ahcNum + "\n"
         str += self.__DOB + "\n"
         return str
