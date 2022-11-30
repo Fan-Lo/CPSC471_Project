@@ -5,21 +5,54 @@ from DatabaseConnect import *
 
 class Patient:
 
-    def __init__(self, name=None, ahc=None, DOB=None, sex=None, phone=None):
-        self.__name = name
-        self.__ahcNum = ahc
-        self.__DOB = DOB
-        self.__sex = sex
-        self.__patientPhone = []
-        self.__patientPhone.append(phone)
-        self.__invoice = []
-        self.__insurance = []
-        self.__examRecord = PastExamRecord()
-        self.database = DatabaseConnect()
-        self.database.close()
+    # def __init__(self, name=None, ahc=None, DOB=None, sex=None, phone=None):
+    #     self.__name = name
+    #     self.__ahcNum = ahc
+    #     self.__DOB = DOB
+    #     self.__sex = sex
+    #     self.__patientPhone = []
+    #     self.__patientPhone.append(phone)
+    #     self.__invoice = []
+    #     self.__insurance = []
+    #     self.__examRecord = PastExamRecord()
     
+    # retrieves inforamtion from the patient table
+    def __init__(self, AHC):
+        self.__ahcNum = AHC
+        self.database = DatabaseConnect()
+        self.pxInfo = self.database.performQuery(f"SELECT * FROM PATIENT WHERE AHC = {AHC};")
+        self.__phone = self.database.performQuery(f"SELECT PhoneNum FROM PATIENT_PHONE WHERE AHC = {AHC};")
+        self.__invoice = self.database.performQuery(f"SELECT PhoneNum FROM INVOICE WHERE PatAHC = {AHC};")
+        self.__insurance = self.database.performQuery(f"SELECT PhoneNum FROM INSURANCE WHERE PatAHC = {AHC};")
+        self.database.close()
+        self.parseInfo()
+
+    
+    def parseInfo(self):
+        self.__name = self.concatName(self.pxInfo[0][3],self.pxInfo[0][4],self.pxInfo[0][5],self.pxInfo[0][6])
+        self.__DOB = self.pxInfo[0][1]
+        self.__sex = self.pxInfo[0][1]
+        
+        self.__phone = self.parsingDatabaseTuples(self.__phone)
+        self.__invoice = self.parsingDatabaseTuples(self.__invoice)
+        self.__insurance = self.parsingDatabaseTuples(self.__insurance)
+        self.__examRecord = PastExamRecord()
+
+    def parsingDatabaseTuples(self, tuples):
+        list = []
+        for i in tuples:
+            list.append(i[0])
+        return list
+
+    def concatName(self,fname, mIN, lname, pname):
+        if fname == pname:
+            name = f"{fname} {mIN} {lname}"
+        else:
+            name = f"{fname} ({pname}) {mIN} {lname}"
+        return name
+
     def getPatientPhone(self):
-        return self.__patientPhone
+        return self.__patientPhone 
     
 
     def addPatientPhone(self, area, tel, line, country=None, extension=None):
@@ -43,6 +76,9 @@ class Patient:
     
     def setName(self, name):
         self__name = name
+    
+    def getName(self):
+        return self.__name
     
     def setAHC(self, num):
         self.__ahcNum = num
@@ -71,6 +107,9 @@ class Patient:
         if len(ahc) != 9 :
             result = False
         return result
+    
+    def getPhone(self):
+        return self.__phone
 
 '''
 if __name__ == '__main__':
@@ -79,3 +118,9 @@ if __name__ == '__main__':
     print(px.verifyAHC('123'))
     print(px.verifyAHC('123456789'))
 '''
+
+if __name__ == '__main__':
+    px = Patient('123456789')
+    print(px.getName())
+    print(px.getPhone())
+ 

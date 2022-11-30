@@ -1,6 +1,11 @@
 INSERT INTO PATIENT
 VALUES( '123456789', 'F',  '2000-05-06', 'Sarah', 'D', 'Smith', 'Sarah', '123456789', 'Covepark Rise', '34', 'Calgary', 'Canada', 'T3J1S4');
 
+INSERT INTO PATIENT_PHONE(AHC, PhoneNum) VALUES
+('123456789', '403-111-1111'),
+('123456789', '403-222-2222');
+
+
 INSERT INTO PATIENT
 VALUES( '200220020', 'F',  '2007-08-20', 'Areej', 'J', 'Khan', 'Areej', '123456789', 'Covepark Rise', '34', 'Calgary', 'Canada', 'T3J1S4');
 
@@ -18,6 +23,9 @@ VALUES('113456789', 'pass');
 
 SELECT * FROM PATIENT;
 SELECT * FROM PATIENT_LOGIN;
+SELECT * FROM PATIENT_PHONE;
+
+
 
 INSERT INTO EMPLOYEE
 VALUES('098765432', '4031231234', 'Doctor', '098765432', '1967-09-08', 'Noah', 'L', 'White');
