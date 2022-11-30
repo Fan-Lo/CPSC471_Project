@@ -1,7 +1,9 @@
 class Address:
     def __init__(self, country=None, city=None, address=None, posCode=None):
+        # member vars: country, city, address, posCode, 
         self.__country = country
         self.__city = city
+        self.__address = address
         self.parseAddress(address)
         self.__posCode = posCode
     
@@ -22,6 +24,9 @@ class Address:
         self.__StreetName = addressList[1].strip()
         self.__StreetNum = addressList[0].strip()
     
+    def getPostalCode(self):
+        return self.__posCode
+
     def getAddress(self):
         return self.__address
     
@@ -31,8 +36,6 @@ class Address:
     def getCity(self):
         return self.__city
     
-    def getProvince(self):
-        return self.__province
 
 # Testing parseAddress()  
 '''
