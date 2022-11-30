@@ -1,16 +1,12 @@
 class Address:
-    def __init__(self, country=None, province=None, city=None, address=None, posCode=None):
+    def __init__(self, country=None, city=None, address=None, posCode=None):
         self.__country = country
-        self.__province = province
         self.__city = city
-        self.__address = address
+        self.parseAddress(address)
         self.__posCode = posCode
     
     def setCountry(self, con):
         self.__country = con
-    
-    def setProvince(self, prov):
-        self.__province = prov
     
     def setCity(self, city):
         self.__city = city
@@ -22,11 +18,9 @@ class Address:
         self.__posCode = posCode
     
     def parseAddress(self, address):
-        addressList = address.split(',')
-        self.__address = addressList[0].strip()
-        self.__city = addressList[1].strip()
-        self.__province = addressList[2].strip()
-        self.__country = addressList[3].strip()
+        addressList = address.split()
+        self.__StreetName = addressList[1].strip()
+        self.__StreetNum = addressList[0].strip()
     
     def getAddress(self):
         return self.__address

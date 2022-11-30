@@ -3,7 +3,7 @@ from Employee import *
 from DatabaseConnect import *
 from AppointmentScreens import *
 from EditEmployeeScreens import *
-from EmployeePatientScreens import *
+# from EmployeePatientScreens import *
 
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
@@ -305,7 +305,7 @@ class MobileApp(App):
         self.sm.add_widget(MenuScreen(name='menu'))
         self.sm.add_widget(EmployeeLoginScreen(name='Employee Login'))
         self.sm.add_widget(EmployeePage(name='Employee Page'))
-        self.sm.add_widget(EditPatient(name='Edit Patient'))
+        # self.sm.add_widget(EditPatient(name='Edit Patient'))
         self.sm.add_widget(PatientLoginScreen(name='Patient Login'))
         self.sm.add_widget(Error(name='Error'))
         self.sm.add_widget(PatientHomePage(name='Patient Home Page'))
