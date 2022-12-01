@@ -6,7 +6,7 @@ class Employee:
         if(S != None):
             self.database = DatabaseConnect()
             if(S.isdigit() == True):
-                self.employeeInfo = self.database.performQuery(f"SELECT * FROM EMPLOYEE;") # WHERE SIN = '{S}';")
+                self.employeeInfo = self.database.performQuery(f"SELECT * FROM EMPLOYEE WHERE SIN = '{S}';")
             elif(S.isalpha() == True):
                 self.employeeInfo = self.database.performQuery(f"SELECT * FROM EMPLOYEE WHERE LName = '{S}';")
             self.database.close()
