@@ -1,5 +1,5 @@
 from PhoneNumber import PhoneNumber
-from datetime import date
+from datetime import datetime
 from DatabaseConnect import *
 from Name import *
 from Address import *
@@ -13,45 +13,54 @@ class Patient:
             return
         self.__ahcNum = AHC
         self.database = DatabaseConnect()
-        self.pxInfo = self.database.performQuery(f"SELECT * FROM PATIENT WHERE AHC = {AHC};")
+        pxInfo = self.database.performQuery(f"SELECT * FROM PATIENT WHERE AHC = {AHC};")
         self.__phone = self.database.performQuery(f"SELECT PhoneNum FROM PATIENT_PHONE WHERE AHC = {AHC};")
         self.__invoice = self.database.performQuery(f"SELECT PhoneNum FROM INVOICE WHERE PatAHC = {AHC};")
         self.__insurance = self.database.performQuery(f"SELECT PhoneNum FROM INSURANCE WHERE PatAHC = {AHC};")
         self.__examDetails = self.database.performQuery(f"SELECT PhoneNum FROM EXAM_DETAIL WHERE PatAHC = {AHC};")
         self.database.close()
-        self.parseInfo()
+        
+        #parse attributes stored in PATIENT Table
+        self.parseInfo(pxInfo)
+
+        #parse attributes stored in PATIENT_PHONE table
+        self.__phone = self.parsingDatabaseTuples(self.__phone)
+
+        #parse attributes stored in PATIENT_PHONE table
+        self.__invoice = self.parsingDatabaseTuples(self.__invoice)
+
+        #parse attributes stored in PATIENT_PHONE table
+        self.__insurance = self.parsingDatabaseTuples(self.__insurance)
+
+        #parse attributes stored in PATIENT_PHONE table
+        self.__examDetails = self.parsingDatabaseTuples(self.__examDetails)
 
     def addPatient(self, AHC, sex, DOB, name, address, City, Country, PostalCode, HeadAHC=None):
+        # simple attributes
         self.__ahcNum = AHC
         self.__sex = sex
-        self.__DOB = DOB
+        self.__DOB = datetime.strip(DOB, '%Y-%m-%d')
+        self.headAHC = HeadAHC
 
+        # composite attributes 
         self.__name = Name(name)
-
         self.__address = Address(Country, City, address, PostalCode)
 
+        # update detabase Patient table
+        self.database = DatabaseConnect()
+        self.database.performQuery(
+            "INSERT INTO PATIENT VALUES" +
+            f"({self.__ahcNum}, {self.__sex}, {self.__DOB})"
+        )
+        self.database.close()
+    
+    def parseInfo(self, info):
+        self.__name = Name(info[0][3],info[0][4],info[0][5],info[0][6])
+    
+        self.__DOB = info[0][1]
+        self.__sex = info[0][1]
+        
 
-        self.createPatientSQL()
-    
-    # def createPatientSQL(self):
-    #     self.database = DatabaseConnect()
-    #     self.database.performQuery(
-    #         "INSERT INTO PATIENT VALUES" +
-    #         f"({self.__ahcNum}, {self.__sex}, {self.__DOB})"
-    #     )
-    #     self.database.close()
-    
-    def parseInfo(self):
-        self.__name = Name()
-        
-        self.concatName(self.pxInfo[0][3],self.pxInfo[0][4],self.pxInfo[0][5],self.pxInfo[0][6])
-        self.__DOB = self.pxInfo[0][1]
-        self.__sex = self.pxInfo[0][1]
-        
-        self.__phone = self.parsingDatabaseTuples(self.__phone)
-        self.__invoice = self.parsingDatabaseTuples(self.__invoice)
-        self.__insurance = self.parsingDatabaseTuples(self.__insurance)
-        self.__examDetails = self.parsingDatabaseTuples(self.__examDetails)
 
     def parsingDatabaseTuples(self, tuples):
         list = []
