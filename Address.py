@@ -41,7 +41,7 @@ class Address:
 '''
 if __name__ == '__main__':
     add = Address()
-    add.parseAddress("149 Sage Meadows Cir NW, Calgary, Alberta, Canada")
+    add.parseAddress("1 Sage Hill NW, Calgary, Alberta, Canada")
     print(add.getAddress())
     print(add.getCountry())
 '''  

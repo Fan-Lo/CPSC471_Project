@@ -56,9 +56,9 @@ class Name:
         self.__Lname = nameList[2].strip()
     
     #static method 
-    def concatName(self):
-        if self.__Fname == self.__Preferred:
-            name = f"{self.__fname} {mIN} {lname}"
-        else:
-            name = f"{fname} ({pname}) {mIN} {lname}"
-        self.__Fname = name
+    # def concatName(self):
+    #     if self.__Fname == self.__Preferred:
+    #         name = f"{self.__fname} {mIN} {lname}"
+    #     else:
+    #         name = f"{fname} ({pname}) {mIN} {lname}"
+    #     self.__Fname = name

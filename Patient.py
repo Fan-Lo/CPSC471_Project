@@ -27,7 +27,6 @@ class Patient:
         self.__DOB = DOB
 
         self.__name = Name()
-        self.__name.parseName(name)
 
         self.__address = Address(Country, City, address, PostalCode)
 
