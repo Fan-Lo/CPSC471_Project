@@ -14,7 +14,7 @@ class Patient:
         self.__ahcNum = AHC
         self.database = DatabaseConnect()
         pxInfo = self.database.performQuery(f"SELECT * FROM PATIENT WHERE AHC = {AHC};")
-        self.__phone = self.database.performQuery(f"SELECT PhoneNum FROM PATIENT_PHONE WHERE AHC = {AHC};")
+        self.__patientPhone = self.database.performQuery(f"SELECT PhoneNum FROM PATIENT_PHONE WHERE AHC = {AHC};")
         self.__invoice = self.database.performQuery(f"SELECT PhoneNum FROM INVOICE WHERE PatAHC = {AHC};")
         self.__insurance = self.database.performQuery(f"SELECT PhoneNum FROM INSURANCE WHERE PatAHC = {AHC};")
         self.__examDetails = self.database.performQuery(f"SELECT PhoneNum FROM EXAM_DETAIL WHERE PatAHC = {AHC};")
@@ -24,15 +24,19 @@ class Patient:
         self.parseInfo(pxInfo)
 
         #parse attributes stored in PATIENT_PHONE table
-        self.__phone = self.parsingDatabaseTuples(self.__phone)
+        phones = self.parsingDatabaseTuples(phones)
+        self.__patientPhone = []
+        for i in phones:
+            self.__patientPhone.append(PhoneNumber(i))
 
-        #parse attributes stored in PATIENT_PHONE table
+
+        #parse attributes stored in INVOICE table
         self.__invoice = self.parsingDatabaseTuples(self.__invoice)
 
-        #parse attributes stored in PATIENT_PHONE table
+        #parse attributes stored in INSURANCE table
         self.__insurance = self.parsingDatabaseTuples(self.__insurance)
 
-        #parse attributes stored in PATIENT_PHONE table
+        #parse attributes stored in EXAM_DETAIL table
         self.__examDetails = self.parsingDatabaseTuples(self.__examDetails)
 
     def addPatient(self, AHC, sex, DOB, name, address, City, Country, PostalCode, HeadAHC=None):
@@ -60,8 +64,6 @@ class Patient:
         self.__DOB = info[0][1]
         self.__sex = info[0][1]
         
-
-
     def parsingDatabaseTuples(self, tuples):
         list = []
         for i in tuples:
@@ -78,7 +80,7 @@ class Patient:
 
     def removePhoneNumber(self, p):
         for i in self.__patientPhone:
-            if p == i.displayFull():
+            if p == i.display():
                 self.__patientPhone.remove(i)
                 break
     
