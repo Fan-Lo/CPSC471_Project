@@ -54,38 +54,45 @@ Builder.load_string("""
             font_size: 20
             background_color: 0, 0, 8, 0.5
             on_press: 
-            
+                app.root.get_screen('Edit Patient').name.text = root.patient.getName().getFullName()
+                app.root.get_screen('Edit Patient').AHC.text = root.employee.getAHC()
+                app.root.get_screen('Edit Patient').sex.text = root.employee.getSex()
+                app.root.get_screen('Edit Patient').DOB.text = root.employee.getDOB()
+                app.root.get_screen('Edit Patient').address.text = root.employee.getAddress()
+                app.root.get_screen('Edit Patient').pCode.text = root.employee.getPostalCode()
+                app.root.get_screen('Edit Patient).city.text = root.employee.getCity()
+                app.root.get_screen('Edit Patient').country.text = root.employee.getCountry()
                 root.manager.current = 'Edit Patient'
 
         Button:
             text: 'Add Exam Detail'
             font_size: 20
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = root.search()
+            on_press: root.manager.current = 'AddExamDetail'
 
         Button:
             text: 'Add Invoices'
             font_size: 20
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = root.search()
+            on_press: root.manager.current = 'AddInvoices'
 
         Button:
             text: 'Add Insurance'
             font_size: 20
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = root.search()
+            on_press: root.manager.current = 'AddInsurance'
 
         Button:
             text: 'View Patient Details'
             font_size: 20
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = root.search()
+            on_press: root.manager.current = 'ViewPatientDetails'
 
         Button:
             text: 'Create Referral Letter'
             font_size: 20
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = root.search()
+            on_press: root.manager.current = 'CreateReferralLetter'
 
         Button:
             text: 'Back'
@@ -122,10 +129,11 @@ Builder.load_string("""
             color: "#000000"
 
         TextInput:
-            id: country
+            id: sex
             multiline: False
             size_hint: (1, 0.7)
             font_size: 20
+            text: 'Ex. F'
             on_text: root.storeSex(self.text)
 
         Label:
@@ -302,6 +310,7 @@ class EditPatient(Screen):
     
     def storeDOB(self, d = None):
         self.DOB = d
+    
     def storeSex(self, s = None):
         self.sex = s
 
