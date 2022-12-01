@@ -26,7 +26,7 @@ class Patient:
         self.__sex = sex
         self.__DOB = DOB
 
-        self.__name = Name()
+        self.__name = Name(name)
 
         self.__address = Address(Country, City, address, PostalCode)
 
@@ -42,7 +42,9 @@ class Patient:
     #     self.database.close()
     
     def parseInfo(self):
-        self.__name = self.concatName(self.pxInfo[0][3],self.pxInfo[0][4],self.pxInfo[0][5],self.pxInfo[0][6])
+        self.__name = Name()
+        
+        self.concatName(self.pxInfo[0][3],self.pxInfo[0][4],self.pxInfo[0][5],self.pxInfo[0][6])
         self.__DOB = self.pxInfo[0][1]
         self.__sex = self.pxInfo[0][1]
         
