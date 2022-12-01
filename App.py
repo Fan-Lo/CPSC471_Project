@@ -3,6 +3,7 @@ from Employee import *
 from DatabaseConnect import *
 from AppointmentScreens import *
 from EditEmployeeScreens import *
+from Patient import *
 #from EmployeePatientScreens import *
 
 from kivy.app import App
@@ -288,12 +289,15 @@ class PatientLoginScreen(Screen):
         self.login = Login()
         if (self.login.verifyPatient(self.username, self.password) == True):
             self.patient = PatientHomePage()
+            app.root.get_screen('Patient Home Page').welcome.text = self.patient.getName().getFullName()
             return 'Patient Home Page'
         else:
             return 'Error'
 
 class PatientHomePage(Screen):
-    pass
+    def getName(self):
+        self.AHC = app.root.get_screen('Patient Login').username
+        self.name = Patient(self.AHC).getName()
 
 class Error(Screen):
     pass
