@@ -36,6 +36,7 @@ class Employee:
     
     def deleteEmp(self):
         self.database = DatabaseConnect()
+        self.database.insert(f"DELETE FROM EMPLOYEE_LOGIN WHERE Username = '{self.SIN}';")
         self.database.insert(f"DELETE FROM EMPLOYEE WHERE SIN = '{self.SIN}';")
         self.database.close()
 

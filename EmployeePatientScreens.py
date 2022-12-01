@@ -266,11 +266,11 @@ Builder.load_string("""
         cols: 1
     
     TextInput:
-            id: notes
-            multiline: True
-            size_hint: (1, 0.7)
-            font_size: 20
-            on_text: root.storeNotes(self.text)
+        id: notes
+        multiline: True
+        size_hint: (1, 0.7)
+        font_size: 20
+        on_text: root.storeNotes(self.text)
 
     Button:
         text: 'Add Exam Detail'
