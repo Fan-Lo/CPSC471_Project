@@ -3,7 +3,7 @@ from Employee import *
 from DatabaseConnect import *
 from AppointmentScreens import *
 from EditEmployeeScreens import *
-from EmployeePatientScreens import *
+#from EmployeePatientScreens import *
 
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
@@ -86,9 +86,7 @@ Builder.load_string("""
             text: 'Sign In'
             font_size: 30
             background_color: 0, 0, 8, 0.5
-            on_press: 
-                root.manager.current = root.verify()
-                app.root.get_screen('Employee Page').welcome.text = root.employee.getName()
+            on_press: root.manager.current = root.verify()
         
         Button:
             text: 'Back'
@@ -261,6 +259,7 @@ class EmployeeLoginScreen(Screen):
         self.login = Login()
         if (self.login.verifyEmployee(self.username, self.password) == True):
             self.employee = EmployeePage()
+            app.root.get_screen('Employee Page').welcome.text = self.employee.getName()
             return 'Employee Page'
         return 'Error'
 
@@ -305,7 +304,7 @@ class MobileApp(App):
         self.sm.add_widget(MenuScreen(name='menu'))
         self.sm.add_widget(EmployeeLoginScreen(name='Employee Login'))
         self.sm.add_widget(EmployeePage(name='Employee Page'))
-        self.sm.add_widget(EditPatient(name='Edit Patient'))
+        #self.sm.add_widget(EditPatient(name='Edit Patient'))
         self.sm.add_widget(PatientLoginScreen(name='Patient Login'))
         self.sm.add_widget(Error(name='Error'))
         self.sm.add_widget(PatientHomePage(name='Patient Home Page'))
