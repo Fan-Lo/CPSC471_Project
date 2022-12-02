@@ -316,7 +316,7 @@ class MobileApp(App):
         self.sm.add_widget(PatientScreen(name = 'Patient Screen'))
         self.sm.add_widget(EditPatient(name='Edit Patient'))
         self.sm.add_widget(AddInvoice(name='Add Invoice'))
-        self.sm.add_widget(AddExamDetail(name='Add ExamDetail'))
+        self.sm.add_widget(AddExamDetail(name='Add Exam Detail'))
         self.sm.add_widget(AddInsurance(name='Add Insurance'))
         self.sm.add_widget(ViewPatientDetails(name='View Patient Details'))
         self.sm.add_widget(CreateReferralLetter(name='Create Referral Letter'))

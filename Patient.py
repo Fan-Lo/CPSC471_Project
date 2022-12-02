@@ -77,8 +77,8 @@ class Patient:
 
         # update detabase Patient table
         self.database = DatabaseConnect()
-        self.database.insert(f"INSERT INTO PATIENT VALUES( '{AHC}', '{sex}',  '{self.__DOB}', '{self.__name.getFname()}', '{self.__name.getMiddleIn()}', '{self.__name.getLname()}', '{self.__name.getFname()}', '{self.__headAHC}', '{self.__address.getStreetName()}', '{self.__address.getStreetNum()}', '{self.__address.getCity()}'', '{self.__address.getCountry()}', '{self.__address.getPostalCode()}');")
-        self.database.insert(f"INSERT INTO PATIENT_LOGIN VALUES ('{self.__ahcNum}', '{self.__name.getLname()}');")
+        self.database.insert(f"INSERT INTO PATIENT VALUES( '{self.__ahcNum}', '{self.__sex}',  '{self.__DOB}', '{self.__name.getFname()}', '{self.__name.getMiddleIn()}', '{self.__name.getLname()}', '{self.__name.getFname()}', '{self.__headAHC}', '{self.__address.getStreetName()}', '{self.__address.getStreetNum()}', '{self.__address.getCity()}', '{self.__address.getCountry()}', '{self.__address.getPostalCode()}');")
+        self.database.insert(f"INSERT INTO PATIENT_LOGIN VALUES( '{self.__ahcNum}', '{self.__name.getLname()}');")
         self.database.close()
     
     def parsePxInfo(self, info):
@@ -101,9 +101,15 @@ class Patient:
         return self.__patientPhone 
     
 
-    def addPatientPhone(self, area, tel, line, country=None, extension=None):
-        phone = PhoneNumber(area,tel, line,country, extension)
+    def addPatientPhone(self, area, tel, line, country='', extension=''):
+        phone = PhoneNumber(area,tel,line,country, extension)
         self.__patientPhone.append(phone)
+        self.database = DatabaseConnect()
+        self.database.insert(f"INSERT INTO PATIENT_PHONE VALUES ('{self.__ahcNum}', '{phone.display()}'); ")
+        self.database.close()
+
+
+
 
     def removePhoneNumber(self, p):
         for i in self.__patientPhone:
@@ -171,7 +177,6 @@ class Patient:
     def searchPatient(self, AHC):
         self.database = DatabaseConnect()
         self.AHC = self.database.performQuery(f"SELECT AHC FROM PATIENT;")
-        print(self.AHC)
         i = 0
         while i < len(self.AHC):
             if AHC in self.AHC[i]:

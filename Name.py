@@ -55,6 +55,7 @@ class Name:
         self.__Fname = nameList[0].strip()
         self.__MiddleIn = nameList[1][0].strip()
         self.__Lname = nameList[2].strip()
+        self.__Preferred = self.__Fname
     
     def concatName(self):
         if self.__Fname == self.__Preferred:
