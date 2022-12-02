@@ -1,5 +1,3 @@
-from DatabaseConnect import *
-
 class Address:
     def __init__(self, country=None, city=None, streetNum=None, streetName=None, posCode=None):
         # member vars: country, city, address, posCode, streetName, streetNum
@@ -11,16 +9,12 @@ class Address:
     
     def setCountry(self, con):
         self.__country = con
-        self.database = DatabaseConnect()
-        self.database.insert(
-        f"UPDATE PATIENT SET Country = '{con}' WHERE AHC = {self.__ahcNum}; ")
-        self.database.close()
     
     def setCity(self, city):
         self.__city = city
         
     def setPostalCode(self, posCode):
-        self.__posCode = posCode
+        self.__posCode = posCode.replace(' ', '')
     
     def setAddress(self, add):
         self.__streetName = ""
@@ -35,8 +29,8 @@ class Address:
     
     def parseAddress(self, address):
         addressList = address.split()
-        self.__StreetName = addressList[1].strip()
-        self.__StreetNum = addressList[0].strip()
+        self.__streetName = addressList[1].strip()
+        self.__streetNum = addressList[0].strip()
     
     def getPostalCode(self):
         return self.__posCode

@@ -191,6 +191,32 @@ class Patient:
     
     def getAddress(self):
         return self.__address
+    
+    def setAddress(self, address, city, country, postalcode):
+        self.database = DatabaseConnect()
+
+        if self.__address.getAddress() != address:
+            self.__address.parseAddress(address)
+            self.database.insert(
+            f"UPDATE PATIENT SET StreetName = '{self.__address.getStreetName()}', StreetNum= '{self.__address.getStreetNum()}' WHERE AHC = {self.__ahcNum}; ")
+        
+        if self.__address.getCity() != city:
+            self.__address.setCity(city)
+            self.database.insert(
+            f"UPDATE PATIENT SET City = '{city}' WHERE AHC = {self.__ahcNum}; ")
+        
+        if self.__address.getCountry() != country:
+            self.__address.setCountry(country)
+            self.database.insert(
+            f"UPDATE PATIENT SET Country = '{country}' WHERE AHC = {self.__ahcNum}; ")
+        
+        if self.__address.getPostalCode() != country:
+            self.__address.setPostalCode(postalcode)
+            self.database.insert(
+            f"UPDATE PATIENT SET PostalCode = '{self.__address.getPostalCode()}' WHERE AHC = {self.__ahcNum}; ")
+
+        self.database.close()
+
 
     def searchPatient(self, AHC):
         self.database = DatabaseConnect()
@@ -204,22 +230,7 @@ class Patient:
         return False
 
     def addInsurance(self, memberID, policyNo):
-        # self.__insurance.append(Insurance(memberID, policyNo))
-        # self.__insurance.append(Insurance(memberID, policyNo))
-        # self.database = DatabaseConnect()
-        # self.database.insert(f"INSERT INTO INSURANCE VALUES ('{policyNo}', '{memberID}', '{self.__name.getFullName()}','{self.__ahcNum}'); ")
-        # self.database.close()
-        # for i in self.__insurance:
-        #     if len(self.__insurance) == 0:
-        #         print("yes")
-        #         self.__insurance.append(Insurance(memberID, policyNo))
-        #         self.database = DatabaseConnect()
-        #         self.database.insert(f"INSERT INTO INSURANCE VALUES ('{policyNo}', '{memberID}', '{self.__name.getFullName()}','{self.__ahcNum}'); ")
-        #         self.database.close()
-        #         break
-        # (i.getPolicyNo() != policyNo and i.getMemberID() != memberID) or 
         if len(self.__insurance) == 0:
-            print("yes")
             self.__insurance.append(Insurance(memberID, policyNo))
             self.database = DatabaseConnect()
             self.database.insert(f"INSERT INTO INSURANCE VALUES ('{policyNo}', '{memberID}', '{self.__name.getFullName()}','{self.__ahcNum}'); ")
@@ -227,28 +238,19 @@ class Patient:
             return
         for i in self.__insurance:
             if i.getPolicyNo() != policyNo and i.getMemberID() != memberID:
-                print("yes")
+                print("hello")
                 self.__insurance.append(Insurance(memberID, policyNo))
                 self.database = DatabaseConnect()
                 self.database.insert(f"INSERT INTO INSURANCE VALUES ('{policyNo}', '{memberID}', '{self.__name.getFullName()}','{self.__ahcNum}'); ")
                 self.database.close()
                 break
         
-
-
-'''
-if __name__ == '__main__':
-    px = Patient()
-    print(px.verifyAHC('hello'))
-    print(px.verifyAHC('123'))
-    print(px.verifyAHC('123456789'))
-'''
-
 if __name__ == '__main__':
     px = Patient('113456789')
     px.setName('Mike T Ann')
     px.setDOB('1996-08-09')
     px.setSex('f')
+    px.setAddress('111 Test Street', 'test city', 'testContry', 'T1T 1T1')
     # px.addInsurance('111','2222')
 
     # print(list[0].display())
@@ -256,3 +258,7 @@ if __name__ == '__main__':
     # px.addPatientPhone('403','888','9999')
     # px.removePhoneNumber('4031111111')
     # px.addPatient(222222222,'f','1996-06-06','Test m Test','111 Test Rd','TestCity','TestCountry','T1T 0T0')
+    # px = Patient()
+    # print(px.verifyAHC('hello'))
+    # print(px.verifyAHC('123'))
+    # print(px.verifyAHC('123456789'))
