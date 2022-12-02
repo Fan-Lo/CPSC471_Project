@@ -109,13 +109,13 @@ class Patient:
         self.database.insert(f"INSERT INTO PATIENT_PHONE VALUES ('{self.__ahcNum}', '{phone.display()}'); ")
         self.database.close()
 
-
-
-
     def removePhoneNumber(self, p):
         for i in self.__patientPhone:
             if p == i.display():
                 self.__patientPhone.remove(i)
+                self.database = DatabaseConnect()
+                self.database.insert(f"DELETE FROM PATIENT_PHONE WHERE AHC = '{self.__ahcNum}' AND PhoneNum = '{i.display()}';")
+                self.database.close()
                 break
     
     def getInvoice(self, index):
@@ -199,4 +199,5 @@ if __name__ == '__main__':
 if __name__ == '__main__':
     px = Patient('123456789')
     # px.addPatientPhone('403','888','9999')
-    px.addPatient(222222222,'f','1996-06-06','Test m Test','111 Test Rd','TestCity','TestCountry','T1T 0T0')
+    px.removePhoneNumber('4031111111')
+    # px.addPatient(222222222,'f','1996-06-06','Test m Test','111 Test Rd','TestCity','TestCountry','T1T 0T0')
