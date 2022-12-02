@@ -41,6 +41,9 @@ class PhoneNumber:
     
     def display(self):
         return self.__countryCode + self.__areaCode + self.__telephonePrefix + self.__lineNumber + self.__extension
+
+    def display2(self):
+        return self.__countryCode + self.__areaCode + '-' + self.__telephonePrefix + '-' + self.__lineNumber + self.__extension
     
     def setCountryCode(self, code):
         self.__countryCode = code
