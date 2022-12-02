@@ -81,6 +81,12 @@ class Patient:
         self.database.insert(f"INSERT INTO PATIENT_LOGIN VALUES( '{self.__ahcNum}', '{self.__name.getLname()}');")
         self.database.close()
     
+    def deletePatient(self):
+        self.database = DatabaseConnect()
+        self.database.insert(f"DELETE FROM PATIENT WHERE AHC = '{self.__ahcNum}';")
+        self.database.close()
+
+
     def parsePxInfo(self, info):
         self.__name = Name(info[0][3],info[0][4],info[0][5],info[0][6])
     
@@ -108,13 +114,13 @@ class Patient:
         self.database.insert(f"INSERT INTO PATIENT_PHONE VALUES ('{self.__ahcNum}', '{phone.display()}'); ")
         self.database.close()
 
-
-
-
     def removePhoneNumber(self, p):
         for i in self.__patientPhone:
             if p == i.display():
                 self.__patientPhone.remove(i)
+                self.database = DatabaseConnect()
+                self.database.insert(f"DELETE FROM PATIENT_PHONE WHERE AHC = '{self.__ahcNum}' AND PhoneNum = '{i.display()}';")
+                self.database.close()
                 break
     
     def getInvoice(self, index):
