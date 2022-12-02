@@ -64,7 +64,14 @@ class Patient:
         self.__name = Name(name)
 
         add = address.split(' ')
-        self.__address = Address(Country, City, add[0], add[1], PostalCode)
+        streetNum = ""
+        streetName = ""
+        for i in add:
+            if i.isdigit():
+                streetNum += i
+            else:
+                streetName += i
+        self.__address = Address(Country, City, streetNum, streetName, PostalCode)
 
         # update detabase Patient table
         self.database = DatabaseConnect()
