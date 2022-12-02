@@ -27,26 +27,25 @@ class Patient:
         self.parsePxInfo(pxInfo)
 
         #parse attributes stored in PATIENT_PHONE table
-        phones = self.parsingDatabaseTuples(phones)
+        phones = self.parsingDatabaseTuples(phones,1)
         self.__patientPhone = []
         for i in phones:
             self.__patientPhone.append(PhoneNumber(i))
 
         #parse attributes stored in INVOICE table
-        invoices = self.parsingDatabaseTuples(invoices)
+        invoices = self.parsingDatabaseTuples(invoices,2)
         self.__invoice = []
         for i in invoices:
             self.__invoice.append(Invoice(i))
 
         #parse attributes stored in INSURANCE table
-        insurances = self.parsingDatabaseTuples(insurances)
+        insurances = self.parsingDatabaseTuples(insurances,2)
         self.__insurance = []
         for i in insurances:
-            print(i)
-            # self.__insurance.append(Insurance(i))
+            self.__insurance.append(Insurance(i[0],i[1]))
 
         #parse attributes stored in EXAM_DETAIL table
-        examDetails = self.parsingDatabaseTuples(examDetails)
+        examDetails = self.parsingDatabaseTuples(examDetails,2)
         self.__examDetails = []
         for i in examDetails:
             self.__examDetails.append(ExamDetail(i))
@@ -98,10 +97,11 @@ class Patient:
         self.__address = Address(info[0][11], info[0][10], info[0][9], info[0][8], info[0][12])
 
         
-    def parsingDatabaseTuples(self, tuples):
-        list = []
-        for i in tuples:
-            list.append(i[0])
+    def parsingDatabaseTuples(self, tuples, numOfAttributes):
+        list = [[] for _ in range(len(tuples))]
+        for i in range(len(tuples)):
+            for j in range(numOfAttributes):
+                    list[i].append(tuples[i][j])
         return list
 
     def getPatientPhone(self):
@@ -251,7 +251,19 @@ if __name__ == '__main__':
     px.setDOB('1996-08-09')
     px.setSex('f')
     px.setAddress('111 Test Street', 'test city', 'testContry', 'T1T 1T1')
-    # px.addInsurance('111','2222')
+    for i in px.getInsurnace():
+        print(i.display())
+    # database = DatabaseConnect()
+    # insurances = database.performQuery(f"SELECT * FROM INSURANCE WHERE PatAHC = 113456789;")
+    # print(insurances)
+
+    # def parsingDatabaseTuples(self, tuples, numOfAttributes):
+    # list = [[""]*numOfAttributes]*len(tuples)
+    # for i in tuples:
+    #     for j in range(numOfAttributes):
+    #             list.append(i[j])
+    # return list
+    # px.addInsurance('101','2322')
 
     # print(list[0].display())
     # px.addPatientPhone('4032223333')
