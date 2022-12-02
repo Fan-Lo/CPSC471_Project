@@ -108,13 +108,13 @@ Builder.load_string("""
             text: 'Add Patient'
             font_size: 30
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'Edit Patient'
+            on_press: root.manager.current = 'menu'
 
         Button:
             text: 'Edit Existing Patient'   
             font_size: 30
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'menu'
+            on_press: root.manager.current = 'Edit Patient'
     
         Button:
             text: 'Appointments'
@@ -197,7 +197,7 @@ Builder.load_string("""
             text: 'Edit Personal Information'
             font_size: 30
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'Add Patient'
+            on_press: root.manager.current = 'Edit Patient'
 
         Button:
             text: 'View Exam Detail'   
@@ -213,12 +213,6 @@ Builder.load_string("""
 
         Button:
             text: 'Edit Family Information'
-            font_size: 30
-            background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'menu'
-
-        Button:
-            text: 'Edit Employee'
             font_size: 30
             background_color: 0, 0, 8, 0.5
             on_press: root.manager.current = 'menu'
@@ -307,7 +301,7 @@ class MobileApp(App):
         self.sm.add_widget(MenuScreen(name='menu'))
         self.sm.add_widget(EmployeeLoginScreen(name='Employee Login'))
         self.sm.add_widget(EmployeePage(name='Employee Page'))
-        # self.sm.add_widget(EditPatient(name='Edit Patient'))
+        self.sm.add_widget(EditPatient(name='Edit Patient'))
         self.sm.add_widget(PatientLoginScreen(name='Patient Login'))
         self.sm.add_widget(Error(name='Error'))
         self.sm.add_widget(PatientHomePage(name='Patient Home Page'))
