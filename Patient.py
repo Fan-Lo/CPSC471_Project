@@ -77,9 +77,9 @@ class Patient:
         self.database = DatabaseConnect()
         self.database.insert(
             "INSERT INTO PATIENT VALUES" +
-            f"('{self.__ahcNum}', '{self.__sex}', {self.__DOB},'{self.__name.getFname()}', '{self.__name.getMiddleIn()}', '{self.__name.getLname()}', '{self.__name.getPreferred()}', '{self.__headAHC}', '{self.__address.getStreetName()}', '{self.__address.getStreetNum()}', '{self.__address.getCity()}', '{self.__address.getCity()}', '{self.__address.getPostalCode()}');"
+            f"('{self.__ahcNum}', '{self.__sex}', '{self.__DOB}','{self.__name.getFname()}', '{self.__name.getMiddleIn()}', '{self.__name.getLname()}', '{self.__name.getPreferred()}', '{self.__headAHC}', '{self.__address.getStreetName()}', '{self.__address.getStreetNum()}', '{self.__address.getCity()}', '{self.__address.getCity()}', '{self.__address.getPostalCode()}');"
         )
-        self.database.insert(f"INSERT INTO PATIENT_LOGIN VALUES ('{self.__ahcNum}', '{self.__name.getLname().lower()}')")
+        self.database.insert(f"INSERT INTO PATIENT_LOGIN VALUES ('{self.__ahcNum}', '{self.__name.getLname().lower()}');")
         self.database.close()
     
     def parsePxInfo(self, info):
@@ -198,4 +198,5 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     px = Patient('123456789')
-    px.addPatientPhone('403','888','9999')
+    # px.addPatientPhone('403','888','9999')
+    px.addPatient(222222222,'f','1996-06-06','Test m Test','111 Test Rd','TestCity','TestCountry','T1T 0T0')
