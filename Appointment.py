@@ -1,6 +1,7 @@
 from DatabaseConnect import *
 from Employee import * 
-from datetime import datetime
+from datetime import datetime 
+import datetime
 
 class Appointment:
     def __init__(self):

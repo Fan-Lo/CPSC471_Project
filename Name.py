@@ -16,8 +16,8 @@ class Name:
         # if name is given in parts. order in Fname, Lname, MiddleIn, Preferred
         else:
             self.__Fname = args[0]
-            self.__Lname = args[1]
-            self.__MiddleIn = args[2]
+            self.__Lname = args[2]
+            self.__MiddleIn = args[1]
             self.__Preferred = args[3]
             self.concatName()
 
