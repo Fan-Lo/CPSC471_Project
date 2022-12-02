@@ -3,6 +3,9 @@ from Employee import *
 from DatabaseConnect import *
 from AppointmentScreens import *
 from EditEmployeeScreens import *
+from Patient import *
+# from EmployeePatientScreens import *
+
 from EmployeePatientScreens import *
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
@@ -125,7 +128,7 @@ Builder.load_string("""
                 app.root.get_screen('Appointment').SIN = app.root.get_screen('Employee Login').username
 
         Button:
-            text: 'Main Menu'
+            text: 'Edit Employee'
             font_size: 30
             background_color: 0, 0, 8, 0.5
             on_press: root.manager.current = root.verifySuper()
