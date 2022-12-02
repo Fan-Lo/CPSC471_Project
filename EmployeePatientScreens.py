@@ -118,7 +118,6 @@ Builder.load_string("""
 
         TextInput:
             id: n
-            text: ''
             multiline: False
             size_hint: (1, 0.7)
             font_size: 20
@@ -170,6 +169,22 @@ Builder.load_string("""
             font_size: 20
             text: 'YYYY-MM-DD'
             on_text: root.storeDOB(self.text)
+
+        Label: 
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle'        
+            text: 'Phone Number:   '
+            font_size: 20
+            color: "#000000"
+
+        TextInput:
+            id: phone
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            text: 'XXX-XXX-XXXX'
+            on_text: root.storePhone(self.text)
 
         Label:
             text_size: self.size
@@ -321,6 +336,9 @@ class EditPatient(Screen):
     
     def storeDOB(self, d = None):
         self.DOB = d
+
+    def storePhone(self, p = None):
+        self.phone = p
     
     def storeSex(self, s = None):
         self.sex = s
@@ -343,6 +361,8 @@ class EditPatient(Screen):
         
         if(self.exists == False):
             self.patient = Patient().addPatient(self.AHC, self.sex, self.DOB, self.n, self.address, self.city, self.country, self.pCode)
+            if(self.phone != None):
+                self.patient.addPatientPhone(self.phone)
             return
 
         #first check if patient SIN already exists in database
@@ -355,8 +375,7 @@ class EditPatient(Screen):
         self.patient.setAddress(self.address)
         self.patient.setPostalCode(self.pCode)
         self.patient.setCity(self.city)
-        self.patient.setCountry(self.country)
-       
+        self.patient.setCountry(self.country)      
 
 class ChoosePatient(Screen):
     def storeAHC(self, a):
