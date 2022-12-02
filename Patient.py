@@ -113,7 +113,7 @@ class Patient:
         self.database = DatabaseConnect()
         self.database.insert(f"INSERT INTO PATIENT_PHONE VALUES ('{self.__ahcNum}', '{phone.display()}'); ")
         self.database.close()
-        #commetn
+        #commetnmore test
 
     def removePhoneNumber(self, p):
         for i in self.__patientPhone:
