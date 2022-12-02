@@ -1,5 +1,5 @@
 from Products import Products
-from Service import Service 
+from Services import Service 
 
 class Invoice:
     def __init__(self, PATIENTSIN, INVOICEID, total):
@@ -9,14 +9,14 @@ class Invoice:
         self.__contains = []
         self.__service = []
 
-   def Invoice(self, s, p):
+    def Invoice(self, s, p):
         self.__service = self.__service.Service(s)
         self.__contains = self.__contains.Products(p)
 
-   def Invoice(self, s):
+    def Invoice(self, s):
         self.__service = self.__service.Service(s)
 
-   def Invoice(self, p):
+    def Invoice(self, p):
         self.__contains = self.__contains.Products(p)
     
     def calculateTotal(self):

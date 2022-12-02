@@ -4,8 +4,7 @@ from DatabaseConnect import *
 from AppointmentScreens import *
 from EditEmployeeScreens import *
 from Patient import *
-#from EmployeePatientScreens import *
-
+from EmployeePatientScreens import *
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
@@ -116,7 +115,7 @@ Builder.load_string("""
             text: 'Edit Existing Patient'   
             font_size: 30
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'menu'
+            on_press: root.manager.current = 'Choose Patient'
     
         Button:
             text: 'Appointments'
@@ -186,6 +185,7 @@ Builder.load_string("""
             on_press: root.manager.current = 'menu'
 
 <PatientHomePage>:
+    welcome:welcome
     GridLayout:
         cols: 1    
         
@@ -198,7 +198,7 @@ Builder.load_string("""
             text: 'Edit Personal Information'
             font_size: 30
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'Add Patient'
+            on_press: root.manager.current = 'Edit Patient'
 
         Button:
             text: 'View Exam Detail'   
@@ -214,12 +214,6 @@ Builder.load_string("""
 
         Button:
             text: 'Edit Family Information'
-            font_size: 30
-            background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'menu'
-
-        Button:
-            text: 'Edit Employee'
             font_size: 30
             background_color: 0, 0, 8, 0.5
             on_press: root.manager.current = 'menu'
@@ -289,15 +283,15 @@ class PatientLoginScreen(Screen):
         self.login = Login()
         if (self.login.verifyPatient(self.username, self.password) == True):
             self.patient = PatientHomePage()
-            app.root.get_screen('Patient Home Page').welcome.text = self.patient.getName().getFullName()
+            app.root.get_screen('Patient Home Page').welcome.text = self.patient.getName()
             return 'Patient Home Page'
-        else:
-            return 'Error'
+        return 'Error'
 
 class PatientHomePage(Screen):
     def getName(self):
         self.AHC = app.root.get_screen('Patient Login').username
-        self.name = Patient(self.AHC).getName()
+        self.name = Patient(self.AHC).getName().getFullName()
+        return 'Welcome ' + str(self.name) + '!'
 
 class Error(Screen):
     pass
@@ -308,7 +302,6 @@ class MobileApp(App):
         self.sm.add_widget(MenuScreen(name='menu'))
         self.sm.add_widget(EmployeeLoginScreen(name='Employee Login'))
         self.sm.add_widget(EmployeePage(name='Employee Page'))
-        #self.sm.add_widget(EditPatient(name='Edit Patient'))
         self.sm.add_widget(PatientLoginScreen(name='Patient Login'))
         self.sm.add_widget(Error(name='Error'))
         self.sm.add_widget(PatientHomePage(name='Patient Home Page'))
@@ -319,6 +312,14 @@ class MobileApp(App):
         self.sm.add_widget(EditEmployee(name='Edit Employee'))
         self.sm.add_widget(AddEmployee(name='Add Employee'))
         self.sm.add_widget(DeleteEmployee(name='Delete Employee'))
+        self.sm.add_widget(ChoosePatient(name = 'Choose Patient'))
+        self.sm.add_widget(PatientScreen(name = 'Patient Screen'))
+        self.sm.add_widget(EditPatient(name='Edit Patient'))
+        self.sm.add_widget(AddInvoice(name='Add Invoice'))
+        self.sm.add_widget(AddExamDetail(name='Add Exam Detail'))
+        self.sm.add_widget(AddInsurance(name='Add Insurance'))
+        self.sm.add_widget(ViewPatientDetails(name='View Patient Details'))
+        self.sm.add_widget(CreateReferralLetter(name='Create Referral Letter'))
 
         return self.sm
         
