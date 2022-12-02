@@ -4,7 +4,7 @@ from DatabaseConnect import *
 from AppointmentScreens import *
 from EditEmployeeScreens import *
 from Patient import *
-# from EmployeePatientScreens import *
+from EmployeePatientScreens import *
 
 from EmployeePatientScreens import *
 from kivy.app import App
@@ -117,7 +117,7 @@ Builder.load_string("""
             text: 'Edit Existing Patient'   
             font_size: 30
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'menu'
+            on_press: root.manager.current = 'Choose Patient'
     
         Button:
             text: 'Appointments'
@@ -310,7 +310,6 @@ class MobileApp(App):
         self.sm.add_widget(MenuScreen(name='menu'))
         self.sm.add_widget(EmployeeLoginScreen(name='Employee Login'))
         self.sm.add_widget(EmployeePage(name='Employee Page'))
-        # self.sm.add_widget(EditPatient(name='Edit Patient'))
         self.sm.add_widget(PatientLoginScreen(name='Patient Login'))
         self.sm.add_widget(Error(name='Error'))
         self.sm.add_widget(PatientHomePage(name='Patient Home Page'))
@@ -321,6 +320,14 @@ class MobileApp(App):
         self.sm.add_widget(EditEmployee(name='Edit Employee'))
         self.sm.add_widget(AddEmployee(name='Add Employee'))
         self.sm.add_widget(DeleteEmployee(name='Delete Employee'))
+        self.sm.add_widget(ChoosePatient(name = 'Choose Patient'))
+        self.sm.add_widget(PatientScreen(name = 'Patient Screen'))
+        self.sm.add_widget(EditPatient(name='Edit Patient'))
+        self.sm.add_widget(AddInvoice(name='Add Invoice'))
+        self.sm.add_widget(AddExamDetail(name='Add ExamDetail'))
+        self.sm.add_widget(AddInsurance(name='Add Insurance'))
+        self.sm.add_widget(ViewPatientDetails(name='View Patient Details'))
+        self.sm.add_widget(CreateReferralLetter(name='Create Referral Letter'))
 
         return self.sm
         

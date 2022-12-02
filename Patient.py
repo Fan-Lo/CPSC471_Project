@@ -78,8 +78,8 @@ class Patient:
     def parsePxInfo(self, info):
         self.__name = Name(info[0][3],info[0][4],info[0][5],info[0][6])
     
-        self.__DOB = info[0][1]
-        self.__sex = info[0][2]
+        self.__DOB = info[0][2]
+        self.__sex = info[0][1]
         self.__headAHC = info[0][7]
 
         self.__address = Address(info[0][11], info[0][10], info[0][9], info[0][8], info[0][12])
@@ -126,9 +126,16 @@ class Patient:
     def setDOB(self, date):
         self.__DOB = date
     
+    def getDOB(self):
+        dt = self.__DOB.strftime('%Y-%m-%d')
+        return self.__DOB
+
     def setSex(self, sex):
         self.__sex = sex
     
+    def getSex(self):
+        return self.__sex
+
     def displayInfo(self):
         str = self.__name.getFullname() + "\n"
         #invoice, insurance, exam detail, appointment
@@ -155,6 +162,19 @@ class Patient:
     def getAddress(self):
         return self.__address
 
+    def searchPatient(self, AHC):
+        self.database = DatabaseConnect()
+        self.AHC = self.database.performQuery(f"SELECT AHC FROM PATIENT;")
+        print(self.AHC)
+        i = 0
+        while i < len(self.AHC):
+            if AHC in self.AHC[i]:
+                return True
+            i += 1
+
+        return False
+
+
 '''
 if __name__ == '__main__':
     px = Patient()
@@ -164,4 +184,5 @@ if __name__ == '__main__':
 '''
 
 if __name__ == '__main__':
-    px = Patient('123456789')
+    px = Patient('123456789').getDOB()
+    print(px)
