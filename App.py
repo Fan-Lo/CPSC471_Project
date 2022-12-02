@@ -111,7 +111,7 @@ Builder.load_string("""
             text: 'Add Patient'
             font_size: 30
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'Edit Patient'
+            on_press: root.manager.current = 'menu'
 
         Button:
             text: 'Edit Existing Patient'   
@@ -200,7 +200,7 @@ Builder.load_string("""
             text: 'Edit Personal Information'
             font_size: 30
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'Add Patient'
+            on_press: root.manager.current = 'Edit Patient'
 
         Button:
             text: 'View Exam Detail'   
@@ -216,12 +216,6 @@ Builder.load_string("""
 
         Button:
             text: 'Edit Family Information'
-            font_size: 30
-            background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'menu'
-
-        Button:
-            text: 'Edit Employee'
             font_size: 30
             background_color: 0, 0, 8, 0.5
             on_press: root.manager.current = 'menu'
