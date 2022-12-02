@@ -105,6 +105,7 @@ class Patient:
     def addPatientPhone(self, area, tel, line, country=None, extension=None):
         phone = PhoneNumber(area,tel, line,country, extension)
         self.__patientPhone.append(phone)
+        
 
     def removePhoneNumber(self, p):
         for i in self.__patientPhone:
