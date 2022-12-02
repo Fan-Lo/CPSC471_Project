@@ -27,19 +27,19 @@ class Patient:
         self.parsePxInfo(pxInfo)
 
         #parse attributes stored in PATIENT_PHONE table
-        phones = self.parsingDatabaseTuples(phones,1)
+        phones = self.parsingDatabaseTuples(phones,[1])
         self.__patientPhone = []
         for i in phones:
             self.__patientPhone.append(PhoneNumber(i))
 
         #parse attributes stored in INVOICE table
-        invoices = self.parsingDatabaseTuples(invoices,2)
+        invoices = self.parsingDatabaseTuples(invoices,[0,1])
         self.__invoice = []
         for i in invoices:
             self.__invoice.append(Invoice(i))
 
         #parse attributes stored in INSURANCE table
-        insurances = self.parsingDatabaseTuples(insurances,2)
+        insurances = self.parsingDatabaseTuples(insurances,[0,2])
         self.__insurance = []
         for i in insurances:
             self.__insurance.append(Insurance(i[0],i[1]))
@@ -97,10 +97,10 @@ class Patient:
         self.__address = Address(info[0][11], info[0][10], info[0][9], info[0][8], info[0][12])
 
         
-    def parsingDatabaseTuples(self, tuples, numOfAttributes):
+    def parsingDatabaseTuples(self, tuples, attributePosition):
         list = [[] for _ in range(len(tuples))]
         for i in range(len(tuples)):
-            for j in range(numOfAttributes):
+            for j in attributePosition:
                     list[i].append(tuples[i][j])
         return list
 
