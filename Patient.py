@@ -15,9 +15,9 @@ class Patient:
         self.database = DatabaseConnect()
         pxInfo = self.database.performQuery(f"SELECT * FROM PATIENT WHERE AHC = {AHC};")
         self.__patientPhone = self.database.performQuery(f"SELECT PhoneNum FROM PATIENT_PHONE WHERE AHC = {AHC};")
-        self.__invoice = self.database.performQuery(f"SELECT PhoneNum FROM INVOICE WHERE PatAHC = {AHC};")
-        self.__insurance = self.database.performQuery(f"SELECT PhoneNum FROM INSURANCE WHERE PatAHC = {AHC};")
-        self.__examDetails = self.database.performQuery(f"SELECT PhoneNum FROM EXAM_DETAIL WHERE PatAHC = {AHC};")
+        self.__invoice = self.database.performQuery(f"SELECT * FROM INVOICE WHERE PatAHC = {AHC};")
+        self.__insurance = self.database.performQuery(f"SELECT * FROM INSURANCE WHERE PatAHC = {AHC};")
+        self.__examDetails = self.database.performQuery(f"SELECT * FROM EXAM_DETAIL WHERE PatAHC = {AHC};")
         self.database.close()
         
         #parse attributes stored in PATIENT Table
@@ -54,10 +54,11 @@ class Patient:
 
         # update detabase Patient table
         self.database = DatabaseConnect()
-        self.database.performQuery(
+        self.database.insert(
             "INSERT INTO PATIENT VALUES" +
-            f"({self.__ahcNum}, {self.__sex}, {self.__DOB},{self.__name.getFname()}, {self.__name.getMiddleIn()}, {self.__name.getLname()}, {self.__name.getPreferred()}, {self.__headAHC},{self.__address.getStreetName()}, {self.__address.getStreetNum()}, {self.__address.getCity()}, {self.__address.getCity()}, {self.__address.getPostalCode()});"
+            f"('{self.__ahcNum}', '{self.__sex}', {self.__DOB},'{self.__name.getFname()}', '{self.__name.getMiddleIn()}', '{self.__name.getLname()}', '{self.__name.getPreferred()}', '{self.__headAHC}', '{self.__address.getStreetName()}', '{self.__address.getStreetNum()}', '{self.__address.getCity()}', '{self.__address.getCity()}', '{self.__address.getPostalCode()}');"
         )
+        self.database.insert(f"INSERT INTO PATIENT_LOGIN VALUES ('{self.__ahcNum}', '{self.__name.getLname().lower()}')")
         self.database.close()
     
     def parseInfo(self, info):
