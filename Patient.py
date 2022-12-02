@@ -56,7 +56,7 @@ class Patient:
         self.__sex = sex
         self.__DOB = datetime.strptime(DOB, '%Y-%m-%d')
         if HeadAHC == None:
-            HeadAHC = AHC
+            self.headAHC = AHC
         else:
             self.headAHC = HeadAHC
 
@@ -102,10 +102,15 @@ class Patient:
         return self.__patientPhone 
     
 
-    def addPatientPhone(self, area, tel, line, country=None, extension=None):
-        phone = PhoneNumber(area,tel, line,country, extension)
+    def addPatientPhone(self, area, tel, line, country='', extension=''):
+        phone = PhoneNumber(area,tel,line,country, extension)
         self.__patientPhone.append(phone)
-        
+        self.database = DatabaseConnect()
+        self.database.insert(f"INSERT INTO PATIENT_PHONE VALUES ('{self.__ahcNum}', '{phone.display()}'); ")
+        self.database.close()
+
+
+
 
     def removePhoneNumber(self, p):
         for i in self.__patientPhone:
@@ -192,5 +197,5 @@ if __name__ == '__main__':
 '''
 
 if __name__ == '__main__':
-    px = Patient('123456789').getDOB()
-    print(px)
+    px = Patient('123456789')
+    px.addPatientPhone('403','888','9999')
