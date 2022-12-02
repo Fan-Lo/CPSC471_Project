@@ -54,7 +54,7 @@ class Patient:
         # simple attributes
         self.__ahcNum = AHC
         self.__sex = sex
-        self.__DOB = datetime.strip(DOB, '%Y-%m-%d')
+        self.__DOB = datetime.strptime(DOB, '%Y-%m-%d')
         if HeadAHC == None:
             HeadAHC = AHC
         else:
