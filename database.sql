@@ -96,9 +96,8 @@ CREATE TABLE INVOICE (
 
 DROP TABLE IF EXISTS EXAM_DETAIL;
 CREATE TABLE EXAM_DETAIL (
-	ExamID 	int(5) not null,
-	PatAHC 	CHAR(9) not null,
-	RecordID int(9),
+	ExamID 	int(5) AUTO_INCREMENT,
+	PatAHC 	CHAR(9),
     Dates 	DATE,
     Notes 	varchar(1000),
     PerformedBy CHAR(9),
@@ -207,10 +206,3 @@ CREATE TABLE GOV_BILLING (
 	FOREIGN KEY(PatAHC) references PATIENT(AHC) ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS PAST_EXAM_RECORD;
-CREATE TABLE PAST_EXAM_RECORD (
-	PatAHC		CHAR(9)	not null,
-	RecordID	int(9) not null,
-	FOREIGN KEY(PatAHC) references PATIENT(AHC) ON DELETE CASCADE,
-	FOREIGN KEY(RecordID) references EXAM_DETAIL(ExamID)
-);

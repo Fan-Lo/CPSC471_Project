@@ -17,7 +17,7 @@ class Patient:
         self.__ahcNum = AHC
         self.database = DatabaseConnect()
         pxInfo = self.database.performQuery(f"SELECT * FROM PATIENT WHERE AHC = {AHC};")
-        phones = self.database.performQuery(f"SELECT PhoneNum FROM PATIENT_PHONE WHERE AHC = {AHC};")
+        phones = self.database.performQuery(f"SELECT * FROM PATIENT_PHONE WHERE AHC = {AHC};")
         invoices = self.database.performQuery(f"SELECT * FROM INVOICE WHERE PatAHC = {AHC};")
         insurances = self.database.performQuery(f"SELECT * FROM INSURANCE WHERE PatAHC = {AHC};")
         examDetails = self.database.performQuery(f"SELECT * FROM EXAM_DETAIL WHERE PatAHC = {AHC};")
@@ -30,7 +30,7 @@ class Patient:
         phones = self.parsingDatabaseTuples(phones,[1])
         self.__patientPhone = []
         for i in phones:
-            self.__patientPhone.append(PhoneNumber(i))
+            self.__patientPhone.append(PhoneNumber(i[0]))
 
         #parse attributes stored in INVOICE table
         invoices = self.parsingDatabaseTuples(invoices,[0,1])
@@ -45,10 +45,11 @@ class Patient:
             self.__insurance.append(Insurance(i[0],i[1]))
 
         #parse attributes stored in EXAM_DETAIL table
-        examDetails = self.parsingDatabaseTuples(examDetails,2)
+        examDetails = self.parsingDatabaseTuples(examDetails,[0,2,3,4])
         self.__examDetails = []
+
         for i in examDetails:
-            self.__examDetails.append(ExamDetail(i))
+            self.__examDetails.append(ExamDetail(i[0],i[1],i[2],i[3]))
 
     def addPatient(self, AHC, sex, DOB, name,  address, City, Country, PostalCode, HeadAHC=None):
         # simple attributes
@@ -99,7 +100,7 @@ class Patient:
         
     def parsingDatabaseTuples(self, tuples, attributePosition):
         list = [[] for _ in range(len(tuples))]
-        for i in range(len(tuples)):
+        for i in range(len(tuples)): # i is number of database entry
             for j in attributePosition:
                     list[i].append(tuples[i][j])
         return list
@@ -246,7 +247,7 @@ class Patient:
                 break
         
 if __name__ == '__main__':
-    px = Patient('113456789')
+    px = Patient('123456789')
     px.setName('Mike T Ann')
     px.setDOB('1996-08-09')
     px.setSex('f')
