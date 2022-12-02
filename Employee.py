@@ -6,7 +6,7 @@ class Employee:
         if(S != None):
             self.database = DatabaseConnect()
             if(S.isdigit() == True):
-                self.employeeInfo = self.database.performQuery(f"SELECT * FROM EMPLOYEE;") # WHERE SIN = '{S}';")
+                self.employeeInfo = self.database.performQuery(f"SELECT * FROM EMPLOYEE WHERE SIN = '{S}';")
             elif(S.isalpha() == True):
                 self.employeeInfo = self.database.performQuery(f"SELECT * FROM EMPLOYEE WHERE LName = '{S}';")
             self.database.close()
@@ -36,6 +36,7 @@ class Employee:
     
     def deleteEmp(self):
         self.database = DatabaseConnect()
+        self.database.insert(f"DELETE FROM EMPLOYEE_LOGIN WHERE Username = '{self.SIN}';")
         self.database.insert(f"DELETE FROM EMPLOYEE WHERE SIN = '{self.SIN}';")
         self.database.close()
 

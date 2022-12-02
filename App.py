@@ -3,7 +3,12 @@ from Employee import *
 from DatabaseConnect import *
 from AppointmentScreens import *
 from EditEmployeeScreens import *
+<<<<<<< HEAD
 # from EmployeePatientScreens import *
+=======
+from Patient import *
+#from EmployeePatientScreens import *
+>>>>>>> 83fd1f30e330057d5091879fab9e0dcae2501318
 
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
@@ -86,9 +91,7 @@ Builder.load_string("""
             text: 'Sign In'
             font_size: 30
             background_color: 0, 0, 8, 0.5
-            on_press: 
-                root.manager.current = root.verify()
-                app.root.get_screen('Employee Page').welcome.text = root.employee.getName()
+            on_press: root.manager.current = root.verify()
         
         Button:
             text: 'Back'
@@ -261,6 +264,7 @@ class EmployeeLoginScreen(Screen):
         self.login = Login()
         if (self.login.verifyEmployee(self.username, self.password) == True):
             self.employee = EmployeePage()
+            app.root.get_screen('Employee Page').welcome.text = self.employee.getName()
             return 'Employee Page'
         return 'Error'
 
@@ -289,12 +293,15 @@ class PatientLoginScreen(Screen):
         self.login = Login()
         if (self.login.verifyPatient(self.username, self.password) == True):
             self.patient = PatientHomePage()
+            app.root.get_screen('Patient Home Page').welcome.text = self.patient.getName().getFullName()
             return 'Patient Home Page'
         else:
             return 'Error'
 
 class PatientHomePage(Screen):
-    pass
+    def getName(self):
+        self.AHC = app.root.get_screen('Patient Login').username
+        self.name = Patient(self.AHC).getName()
 
 class Error(Screen):
     pass
@@ -305,7 +312,11 @@ class MobileApp(App):
         self.sm.add_widget(MenuScreen(name='menu'))
         self.sm.add_widget(EmployeeLoginScreen(name='Employee Login'))
         self.sm.add_widget(EmployeePage(name='Employee Page'))
+<<<<<<< HEAD
         # self.sm.add_widget(EditPatient(name='Edit Patient'))
+=======
+        #self.sm.add_widget(EditPatient(name='Edit Patient'))
+>>>>>>> 83fd1f30e330057d5091879fab9e0dcae2501318
         self.sm.add_widget(PatientLoginScreen(name='Patient Login'))
         self.sm.add_widget(Error(name='Error'))
         self.sm.add_widget(PatientHomePage(name='Patient Home Page'))
