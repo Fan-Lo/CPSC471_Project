@@ -94,10 +94,11 @@ Builder.load_string("""
             on_press: root.manager.current = 'Employee Page'
         
 <EditPatient>:
-    name: name 
+    n: n 
     sex: sex
     ahc: ahc
     dob: dob
+    phone: phone
     address: address
     pCode: pCode
     city: city
@@ -116,7 +117,7 @@ Builder.load_string("""
             color: "#000000"
 
         TextInput:
-            id: name
+            id: n
             text: ''
             multiline: False
             size_hint: (1, 0.7)
@@ -313,7 +314,7 @@ Builder.load_string("""
 
 class EditPatient(Screen):
     def storeName(self, n = None):
-        self.name = n
+        self.n = n
     
     def storeAHC(self, a = None):
         self.AHC = a
@@ -338,31 +339,23 @@ class EditPatient(Screen):
     
     def makeChanges(self):
         #if patient doesn't exist then create new patient
-        if(self.AHC != None):
-            self.patient = Patient().addPatient(self.AHC, self.sex, self.DOB, self.name, self.address, self.city, self.country, self.pCode)
+        self.exists = Patient.searchPatient(self.AHC)
+        
+        if(self.exists == False):
+            self.patient = Patient().addPatient(self.AHC, self.sex, self.DOB, self.n, self.address, self.city, self.country, self.pCode)
             return
 
         #first check if patient SIN already exists in database
         #if it does exist then make changes to that patient and make changes only to things the user has changed
         # AHC can nver change once it has been set (No reason why it should ever change)
-        self.AHC = app.root.get_screen('Choose Patient').AHC
-        self.patient = Patient().exists(self.AHC)
-        if (self.patient == True):
-            if self.name != None:
-                self.patient.setName(self.name)
 
-            if self.Sex != None:
-                self.patient.setSex(self.sex)
-            
-            if self.address != None:   
-                self.patient.setAddress(self.address)
-                self.patient.setPostalCode(self.pCode)
-
-            if self.city != None:
-                self.patient.setCity(self.city)
-
-            if self.country != None:    
-                self.patient.setCountry(self.country)
+        self.patient = Patient(self.AHC)
+        self.patient.setName(self.n)
+        self.patient.setSex(self.sex)  
+        self.patient.setAddress(self.address)
+        self.patient.setPostalCode(self.pCode)
+        self.patient.setCity(self.city)
+        self.patient.setCountry(self.country)
        
 
 class ChoosePatient(Screen):
@@ -373,16 +366,15 @@ class ChoosePatient(Screen):
         self.exists = Patient().searchPatient(self.AHC)
         if self.exists == True:
             return 'Patient Screen'
-        
-        #else: 
-            #return 'Error'
+        else: 
+            return 'Error'
 
 
 class PatientScreen(Screen):    #Comes from clicking button for existing patients
     def formatEditPatient(self):
         self.AHC = app.root.get_screen('Choose Patient').AHC
         self.patient = Patient(self.AHC)
-        app.root.get_screen('Edit Patient').name.text = str(self.patient.getName())
+        app.root.get_screen('Edit Patient').n.text = str(self.patient.getName().getFullName())
         app.root.get_screen('Edit Patient').ahc.text = str(self.patient.getAHC())
         app.root.get_screen('Edit Patient').sex.text = str(self.patient.getSex())
         app.root.get_screen('Edit Patient').dob.text = str(self.patient.getDOB())
@@ -417,7 +409,7 @@ class MobileApp(App):
         self.sm.add_widget(PatientScreen(name = 'Patient Screen'))
         self.sm.add_widget(EditPatient(name='Edit Patient'))
         self.sm.add_widget(AddInvoice(name='Add Invoice'))
-        self.sm.add_widget(AddExamDetail(name='Add ExamDetail'))
+        self.sm.add_widget(AddExamDetail(name='Add Exam Detail'))
         self.sm.add_widget(AddInsurance(name='Add Insurance'))
         self.sm.add_widget(ViewPatientDetails(name='View Patient Details'))
         self.sm.add_widget(CreateReferralLetter(name='Create Referral Letter'))

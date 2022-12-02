@@ -5,8 +5,6 @@ from AppointmentScreens import *
 from EditEmployeeScreens import *
 from Patient import *
 from EmployeePatientScreens import *
-
-from EmployeePatientScreens import *
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
@@ -111,7 +109,7 @@ Builder.load_string("""
             text: 'Add Patient'
             font_size: 30
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'menu'
+            on_press: root.manager.current = 'Edit Patient'
 
         Button:
             text: 'Edit Existing Patient'   
@@ -221,12 +219,6 @@ Builder.load_string("""
             on_press: root.manager.current = 'menu'
 
         Button:
-            text: 'Edit Employee'
-            font_size: 30
-            background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'menu'
-
-        Button:
             text: 'Logout'
             font_size: 30
             background_color: 0, 0, 8, 0.5
@@ -324,7 +316,7 @@ class MobileApp(App):
         self.sm.add_widget(PatientScreen(name = 'Patient Screen'))
         self.sm.add_widget(EditPatient(name='Edit Patient'))
         self.sm.add_widget(AddInvoice(name='Add Invoice'))
-        self.sm.add_widget(AddExamDetail(name='Add ExamDetail'))
+        self.sm.add_widget(AddExamDetail(name='Add Exam Detail'))
         self.sm.add_widget(AddInsurance(name='Add Insurance'))
         self.sm.add_widget(ViewPatientDetails(name='View Patient Details'))
         self.sm.add_widget(CreateReferralLetter(name='Create Referral Letter'))

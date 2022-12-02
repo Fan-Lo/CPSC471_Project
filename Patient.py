@@ -55,10 +55,10 @@ class Patient:
         self.__ahcNum = AHC
         self.__sex = sex
         self.__DOB = datetime.strptime(DOB, '%Y-%m-%d')
-        if HeadAHC == None:
-            self.headAHC = AHC
+        if HeadAHC != None:
+            self.__headAHC = HeadAHC
         else:
-            self.headAHC = HeadAHC
+            self.__headAHC = AHC
 
         # composite attributes 
         self.__name = Name(name)
@@ -69,17 +69,16 @@ class Patient:
         for i in add:
             if i.isdigit():
                 streetNum += i
+                streetNum += " "
             else:
                 streetName += i
+                streetName += " "
         self.__address = Address(Country, City, streetNum, streetName, PostalCode)
 
         # update detabase Patient table
         self.database = DatabaseConnect()
-        self.database.insert(
-            "INSERT INTO PATIENT VALUES" +
-            f"('{self.__ahcNum}', '{self.__sex}', '{self.__DOB}','{self.__name.getFname()}', '{self.__name.getMiddleIn()}', '{self.__name.getLname()}', '{self.__name.getPreferred()}', '{self.__headAHC}', '{self.__address.getStreetName()}', '{self.__address.getStreetNum()}', '{self.__address.getCity()}', '{self.__address.getCity()}', '{self.__address.getPostalCode()}');"
-        )
-        self.database.insert(f"INSERT INTO PATIENT_LOGIN VALUES ('{self.__ahcNum}', '{self.__name.getLname().lower()}');")
+        self.database.insert(f"INSERT INTO PATIENT VALUES( '{self.__ahcNum}', '{self.__sex}',  '{self.__DOB}', '{self.__name.getFname()}', '{self.__name.getMiddleIn()}', '{self.__name.getLname()}', '{self.__name.getFname()}', '{self.__headAHC}', '{self.__address.getStreetName()}', '{self.__address.getStreetNum()}', '{self.__address.getCity()}', '{self.__address.getCountry()}', '{self.__address.getPostalCode()}');")
+        self.database.insert(f"INSERT INTO PATIENT_LOGIN VALUES( '{self.__ahcNum}', '{self.__name.getLname()}');")
         self.database.close()
     
     def deletePatient(self):
@@ -195,7 +194,6 @@ class Patient:
     def searchPatient(self, AHC):
         self.database = DatabaseConnect()
         self.AHC = self.database.performQuery(f"SELECT AHC FROM PATIENT;")
-        print(self.AHC)
         i = 0
         while i < len(self.AHC):
             if AHC in self.AHC[i]:
