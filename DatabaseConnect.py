@@ -3,19 +3,11 @@ import mysql.connector
 class DatabaseConnect:
 
     def __init__(self):
-<<<<<<< HEAD
         # p = input("Enter Database Password: ")
         # u = input("Enter Database Username: ")
 
         try:
             self.connection = mysql.connector.connect(user ='CPSC', password = '471', host='127.0.0.1', database='471')
-=======
-        #p = input("Enter Database Password: ")
-        #u = input("Enter Database Username: ")
-
-        try:
-            self.connection = mysql.connector.connect(user = 'CPSC', password = '471', host='127.0.0.1', database='471')
->>>>>>> 83fd1f30e330057d5091879fab9e0dcae2501318
 
         except mysql.connector.Error as error:
             print("Failed to create table in MySQL: {}".format(error))

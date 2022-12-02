@@ -3,13 +3,7 @@ from Employee import *
 from DatabaseConnect import *
 from AppointmentScreens import *
 from EditEmployeeScreens import *
-<<<<<<< HEAD
-# from EmployeePatientScreens import *
-=======
-from Patient import *
-#from EmployeePatientScreens import *
->>>>>>> 83fd1f30e330057d5091879fab9e0dcae2501318
-
+from EmployeePatientScreens import *
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
@@ -190,6 +184,7 @@ Builder.load_string("""
             on_press: root.manager.current = 'menu'
 
 <PatientHomePage>:
+    welcome:welcome
     GridLayout:
         cols: 1    
         
@@ -293,15 +288,15 @@ class PatientLoginScreen(Screen):
         self.login = Login()
         if (self.login.verifyPatient(self.username, self.password) == True):
             self.patient = PatientHomePage()
-            app.root.get_screen('Patient Home Page').welcome.text = self.patient.getName().getFullName()
+            app.root.get_screen('Patient Home Page').welcome.text = self.patient.getName()
             return 'Patient Home Page'
-        else:
-            return 'Error'
+        return 'Error'
 
 class PatientHomePage(Screen):
     def getName(self):
         self.AHC = app.root.get_screen('Patient Login').username
-        self.name = Patient(self.AHC).getName()
+        self.name = Patient(self.AHC).getName().getFullName()
+        return 'Welcome ' + str(self.name) + '!'
 
 class Error(Screen):
     pass
@@ -312,11 +307,7 @@ class MobileApp(App):
         self.sm.add_widget(MenuScreen(name='menu'))
         self.sm.add_widget(EmployeeLoginScreen(name='Employee Login'))
         self.sm.add_widget(EmployeePage(name='Employee Page'))
-<<<<<<< HEAD
         # self.sm.add_widget(EditPatient(name='Edit Patient'))
-=======
-        #self.sm.add_widget(EditPatient(name='Edit Patient'))
->>>>>>> 83fd1f30e330057d5091879fab9e0dcae2501318
         self.sm.add_widget(PatientLoginScreen(name='Patient Login'))
         self.sm.add_widget(Error(name='Error'))
         self.sm.add_widget(PatientHomePage(name='Patient Home Page'))

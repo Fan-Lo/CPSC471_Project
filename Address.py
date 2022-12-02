@@ -12,9 +12,6 @@ class Address:
     
     def setCity(self, city):
         self.__city = city
-    
-    def setAddress(self, address):
-        self.__address = address
         
     def setPostalCode(self, posCode):
         self.__posCode = posCode
@@ -39,6 +36,8 @@ class Address:
     def getCity(self):
         return self.__city
     
+    def getAddress(self):
+        return self.__streetNum + " " + self.__streetName
 
 # Testing parseAddress()  
 '''

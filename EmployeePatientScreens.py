@@ -58,10 +58,10 @@ Builder.load_string("""
                 app.root.get_screen('Edit Patient').AHC.text = root.employee.getAHC()
                 app.root.get_screen('Edit Patient').sex.text = root.employee.getSex()
                 app.root.get_screen('Edit Patient').DOB.text = root.employee.getDOB()
-                app.root.get_screen('Edit Patient').address.text = root.employee.getAddress()
-                app.root.get_screen('Edit Patient').pCode.text = root.employee.getPostalCode()
-                app.root.get_screen('Edit Patient).city.text = root.employee.getCity()
-                app.root.get_screen('Edit Patient').country.text = root.employee.getCountry()
+                app.root.get_screen('Edit Patient').address.text = root.employee.getAddress().getAddress()
+                app.root.get_screen('Edit Patient').pCode.text = root.employee.getAddress().getPostalCode()
+                app.root.get_screen('Edit Patient').city.text = root.employee.getAddress().getCity()
+                app.root.get_screen('Edit Patient').country.text = root.employee.getAddress().getCountry()
                 root.manager.current = 'Edit Patient'
 
         Button:

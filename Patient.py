@@ -150,7 +150,10 @@ class Patient:
         return result
     
     def getPhone(self):
-        return self.__phone
+        return self.__patientPhone
+    
+    def getAddress(self):
+        return self.__address
 
 '''
 if __name__ == '__main__':
