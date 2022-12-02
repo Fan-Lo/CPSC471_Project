@@ -29,7 +29,6 @@ class Patient:
         for i in phones:
             self.__patientPhone.append(PhoneNumber(i))
 
-
         #parse attributes stored in INVOICE table
         self.__invoice = self.parsingDatabaseTuples(self.__invoice)
 
@@ -44,7 +43,10 @@ class Patient:
         self.__ahcNum = AHC
         self.__sex = sex
         self.__DOB = datetime.strip(DOB, '%Y-%m-%d')
-        self.headAHC = HeadAHC
+        if HeadAHC == None:
+            HeadAHC = AHC
+        else:
+            self.headAHC = HeadAHC
 
         # composite attributes 
         self.__name = Name(name)
@@ -54,7 +56,7 @@ class Patient:
         self.database = DatabaseConnect()
         self.database.performQuery(
             "INSERT INTO PATIENT VALUES" +
-            f"({self.__ahcNum}, {self.__sex}, {self.__DOB})"
+            f"({self.__ahcNum}, {self.__sex}, {self.__DOB},{self.__name.getFname()}, {self.__name.getMiddleIn()}, {self.__name.getLname()}, {self.__name.getPreferred()}, {self.__headAHC},{self.__address.getStreetName()}, {self.__address.getStreetNum()}, {self.__address.getCity()}, {self.__address.getCity()}, {self.__address.getPostalCode()});"
         )
         self.database.close()
     
@@ -62,7 +64,11 @@ class Patient:
         self.__name = Name(info[0][3],info[0][4],info[0][5],info[0][6])
     
         self.__DOB = info[0][1]
-        self.__sex = info[0][1]
+        self.__sex = info[0][2]
+        self.__headAHC = info[0][7]
+
+        self.__address = Address(info[0][11], info[0][10], info[0][9], info[0][8], info[0][12])
+
         
     def parsingDatabaseTuples(self, tuples):
         list = []
@@ -141,6 +147,6 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     px = Patient('123456789')
-    print(px.getName())
-    print(px.getPhone())
+    # print(px.getName())
+    # print(px.__invoice)
  
