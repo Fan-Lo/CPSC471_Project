@@ -46,9 +46,12 @@ class Name:
     def getPreferred(self):
         return self.__Preferred
     
-    #class method
     def getFullName(self):
         return self.__fullName
+    
+    def setFullName(self, fullName):
+        self.__fullName = fullName
+        self.parseName()
     
     def parseName(self):
         nameList = self.__fullName.split()

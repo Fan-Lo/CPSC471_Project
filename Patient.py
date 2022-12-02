@@ -108,8 +108,8 @@ class Patient:
         return self.__patientPhone 
     
 
-    def addPatientPhone(self, area, tel, line, country='', extension=''):
-        phone = PhoneNumber(area,tel,line,country, extension)
+    def addPatientPhone(self, p):
+        phone = PhoneNumber(p)
         self.__patientPhone.append(phone)
         self.database = DatabaseConnect()
         self.database.insert(f"INSERT INTO PATIENT_PHONE VALUES ('{self.__ahcNum}', '{phone.display()}'); ")
@@ -134,23 +134,34 @@ class Patient:
         return self.__insurance
     
     def setName(self, name):
-        self.__name = name
+        if self.__name.getFullName() != name:
+            self.__name.setFullName(name)
+            self.database = DatabaseConnect()
+            self.database.insert(
+                f"UPDATE PATIENT SET FName = '{self.__name.getFname()}', MidIN = '{self.__name.getMiddleIn()}', LName = '{self.__name.getLname()}', PName = '{self.__name.getPreferred()}' WHERE AHC = {self.__ahcNum}; ")
+            self.database.close()
     
     def getName(self):
         return self.__name
     
-    def setAHC(self, num):
-        self.__ahcNum = num
-    
     def setDOB(self, date):
         self.__DOB = date
+        dt = datetime.strptime(date,'%Y-%m-%d')
+        self.database = DatabaseConnect()
+        self.database.insert(
+            f"UPDATE PATIENT SET DOB = '{dt}' WHERE AHC = {self.__ahcNum}; ")
+        self.database.close()
     
     def getDOB(self):
         dt = self.__DOB.strftime('%Y-%m-%d')
         return self.__DOB
 
     def setSex(self, sex):
-        self.__sex = sex
+        self.__sex = sex.upper()
+        self.database = DatabaseConnect()
+        self.database.insert(
+            f"UPDATE PATIENT SET SEX = '{sex.upper()}' WHERE AHC = {self.__ahcNum}; ")
+        self.database.close()
     
     def getSex(self):
         return self.__sex
@@ -204,7 +215,10 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     px = Patient('113456789')
-    px.deletePatient()
+    px.setName('Mike T Ann')
+    px.setDOB('1996-08-09')
+    px.setSex('F')
+    px.addPatientPhone('4032223333')
     # px.addPatientPhone('403','888','9999')
     # px.removePhoneNumber('4031111111')
     # px.addPatient(222222222,'f','1996-06-06','Test m Test','111 Test Rd','TestCity','TestCountry','T1T 0T0')
