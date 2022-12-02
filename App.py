@@ -5,8 +5,6 @@ from AppointmentScreens import *
 from EditEmployeeScreens import *
 from Patient import *
 from EmployeePatientScreens import *
-
-from EmployeePatientScreens import *
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
@@ -111,7 +109,7 @@ Builder.load_string("""
             text: 'Add Patient'
             font_size: 30
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'menu'
+            on_press: root.manager.current = 'Edit Patient'
 
         Button:
             text: 'Edit Existing Patient'   

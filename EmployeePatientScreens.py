@@ -413,8 +413,8 @@ class CreateReferralLetter(Screen):
 class MobileApp(App):
     def build(self):
         self.sm = ScreenManager()
-        self.sm.add_widget(ChoosePatient(name = 'Choose Patient'))
-        self.sm.add_widget(PatientScreen(name = 'Patient Screen'))
+        #self.sm.add_widget(ChoosePatient(name = 'Choose Patient'))
+        #self.sm.add_widget(PatientScreen(name = 'Patient Screen'))
         self.sm.add_widget(EditPatient(name='Edit Patient'))
         self.sm.add_widget(AddInvoice(name='Add Invoice'))
         self.sm.add_widget(AddExamDetail(name='Add ExamDetail'))
