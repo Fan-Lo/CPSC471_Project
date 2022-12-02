@@ -113,7 +113,6 @@ class Patient:
         self.database = DatabaseConnect()
         self.database.insert(f"INSERT INTO PATIENT_PHONE VALUES ('{self.__ahcNum}', '{phone.display()}'); ")
         self.database.close()
-        #commetnmore test
 
     def removePhoneNumber(self, p):
         for i in self.__patientPhone:
@@ -167,7 +166,7 @@ class Patient:
         return self.__sex
 
     def displayInfo(self):
-        str = self.__name.getFullname() + "\n"
+        str = self.__name.getFullName() + "\n"
         #invoice, insurance, exam detail, appointment
         str += self.__ahcNum + "\n"
         str += self.__DOB + "\n"
@@ -216,8 +215,8 @@ if __name__ == '__main__':
     px = Patient('113456789')
     px.setName('Mike T Ann')
     px.setDOB('1996-08-09')
-    px.setSex('F')
-    px.addPatientPhone('4032223333')
+    px.setSex('f')
+    # px.addPatientPhone('4032223333')
     # px.addPatientPhone('403','888','9999')
     # px.removePhoneNumber('4031111111')
     # px.addPatient(222222222,'f','1996-06-06','Test m Test','111 Test Rd','TestCity','TestCountry','T1T 0T0')
