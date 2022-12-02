@@ -99,6 +99,9 @@ CREATE TABLE EXAM_DETAIL (
 	ExamID 	int(5) not null,
 	PatAHC 	CHAR(9) not null,
 	RecordID int(9),
+    Dates 	DATE,
+    Notes 	varchar(1000),
+    PerformedBy CHAR(9),
     PRIMARY KEY (ExamID),
 	FOREIGN KEY (PatAHC) references PATIENT(AHC) ON DELETE CASCADE
 );
