@@ -16,10 +16,21 @@ class Address:
     def setPostalCode(self, posCode):
         self.__posCode = posCode
     
-    # def parseAddress(self, address):
-    #     addressList = address.split()
-    #     self.__StreetName = addressList[1].strip()
-    #     self.__StreetNum = addressList[0].strip()
+    def setAddress(self, add):
+        self.__streetName = ""
+        self.__streetNum = ""
+        addList = add.split()
+        for i in addList:
+            if i.isDigit():
+                self.__streetNum += i
+            else:
+                self.__streetName += i
+        
+    
+    def parseAddress(self, address):
+        addressList = address.split()
+        self.__StreetName = addressList[1].strip()
+        self.__StreetNum = addressList[0].strip()
     
     def getPostalCode(self):
         return self.__posCode

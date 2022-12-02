@@ -8,3 +8,6 @@ class Insurance:
 
     def getMemberID(self):
         return self.__MEMBERID
+    
+    def display(self):
+        return self.__MEMBERID + self.__POLICYNO

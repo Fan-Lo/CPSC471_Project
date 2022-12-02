@@ -42,7 +42,8 @@ class Patient:
         insurances = self.parsingDatabaseTuples(insurances)
         self.__insurance = []
         for i in insurances:
-            self.__insurance.append(Insurance(i))
+            print(i)
+            # self.__insurance.append(Insurance(i))
 
         #parse attributes stored in EXAM_DETAIL table
         examDetails = self.parsingDatabaseTuples(examDetails)
@@ -127,7 +128,7 @@ class Patient:
         return self.__invoice[index]
     
     def getPastExamRecord(self, index):
-        return self.__examRecord[index]
+        return self.__examDetails[index]
     
     def getInsurnace(self):
         return self.__insurance
@@ -202,6 +203,38 @@ class Patient:
 
         return False
 
+    def addInsurance(self, memberID, policyNo):
+        # self.__insurance.append(Insurance(memberID, policyNo))
+        # self.__insurance.append(Insurance(memberID, policyNo))
+        # self.database = DatabaseConnect()
+        # self.database.insert(f"INSERT INTO INSURANCE VALUES ('{policyNo}', '{memberID}', '{self.__name.getFullName()}','{self.__ahcNum}'); ")
+        # self.database.close()
+        # for i in self.__insurance:
+        #     if len(self.__insurance) == 0:
+        #         print("yes")
+        #         self.__insurance.append(Insurance(memberID, policyNo))
+        #         self.database = DatabaseConnect()
+        #         self.database.insert(f"INSERT INTO INSURANCE VALUES ('{policyNo}', '{memberID}', '{self.__name.getFullName()}','{self.__ahcNum}'); ")
+        #         self.database.close()
+        #         break
+        # (i.getPolicyNo() != policyNo and i.getMemberID() != memberID) or 
+        if len(self.__insurance) == 0:
+            print("yes")
+            self.__insurance.append(Insurance(memberID, policyNo))
+            self.database = DatabaseConnect()
+            self.database.insert(f"INSERT INTO INSURANCE VALUES ('{policyNo}', '{memberID}', '{self.__name.getFullName()}','{self.__ahcNum}'); ")
+            self.database.close()
+            return
+        for i in self.__insurance:
+            if i.getPolicyNo() != policyNo and i.getMemberID() != memberID:
+                print("yes")
+                self.__insurance.append(Insurance(memberID, policyNo))
+                self.database = DatabaseConnect()
+                self.database.insert(f"INSERT INTO INSURANCE VALUES ('{policyNo}', '{memberID}', '{self.__name.getFullName()}','{self.__ahcNum}'); ")
+                self.database.close()
+                break
+        
+
 
 '''
 if __name__ == '__main__':
@@ -216,6 +249,9 @@ if __name__ == '__main__':
     px.setName('Mike T Ann')
     px.setDOB('1996-08-09')
     px.setSex('f')
+    # px.addInsurance('111','2222')
+
+    # print(list[0].display())
     # px.addPatientPhone('4032223333')
     # px.addPatientPhone('403','888','9999')
     # px.removePhoneNumber('4031111111')
