@@ -3,9 +3,6 @@ from Employee import *
 from DatabaseConnect import *
 from AppointmentScreens import *
 from EditEmployeeScreens import *
-from Patient import *
-# from EmployeePatientScreens import *
-
 from EmployeePatientScreens import *
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
