@@ -6,6 +6,7 @@ from EditEmployeeScreens import *
 from Patient import *
 # from EmployeePatientScreens import *
 
+from EmployeePatientScreens import *
 from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
@@ -186,6 +187,7 @@ Builder.load_string("""
             on_press: root.manager.current = 'menu'
 
 <PatientHomePage>:
+    welcome:welcome
     GridLayout:
         cols: 1    
         
@@ -291,14 +293,13 @@ class PatientLoginScreen(Screen):
             self.patient = PatientHomePage()
             app.root.get_screen('Patient Home Page').welcome.text = self.patient.getName()
             return 'Patient Home Page'
-        else:
-            return 'Error'
+        return 'Error'
 
 class PatientHomePage(Screen):
     def getName(self):
         self.AHC = app.root.get_screen('Patient Login').username
         self.name = Patient(self.AHC).getName().getFullName()
-        return 'Welcome ' + str(self.name) + '!' 
+        return 'Welcome ' + str(self.name) + '!'
 
 class Error(Screen):
     pass

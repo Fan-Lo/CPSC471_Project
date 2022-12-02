@@ -7,7 +7,7 @@ class PhoneNumber:
         # only a single string is passed
         if len(args) == 1:
             charToRemove = " -()"
-            phone = args
+            phone = args[0]
             for i in charToRemove:
                 phone = phone.replace(i, '')
 

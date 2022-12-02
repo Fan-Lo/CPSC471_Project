@@ -1,8 +1,11 @@
 from PhoneNumber import PhoneNumber
-from datetime import datetime
+from datetime import datetime, date
 from DatabaseConnect import *
 from Name import *
 from Address import *
+from Invoice import *
+from Insurance import *
+from ExamDetail import *
 
 class Patient:
 
@@ -14,14 +17,14 @@ class Patient:
         self.__ahcNum = AHC
         self.database = DatabaseConnect()
         pxInfo = self.database.performQuery(f"SELECT * FROM PATIENT WHERE AHC = {AHC};")
-        self.__patientPhone = self.database.performQuery(f"SELECT PhoneNum FROM PATIENT_PHONE WHERE AHC = {AHC};")
-        self.__invoice = self.database.performQuery(f"SELECT PhoneNum FROM INVOICE WHERE PatAHC = {AHC};")
-        self.__insurance = self.database.performQuery(f"SELECT PhoneNum FROM INSURANCE WHERE PatAHC = {AHC};")
-        self.__examDetails = self.database.performQuery(f"SELECT PhoneNum FROM EXAM_DETAIL WHERE PatAHC = {AHC};")
+        phones = self.database.performQuery(f"SELECT PhoneNum FROM PATIENT_PHONE WHERE AHC = {AHC};")
+        invoices = self.database.performQuery(f"SELECT * FROM INVOICE WHERE PatAHC = {AHC};")
+        insurances = self.database.performQuery(f"SELECT * FROM INSURANCE WHERE PatAHC = {AHC};")
+        examDetails = self.database.performQuery(f"SELECT * FROM EXAM_DETAIL WHERE PatAHC = {AHC};")
         self.database.close()
         
         #parse attributes stored in PATIENT Table
-        self.parseInfo(pxInfo)
+        self.parsePxInfo(pxInfo)
 
         #parse attributes stored in PATIENT_PHONE table
         phones = self.parsingDatabaseTuples(phones)
@@ -29,40 +32,58 @@ class Patient:
         for i in phones:
             self.__patientPhone.append(PhoneNumber(i))
 
-
         #parse attributes stored in INVOICE table
-        self.__invoice = self.parsingDatabaseTuples(self.__invoice)
+        invoices = self.parsingDatabaseTuples(invoices)
+        self.__invoice = []
+        for i in invoices:
+            self.__invoice.append(Invoice(i))
 
         #parse attributes stored in INSURANCE table
-        self.__insurance = self.parsingDatabaseTuples(self.__insurance)
+        insurances = self.parsingDatabaseTuples(insurances)
+        self.__insurance = []
+        for i in insurances:
+            self.__insurance.append(Insurance(i))
 
         #parse attributes stored in EXAM_DETAIL table
-        self.__examDetails = self.parsingDatabaseTuples(self.__examDetails)
+        examDetails = self.parsingDatabaseTuples(examDetails)
+        self.__examDetails = []
+        for i in examDetails:
+            self.__examDetails.append(ExamDetail(i))
 
-    def addPatient(self, AHC, sex, DOB, name, address, City, Country, PostalCode, HeadAHC=None):
+    def addPatient(self, AHC, sex, DOB, name,  address, City, Country, PostalCode, HeadAHC=None):
         # simple attributes
         self.__ahcNum = AHC
         self.__sex = sex
         self.__DOB = datetime.strip(DOB, '%Y-%m-%d')
-        self.headAHC = HeadAHC
+        if HeadAHC == None:
+            HeadAHC = AHC
+        else:
+            self.headAHC = HeadAHC
 
         # composite attributes 
         self.__name = Name(name)
-        self.__address = Address(Country, City, address, PostalCode)
+
+        add = address.split(' ')
+        self.__address = Address(Country, City, add[0], add[1], PostalCode)
 
         # update detabase Patient table
         self.database = DatabaseConnect()
-        self.database.performQuery(
+        self.database.insert(
             "INSERT INTO PATIENT VALUES" +
-            f"({self.__ahcNum}, {self.__sex}, {self.__DOB})"
+            f"('{self.__ahcNum}', '{self.__sex}', {self.__DOB},'{self.__name.getFname()}', '{self.__name.getMiddleIn()}', '{self.__name.getLname()}', '{self.__name.getPreferred()}', '{self.__headAHC}', '{self.__address.getStreetName()}', '{self.__address.getStreetNum()}', '{self.__address.getCity()}', '{self.__address.getCity()}', '{self.__address.getPostalCode()}');"
         )
+        self.database.insert(f"INSERT INTO PATIENT_LOGIN VALUES ('{self.__ahcNum}', '{self.__name.getLname().lower()}')")
         self.database.close()
     
-    def parseInfo(self, info):
+    def parsePxInfo(self, info):
         self.__name = Name(info[0][3],info[0][4],info[0][5],info[0][6])
     
         self.__DOB = info[0][1]
-        self.__sex = info[0][1]
+        self.__sex = info[0][2]
+        self.__headAHC = info[0][7]
+
+        self.__address = Address(info[0][11], info[0][10], info[0][9], info[0][8], info[0][12])
+
         
     def parsingDatabaseTuples(self, tuples):
         list = []
@@ -129,7 +150,10 @@ class Patient:
         return result
     
     def getPhone(self):
-        return self.__phone
+        return self.__patientPhone
+    
+    def getAddress(self):
+        return self.__address
 
 '''
 if __name__ == '__main__':
@@ -141,6 +165,3 @@ if __name__ == '__main__':
 
 if __name__ == '__main__':
     px = Patient('123456789')
-    print(px.getName())
-    print(px.getPhone())
- 

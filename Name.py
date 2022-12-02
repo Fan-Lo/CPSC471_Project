@@ -19,6 +19,7 @@ class Name:
             self.__Lname = args[1]
             self.__MiddleIn = args[2]
             self.__Preferred = args[3]
+            self.concatName()
 
     
     def setFname(self, f):
@@ -55,10 +56,9 @@ class Name:
         self.__MiddleIn = nameList[1].strip()
         self.__Lname = nameList[2].strip()
     
-    #static method 
-    # def concatName(self):
-    #     if self.__Fname == self.__Preferred:
-    #         name = f"{self.__fname} {mIN} {lname}"
-    #     else:
-    #         name = f"{fname} ({pname}) {mIN} {lname}"
-    #     self.__Fname = name
+    def concatName(self):
+        if self.__Fname == self.__Preferred:
+            name = f"{self.__Fname} {self.__MiddleIn} {self.__Lname}"
+        else:
+            name = f"{self.__Fname} ({self.__Preferred}) {self.__MiddleIn} {self.__Lname}"
+        self.__fullName = name
