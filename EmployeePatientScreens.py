@@ -22,7 +22,7 @@ Builder.load_string("""
 
         Label:
             text: 'Enter Patient Alberta Health Care Number'
-            font_size: 20
+            font_size: 40
             color: "#000000"
 
         TextInput:
@@ -186,6 +186,18 @@ Builder.load_string("""
             text: 'XXX-XXX-XXXX'
             on_text: root.storePhone(self.text)
 
+        Button:
+            text: 'Add Phone'
+            font_size: 20
+            background_color: 0, 0, 8, 0.5
+            on_press: root.addPhone()
+
+        Button:
+            text: 'Remove Phone'
+            font_size: 20
+            background_color: 0, 0, 8, 0.5
+            on_press:root.removePhone()
+
         Label:
             text_size: self.size
             halign: 'right'
@@ -333,7 +345,7 @@ class EditPatient(Screen):
     
     def storeAHC(self, a = None):
         self.AHC = a
-    
+
     def storeDOB(self, d = None):
         self.DOB = d
 
@@ -355,9 +367,23 @@ class EditPatient(Screen):
     def storeCountry(self, c = None):
         self.country = c
     
+    def addPhone(self):
+        self.exists = Patient().searchPatient(self.AHC)
+        if (self.exists == False):
+            return
+        if(self.phone != None):
+            self.addPhone = Patient(self.AHC).addPatientPhone(self.phone)
+
+    def removePhone(self):
+        self.exists = Patient().searchPatient(self.AHC)
+        if (self.exists == False):
+            return
+        if (self.phone != None):
+            self.removePhone = Patient(self.AHC).removePhoneNumber(self.phone)
+
     def makeChanges(self):
         #if patient doesn't exist then create new patient
-        self.exists = Patient.searchPatient(self.AHC)
+        self.exists = Patient().searchPatient(self.AHC)
         
         if(self.exists == False):
             self.patient = Patient().addPatient(self.AHC, self.sex, self.DOB, self.n, self.address, self.city, self.country, self.pCode)
@@ -372,10 +398,10 @@ class EditPatient(Screen):
         self.patient = Patient(self.AHC)
         self.patient.setName(self.n)
         self.patient.setSex(self.sex)  
-        self.patient.setAddress(self.address)
-        self.patient.setPostalCode(self.pCode)
-        self.patient.setCity(self.city)
-        self.patient.setCountry(self.country)      
+        self.patient.getAddress().setAddress(self.address)
+        self.patient.getAddress().setPostalCode(self.pCode)
+        self.patient.getAddress().setCity(self.city)
+        self.patient.getAddress().setCountry(self.country)      
 
 class ChoosePatient(Screen):
     def storeAHC(self, a):
@@ -401,6 +427,15 @@ class PatientScreen(Screen):    #Comes from clicking button for existing patient
         app.root.get_screen('Edit Patient').pCode.text = str(self.patient.getAddress().getPostalCode())
         app.root.get_screen('Edit Patient').city.text = str(self.patient.getAddress().getCity())
         app.root.get_screen('Edit Patient').country.text = str(self.patient.getAddress().getCountry())
+        phonelist = self.patient.getPatientPhone()
+        disp = ""
+        i = 0
+        while i < len(phonelist):
+            disp += phonelist[i].display()
+            disp += " "
+            i += 1
+            
+        app.root.get_screen('Edit Patient').phone.text = disp
 
 class AddInvoice(Screen):
     pass 
