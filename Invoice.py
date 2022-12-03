@@ -1,10 +1,12 @@
+from datetime import datetime 
 from Products import Products
 from Services import Service 
 
 class Invoice:
-    def __init__(self, PATIENTSIN, INVOICEID, total):
+    def __init__(self, INVOICEID, PATIENTSIN, INVOICEDATE, total):
         self.__PATIENTSIN = PATIENTSIN
         self.__INVOICEID = INVOICEID
+        self.__INVOICEDATE = INVOICEDATE 
         self.__total = total
         self.__contains = []
         self.__service = []
@@ -29,5 +31,8 @@ class Invoice:
     def getPatientSIN(self):
         return self.__PATIENTSIN
     
-    def getInvocieID(self):
+    def getInvoiceID(self):
         return self.__INVOICEID
+
+    def getDate(self):
+        return self.INVOICEDATE.strftime('%Y-%m-%d')

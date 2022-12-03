@@ -11,7 +11,7 @@ class ExamDetail:
     def getExamID(self):
         return self.__examID
     
-    def getPerfroemd(self):
+    def getPerformed(self):
         return self.__performedBy
     
     def getNotes(self):

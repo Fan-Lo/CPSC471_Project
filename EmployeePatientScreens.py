@@ -1,5 +1,6 @@
 from Employee import *
 from Patient import *
+from Invoice import *
 
 from kivy.uix.gridlayout import GridLayout
 from kivy.app import App
@@ -61,31 +62,33 @@ Builder.load_string("""
             text: 'Add Exam Detail'
             font_size: 20
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'AddExamDetail'
+            on_press: root.manager.current = 'Add Exam Detail'
 
         Button:
             text: 'Add Invoices'
             font_size: 20
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'AddInvoices'
-
+            on_press: root.manager.current = 'Add Invoices'
+ 
         Button:
             text: 'Add Insurance'
             font_size: 20
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'AddInsurance'
+            on_press: root.manager.current = 'Add Insurance'
 
         Button:
             text: 'View Patient Details'
             font_size: 20
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'ViewPatientDetails'
+            on_press: 
+                root.formatDetails()
+                root.manager.current = 'View Patient Details'
 
         Button:
             text: 'Create Referral Letter'
             font_size: 20
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'CreateReferralLetter'
+            on_press: root.manager.current = 'Create Referral Letter'
 
         Button:
             text: 'Back'
@@ -262,7 +265,7 @@ Builder.load_string("""
             text: 'Cancel'
             font_size: 20
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'Employee Page'
+            on_press: root.manager.current = 'Patient Screen'
 
         Button:
             text: 'Make Changes'
@@ -270,7 +273,7 @@ Builder.load_string("""
             background_color: 0, 0, 8, 0.5
             on_press: 
                 root.makeChanges()
-                root.manager.current = 'Employee Page'
+                root.manager.current = 'Patient Screen'
 
 <AddInvoice>:
     GridLayout:
@@ -296,45 +299,90 @@ Builder.load_string("""
         spacing: 20, 20 
         cols: 1
     
-    TextInput:
-        id: notes
-        multiline: True
-        size_hint: (1, 0.7)
-        font_size: 20
-        on_text: root.storeNotes(self.text)
+        TextInput:
+            id: notes
+            multiline: True
+            size_hint: (1, 0.7)
+            font_size: 20
+            on_text: root.storeNotes(self.text)
 
-    Button:
-        text: 'Add Exam Detail'
-        font_size: 20
-        background_color: 0, 0, 8, 0.5
-        on_press: 
-            root.addExamDetail()
-            root.manager.current = 'Patient Screen'
+        Button:
+            text: 'Add Exam Detail'
+            font_size: 20
+            background_color: 0, 0, 8, 0.5
+            on_press: 
+                root.addExamDetail()
+                root.manager.current = 'Patient Screen'
 
-    Button:
-        text: 'Cancel'
-        font_size: 20
-        background_color: 0, 0, 8, 0.5
-        on_press: root.manager.current = 'Patient Screen'
+        Button:
+            text: 'Cancel'
+            font_size: 20
+            background_color: 0, 0, 8, 0.5
+            on_press: root.manager.current = 'Patient Screen'
 
 <AddInsurance>:
     GridLayout:
         spacing: 20, 20
         cols: 1
+    
+        Label: 
+            text: 'Insurance Member ID: '
+            font_size: 30
+            color: "#000000"
 
-    Button:
-        text: 'Add Insurance'
-        font_size: 20
-        background_color: 0, 0, 8, 0.5
-        on_press: 
-            root.addInsurance()
-            root.manager.current = 'Patient Screen'
+        TextInput:
+            id: memberID
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            on_text: root.storeMemberID(self.text)
 
-    Button:
-        text: 'Cancel'
-        font_size: 20
-        background_color: 0, 0, 8, 0.5
-        on_press: root.manager.current = 'Patient Screen'   
+        Label:
+            text: 'Insurance Policy No.:    '
+            font_size: 30
+            color: "#000000"
+
+        TextInput:
+            id: policyNo
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            on_text: root.storePolicyNo(self.text)
+
+        Button:
+            text: 'Add Insurance'
+            font_size: 20
+            background_color: 0, 0, 8, 0.5
+            on_press: 
+                root.addInsurance()
+                root.manager.current = 'Patient Screen'
+
+        Button:
+            text: 'Cancel'
+            font_size: 20
+            background_color: 0, 0, 8, 0.5
+            on_press: root.manager.current = 'Patient Screen'   
+
+<ViewPatientDetails>:
+    patientDetails: patientDetails 
+    
+    GridLayout: 
+        cols: 1
+
+        Label: 
+            id: patientDetails 
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle'
+            font_size: 20
+            color: "#000000"
+
+        Button:
+            text: 'Back'
+            font_size: 20
+            background_color: 0, 0, 8, 0.5
+            on_press: root.manager.current = 'Patient Screen' 
+
 
 """)
 
@@ -398,10 +446,7 @@ class EditPatient(Screen):
         self.patient = Patient(self.AHC)
         self.patient.setName(self.n)
         self.patient.setSex(self.sex)  
-        self.patient.getAddress().setAddress(self.address)
-        self.patient.getAddress().setPostalCode(self.pCode)
-        self.patient.getAddress().setCity(self.city)
-        self.patient.getAddress().setCountry(self.country)      
+        self.patient.setAddress(self.address, self.city, self.country, self.pCode)
 
 class ChoosePatient(Screen):
     def storeAHC(self, a):
@@ -437,6 +482,44 @@ class PatientScreen(Screen):    #Comes from clicking button for existing patient
             
         app.root.get_screen('Edit Patient').phone.text = disp
 
+    def formatDetails(self):
+        self.AHC = app.root.get_screen('Choose Patient').AHC
+        self.patient = Patient(self.AHC)
+        self.name = self.patient.getName().getFullName()
+        self.sex = self.patient.getSex()
+        self.DOB = self.patient.getDOB()
+        self.address = self.patient.getAddress().getAddress()
+        self.pCode = self.patient.getAddress().getPostalCode()
+        self.city = self.patient.getAddress().getCity()
+        self.country = self.patient.getAddress().getCountry()
+        self.invoices = self.patient.getAllInvoices()
+        self.insurance = self.patient.getAllInsurances()
+        self.examDetail = self.patient.getAllExamDetails()
+
+        format = f"Details for {self.name} \n\tAHC: {self.AHC} \n\tSex: {self.sex} \n\tDate of Birth: {self.DOB} \n\tAddress: {self.address}, {self.pCode}, {self.city}, {self.country}"
+        format += "\nInvoices: "
+        i = 0
+        while(i < len(self.invoices)):
+            format += f"\n\tInvoice ID: {self.invoices[i].getInvoiceID()}\n"
+            i += 1
+
+        format += f"\nInsurance: "
+        i = 0
+        while(i < len(self.Insurance)):
+            format += f"\n\tInvoice ID: {self.insurance[i].getMemberID()}"
+            format += f"\n\tInvoice ID: {self.insurance[i].getPolicyNO()}\n"
+            i += 1
+
+        format += f"\nExam Details: "
+        i = 0
+        while(i < len(self.examDetail)):
+            format += f"\n\tDate: {self.examDetail[i].getDate()}"
+            format += f"\n\tPerformed By: {self.examDetail[i].getPerformed()}"
+            format += f"\n\tReferral Required: {self.examDetail[i].getReferralRequired()}"
+            format += f"\n\tNotes: {self.insurance[i].getNotes()}\n"
+            i += 1
+
+
 class AddInvoice(Screen):
     pass 
 
@@ -448,7 +531,15 @@ class AddExamDetail(Screen):
         self.patient = Patient()
 
 class AddInsurance(Screen):
-    pass 
+    def storeMemberID(self, m):
+        self.memberID = m
+
+    def storePolicyNo(self, p):
+        self.policyNo = p
+
+    def addInsurance(self):
+        self.AHC = app.root.get_screen('Choose Patient').AHC
+        self.insurance = Patient(self.AHC).addInsurance(self.memberID, self.policyNo)
 
 class ViewPatientDetails(Screen):
     pass 
