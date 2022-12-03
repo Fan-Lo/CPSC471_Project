@@ -1,7 +1,7 @@
 class ExamDetail:
     __performedBy = []
 
-    def __init__(self, id, notes, m, d, r=False):
+    def __init__(self, id, d, notes, m, r=False):
         self.__examID = id
         self.__notes = notes
         self.__performedBy = m
