@@ -2,10 +2,9 @@ from Products import Products
 from Services import Service 
 
 class Invoice:
-    def __init__(self, PATIENTSIN, INVOICEID, total):
-        self.__PATIENTSIN = PATIENTSIN
-        self.__INVOICEID = INVOICEID
-        self.__total = total
+    def __init__(self, invoiceID, invoiceDate):
+        self.__invoiceID = invoiceID
+        self.__invoiceDate = invoiceDate
         self.__contains = []
         self.__service = []
     
