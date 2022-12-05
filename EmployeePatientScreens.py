@@ -613,10 +613,8 @@ Builder.load_string("""
 
 <ViewPatientDetails>:
     patientDetails: patientDetails 
-    
     GridLayout: 
         cols: 1
-
         Label: 
             id: patientDetails 
             font_size: 20
@@ -629,6 +627,7 @@ Builder.load_string("""
             font_size: 20
             background_color: 0, 0, 8, 0.5
             on_press: root.manager.current = 'Patient Screen' 
+            
 """)
 
 class EditPatient(Screen):
