@@ -46,11 +46,9 @@ class Patient:
             invoices = self.database.performQuery(f"SELECT * FROM INVOICE WHERE PatAHC = {self.__ahcNum};")
             self.database.close()
             #parse attributes stored in INVOICE table
-            invoices = self.parsingDatabaseTuples(invoices,[0,1, 2, 3])
-            print(invoices)
+            invoices = self.parsingDatabaseTuples(invoices,[0, 1, 2, 3])
             for i in invoices:
-                print(i)
-                self.__invoice.append(Invoice(i[0], i[1], i[2], i[3]))
+                self.__invoice.append(Invoice(i[0], i[2]))
         return self.__invoice
 
     def getAllInsurances(self):
@@ -59,7 +57,7 @@ class Patient:
             insurances = self.database.performQuery(f"SELECT * FROM INSURANCE WHERE PatAHC = {self.__ahcNum};")
             self.database.close()
             #parse attributes stored in INSURANCE table
-            insurances = self.parsingDatabaseTuples(insurances,[0,2])
+            insurances = self.parsingDatabaseTuples(insurances,[0, 1])
 
             for i in insurances:
                 self.__insurance.append(Insurance(i[0],i[1]))
@@ -68,8 +66,9 @@ class Patient:
     def getAllExamDetails(self):
         if len(self.__examDetails) == 0:
             self.database = DatabaseConnect()
-            examDetails = self.database.performQuery(f"SELECT * FROM INSURANCE WHERE PatAHC = {self.__ahcNum};")
+            examDetails = self.database.performQuery(f"SELECT * FROM EXAM_DETAIL WHERE PatAHC = {self.__ahcNum};")
             self.database.close()
+            print(examDetails)
             #parse attributes stored in EXAM_DETAIL table
             examDetails = self.parsingDatabaseTuples(examDetails,[0,2,3,4])
             for i in examDetails:
@@ -270,50 +269,13 @@ class Patient:
             return
         for i in self.__insurance:
             if i.getPolicyNo() != policyNo and i.getMemberID() != memberID:
-                print("hello")
                 self.__insurance.append(Insurance(memberID, policyNo))
                 self.database = DatabaseConnect()
                 self.database.insert(f"INSERT INTO INSURANCE VALUES ('{policyNo}', '{memberID}', '{self.__name.getFullName()}','{self.__ahcNum}'); ")
                 self.database.close()
                 break
         
-if __name__ == '__main__':
-    patient = Patient('123456789')
-    AHC = patient.getAHC()
-    name = patient.getName().getFullName()
-    sex = patient.getSex()
-    DOB = patient.getDOB()
-    address = patient.getAddress().getAddress()
-    pCode = patient.getAddress().getPostalCode()
-    city = patient.getAddress().getCity()
-    country = patient.getAddress().getCountry()
-    invoices = patient.getAllInvoices()
-    insurance = patient.getAllInsurances()
-    examDetail = patient.getAllExamDetails()
-
-    format = f"Details for {name} \n\tAHC: {AHC} \n\tSex: {sex} \n\tDate of Birth: {DOB} \n\tAddress: {address}, {pCode}, {city}, {country}"
-    format += "\nInvoices: "
-    i = 0
-    while(i < len(invoices)):
-        format += f"\n\tInvoice ID: {invoices[i].getInvoiceID()}\n"
-        i += 1
-
-    format += f"\nInsurance: "
-    i = 0
-    while(i < len(Insurance)):
-        format += f"\n\tInvoice ID: {insurance[i].getMemberID()}"
-        format += f"\n\tInvoice ID: {insurance[i].getPolicyNO()}\n"
-        i += 1
-
-    format += f"\nExam Details: "
-    i = 0
-    while(i < len(examDetail)):
-        format += f"\n\tDate: {examDetail[i].getDate()}"
-        format += f"\n\tPerformed By: {examDetail[i].getPerformed()}"
-        format += f"\n\tReferral Required: {examDetail[i].getReferralRequired()}"
-        format += f"\n\tNotes: {examDetail[i].getNotes()}\n"
-        i += 1
-
+# if __name__ == '__main__':
     
     # px = Patient('123456789')
     # px.setName('Mike T Ann')
