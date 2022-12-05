@@ -1,3 +1,4 @@
+from datetime import datetime 
 from Products import Products
 from Services import Service 
 from DatabaseConnect import *
@@ -64,8 +65,9 @@ class Invoice:
     def getPatientSIN(self):
         return self.__PATIENTSIN
     
-    def getInvocieID(self):
+    def getInvoiceID(self):
         return self.__INVOICEID
+<<<<<<< HEAD
     
     def getProductIDFromName(self, p):
         self.database = DatabaseConnect()
@@ -74,3 +76,8 @@ class Invoice:
         return productID[0][0]
         
 
+=======
+
+    def getDate(self):
+        return self.INVOICEDATE.strftime('%Y-%m-%d')
+>>>>>>> ae6c343f26523e773a3d202afb16fb920470df22
