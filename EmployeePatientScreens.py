@@ -1,6 +1,7 @@
 from Employee import *
 from Patient import *
 from Invoice import *
+from ExamDetail import *
 
 from kivy.uix.gridlayout import GridLayout
 from kivy.app import App
@@ -742,6 +743,26 @@ Builder.load_string("""
                 root.makeChanges()
                 root.manager.current = 'Patient Home Page'
 
+<ViewExamDetail>:
+    message: message
+    GridLayout:
+        cols: 1
+
+        Label: 
+            id: message 
+            font_size: 20
+            color: "#000000"
+            text_size: self.size
+            halign: 'left'
+            valign: 'middle'
+
+        Button:
+            text: 'Back'
+            font_size: 20
+            background_color: 0, 0, 8, 0.5
+            on_press: root.manager.current = 'Patient Home Page'
+
+
 """)
 
 class EditPatient(Screen):
@@ -1026,6 +1047,10 @@ class ViewPatientDetails(Screen):
 class CreateReferralLetter(Screen):
     pass
 
+class ViewExamDetail(Screen):
+    pass
+
+
 class MobileApp(App):
     def build(self):
         self.sm = ScreenManager()
@@ -1034,6 +1059,7 @@ class MobileApp(App):
         self.sm.add_widget(EditPatient(name='Edit Patient'))
         self.sm.add_widget(EditPatientInfo(name='Edit Patient Info'))
         self.sm.add_widget(AddPatient(name='Add Patient'))
+        self.sm.add_widget(ViewExamDetail(name='View Exam Detail'))
         self.sm.add_widget(AddInvoice(name='Add Invoice'))
         self.sm.add_widget(AddExamDetail(name='Add Exam Detail'))
         self.sm.add_widget(AddInsurance(name='Add Insurance'))

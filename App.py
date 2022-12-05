@@ -206,7 +206,9 @@ Builder.load_string("""
             text: 'View Exam Detail'   
             font_size: 30
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'Choose Patient'
+            on_press: 
+                app.root.get_screen('View Exam Detail').message.text = root.getExamDetail()
+                root.manager.current = 'View Exam Detail'
 
         Button:
             text: 'Appointments'
@@ -326,6 +328,11 @@ class PatientHomePage(Screen):
         self.insurance = self.patient.getAllInsurances()
         self.examDetail = self.patient.getAllExamDetails()
 
+    def getExamDetail(self):
+        self.AHC = app.root.get_screen('Patient Login').username
+        self.allDetail = ExamDetail().viewExamDetail(self.AHC)
+        return self.allDetail
+
 class Error(Screen):
     pass
 
@@ -345,6 +352,7 @@ class MobileApp(App):
         self.sm.add_widget(DeletePAppointment(name='Delete PAppointment'))
         self.sm.add_widget(ViewAppointment(name='View Appointment'))
         self.sm.add_widget(ViewPAppointment(name='View PAppointment'))
+        self.sm.add_widget(ViewExamDetail(name='View Exam Detail'))
         self.sm.add_widget(EditEmployee(name='Edit Employee'))
         self.sm.add_widget(AddEmployee(name='Add Employee'))
         self.sm.add_widget(DeleteEmployee(name='Delete Employee'))

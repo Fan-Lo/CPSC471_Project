@@ -51,8 +51,8 @@ class Appointment:
             num = i+1
             format += 'Appointment ' + str(num) + ': \n'
             format += '     ' + 'Patient AHC: ' + self.appointments[i][0] + '\n'
-            self.patient = Patient(self.appointments[i][1])
-            format += '     ' + 'Employee Name: ' + self.patient.getName() + '\n'
+            self.employee = Employee(self.appointments[i][1])
+            format += '     ' + 'Employee Name: ' + self.employee.getName() + '\n'
             dt = self.appointments[i][2].strftime('%Y-%m-%d %I:%M')
             format += '     ' + 'Date and Time: ' + dt + '\n'
             i += 1
