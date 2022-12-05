@@ -4,21 +4,22 @@ from Services import Service
 from DatabaseConnect import *
 
 class Invoice:
-    def __init__(self, invoiceID, invoiceDate):
+    def __init__(self, invoiceID, invoiceDate,  fromDB=True):
+        
         self.__invoiceID = invoiceID
         self.__invoiceDate = invoiceDate
         self.__contains = []
         self.__service = []
         self.database = DatabaseConnect()
 
-        productIDs = self.database.performQuery(f"SELECT * FROM CONTAINS WHERE InvoiceID = {invoiceID}")
-        productIDs = self.parsingDatabaseTuples(productIDs, [0])
-        for i in productIDs:
-            product = self.database.performQuery(f"SELECT * FROM PRODUCTS WHERE ID = {i[0]};")
-            product = self.parsingDatabaseTuples(product,[1,2,3])
-            for j in product:
-                self.__contains.append(Products(j[0],j[1],j[2]))
-        
+        if fromDB:
+            productIDs = self.database.performQuery(f"SELECT * FROM CONTAINS WHERE InvoiceID = {invoiceID}")
+            productIDs = self.parsingDatabaseTuples(productIDs, [0])
+            for i in productIDs:
+                product = self.database.performQuery(f"SELECT * FROM PRODUCTS WHERE ID = {i[0]};")
+                product = self.parsingDatabaseTuples(product,[1,2,3])
+                for j in product:
+                    self.__contains.append(Products(j[0],j[1],j[2]))
 
         self.database.close()
 
@@ -44,10 +45,10 @@ class Invoice:
         return self.__contains
 
     def addProduct(self, p, pxAHC):
-        self.__contains.append(Products(p))
-        self.database = DatabaseConnect()
+        self.__contains.append(Products(p,self.getProductSupplierFromName(p),self.getProductCostFromName(p)))
         productID = self.getProductIDFromName(p)
-        self.database.performQuery(f"INSERT INTO CONTAINS VALUES ({productID}, {self.__invoiceID}, {pxAHC});")
+        self.database = DatabaseConnect()
+        self.database.insert(f"INSERT INTO CONTAIN VALUES ({productID}, {self.__invoiceID}, {pxAHC});")
         self.database.close()
 
 
@@ -56,7 +57,7 @@ class Invoice:
             if i.getName() == p:
                 self.__contains.remove(i)
                 self.database = DatabaseConnect()
-                self.database.performQuery.insert(f"DELETE FROM CONTAINS WHERE ProductID = {self.getProductIDFromName(p)} AND PatAHC = {pxAHC};")
+                self.database.insert(f"DELETE FROM CONTAINS WHERE ProductID = {self.getProductIDFromName(p)} AND PatAHC = {pxAHC};")
                 self.database.close()
 
     def addService(self, s):
@@ -76,4 +77,17 @@ class Invoice:
         productID = self.database.performQuery(f"SELECT ID FROM PRODUCTS WHERE PName = '{p}';")
         self.database.close()
         return productID[0][0]
+    
+    def getProductSupplierFromName(self, p):
+        self.database = DatabaseConnect()
+        productID = self.database.performQuery(f"SELECT Supplier FROM PRODUCTS WHERE PName = '{p}';")
+        self.database.close()
+        return productID[0][0]
+    
+    def getProductCostFromName(self, p):
+        self.database = DatabaseConnect()
+        productID = self.database.performQuery(f"SELECT cost FROM PRODUCTS WHERE PName = '{p}';")
+        self.database.close()
+        return productID[0][0]
         
+
