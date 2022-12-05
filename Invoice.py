@@ -62,11 +62,14 @@ class Invoice:
     def addService(self, s):
         self.__service.append(Service(s))
 
-    def getPatientSIN(self):
-        return self.__PATIENTSIN
+    # def getPatientSIN(self):
+    #     return self.__PATIENTSIN
     
     def getInvoiceID(self):
-        return self.__INVOICEID
+        return self.__invoiceID
+
+    def getDate(self):
+        return self.__invoiceDate.strftime('%Y-%m-%d')
     
     def getProductIDFromName(self, p):
         self.database = DatabaseConnect()

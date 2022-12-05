@@ -55,7 +55,7 @@ class Patient:
             insurances = self.database.performQuery(f"SELECT * FROM INSURANCE WHERE PatAHC = {self.__ahcNum};")
             self.database.close()
             #parse attributes stored in INSURANCE table
-            insurances = self.parsingDatabaseTuples(insurances,[0,2])
+            insurances = self.parsingDatabaseTuples(insurances,[0, 1])
 
             for i in insurances:
                 self.__insurance.append(Insurance(i[0],i[1]))
@@ -64,8 +64,9 @@ class Patient:
     def getAllExamDetails(self):
         if len(self.__examDetails) == 0:
             self.database = DatabaseConnect()
-            examDetails = self.database.performQuery(f"SELECT * FROM INSURANCE WHERE PatAHC = {self.__ahcNum};")
+            examDetails = self.database.performQuery(f"SELECT * FROM EXAM_DETAIL WHERE PatAHC = {self.__ahcNum};")
             self.database.close()
+            print(examDetails)
             #parse attributes stored in EXAM_DETAIL table
             examDetails = self.parsingDatabaseTuples(examDetails,[0,2,3,4])
             for i in examDetails:
@@ -274,16 +275,17 @@ class Patient:
             return
         for i in self.__insurance:
             if i.getPolicyNo() != policyNo and i.getMemberID() != memberID:
-                print("hello")
                 self.__insurance.append(Insurance(memberID, policyNo))
                 self.database = DatabaseConnect()
                 self.database.insert(f"INSERT INTO INSURANCE VALUES ('{policyNo}', '{memberID}', '{self.__name.getFullName()}','{self.__ahcNum}'); ")
                 self.database.close()
                 break
         
+
 if __name__ == '__main__':
     px = Patient('123456789')
-    px.addNewInvoice(200,"2022-10-12",["Advil","Tylenol"],[])
+    invoice = px.getInvoice(0)
+    invoice.removeProduct("Tylenol")
 
     # invoices = px.getAllInvoices()
     # for i in invoices:

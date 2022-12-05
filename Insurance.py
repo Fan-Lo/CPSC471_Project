@@ -1,5 +1,5 @@
 class Insurance:
-    def __init__(self, memberID, policyNo):
+    def __init__(self, policyNo, memberID):
         self.__MEMBERID = memberID
         self.__POLICYNO = policyNo
 

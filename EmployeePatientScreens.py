@@ -1,6 +1,7 @@
 from Employee import *
 from Patient import *
 from Invoice import *
+from datetime import date 
 
 from kivy.uix.gridlayout import GridLayout
 from kivy.app import App
@@ -8,6 +9,7 @@ from kivy.uix.label import Label
 from kivy.uix.image import Image
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
+from kivy.uix.checkbox import CheckBox
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
@@ -65,7 +67,7 @@ Builder.load_string("""
             on_press: root.manager.current = 'Add Exam Detail'
 
         Button:
-            text: 'Add Invoices'
+            text: 'Add Invoice'
             font_size: 20
             background_color: 0, 0, 8, 0.5
             on_press: root.manager.current = 'Add Invoice'
@@ -458,7 +460,73 @@ Builder.load_string("""
 <AddInvoice>:
     GridLayout:
         spacing: 20, 20
-        cols: 2
+        cols: 1
+
+        Label:
+            text: 'Date:    ' + root.getDate()
+            font_size: 30
+            color: "#000000"
+
+        Label:
+            text: 'Invoice ID:    ' + root.createID()
+            font_size: 30
+            color: "#000000"
+
+        Label:
+            text: 'Select Products: '
+            font_size: 30
+            color: "#000000"
+
+        Label:
+            text: "Tylenol"
+            font_size: 30
+            color: "#000000"
+        
+        CheckBox:
+            color:.294, .761, .623
+            on_active: root.checkbox_click(self, self.active, "Tylenol")
+            size_hint_x: .20
+        
+        Label:
+            text: "Advil"
+            font_size: 30
+            color: "#000000"
+        
+        CheckBox:
+            color:.294, .761, .623
+            on_active: root.checkbox_click(self, self.active, "Advil")
+            size_hint_x: .20
+
+        Label:
+            text: "IBProfen"
+            font_size: 30
+            color: "#000000"
+        
+        CheckBox:
+            color:.294, .761, .623
+            on_active: root.checkbox_click(self, self.active, "IBProfen")
+            size_hint_x: .20
+
+        Label:
+            text: "Aspirin"
+            font_size: 30
+            color: "#000000"
+        
+        CheckBox:
+            color:.294, .761, .623
+            on_active: root.checkbox_click(self, self.active, "Aspirin")
+            size_hint_x: .20
+
+        Label:
+            text: "Morphine"
+            font_size: 30
+            color: "#000000"
+        
+        CheckBox:
+            id: morphine
+            color:.294, .761, .623
+            on_active: root.checkbox_click(self, self.active, "Morphine")
+            size_hint_x: .20
 
         Button:
             text: 'Add Invoice'
@@ -551,197 +619,16 @@ Builder.load_string("""
 
         Label: 
             id: patientDetails 
-            text_size: self.size
-            halign: 'right'
-            valign: 'middle'
             font_size: 20
             color: "#000000"
 
         Button:
             text: 'Back'
+            size_hint_y: None
+            height: 100
             font_size: 20
             background_color: 0, 0, 8, 0.5
             on_press: root.manager.current = 'Patient Screen' 
-
-<EditPatientInfo>:
-    n: n 
-    sex: sex
-    ahc: ahc
-    dob: dob
-    phone: phone
-    address: address
-    pCode: pCode
-    city: city
-    country: country
-
-    GridLayout:
-        spacing: 20, 20
-        cols: 2
-
-        Label: 
-            text_size: self.size
-            halign: 'right'
-            valign: 'middle'
-            text: 'Name:    '
-            font_size: 20
-            color: "#000000"
-
-        TextInput:
-            id: n
-            multiline: False
-            size_hint: (1, 0.7)
-            font_size: 20
-            on_text: root.storeName(self.text)
-        
-        Label: 
-            text_size: self.size
-            halign: 'right'
-            valign: 'middle'
-            text: 'Sex: '
-            font_size: 20
-            color: "#000000"
-
-        TextInput:
-            id: sex
-            multiline: False
-            size_hint: (1, 0.7)
-            font_size: 20
-            text: 'Ex. F'
-            on_text: root.storeSex(self.text)
-
-        Label:
-            text_size: self.size
-            halign: 'right'
-            valign: 'middle' 
-            text: 'Alberta Health Card Number:  '
-            font_size: 20
-            color: "#000000"
-
-        TextInput:
-            id: ahc
-            multiline: False
-            size_hint: (1, 0.7)
-            font_size: 20
-            on_text: root.storeAHC(self.text)
-        
-        Label: 
-            text_size: self.size
-            halign: 'right'
-            valign: 'middle'        
-            text: 'Date of Birth:   '
-            font_size: 20
-            color: "#000000"
-
-        TextInput:
-            id: dob
-            multiline: False
-            size_hint: (1, 0.7)
-            font_size: 20
-            text: 'YYYY-MM-DD'
-            on_text: root.storeDOB(self.text)
-
-        Label: 
-            text_size: self.size
-            halign: 'right'
-            valign: 'middle'        
-            text: 'Phone Number:   '
-            font_size: 20
-            color: "#000000"
-
-        TextInput:
-            id: phone
-            multiline: False
-            size_hint: (1, 0.7)
-            font_size: 20
-            text: 'XXX-XXX-XXXX'
-            on_text: root.storePhone(self.text)
-
-        Button:
-            text: 'Add Phone'
-            font_size: 20
-            background_color: 0, 0, 8, 0.5
-            on_press: root.addPhone()
-
-        Button:
-            text: 'Remove Phone'
-            font_size: 20
-            background_color: 0, 0, 8, 0.5
-            on_press:root.removePhone()
-
-        Label:
-            text_size: self.size
-            halign: 'right'
-            valign: 'middle' 
-            text: 'Address: '
-            font_size: 20
-            color: "#000000"
-
-        TextInput:
-            id: address
-            multiline: False
-            size_hint: (1, 0.7)
-            font_size: 20
-            on_text: root.storeAddress(self.text)
-
-        Label: 
-            text_size: self.size
-            halign: 'right'
-            valign: 'middle'
-            text: 'Postal Code: '
-            font_size: 20
-            color: "#000000"
-
-        TextInput:
-            id: pCode
-            multiline: False
-            size_hint: (1, 0.7)
-            font_size: 20
-            on_text: root.storePostalCode(self.text)
-                
-        Label: 
-            text_size: self.size
-            halign: 'right'
-            valign: 'middle'
-            text: 'City:    '
-            font_size: 20
-            color: "#000000"
-
-        TextInput:
-            id: city
-            multiline: False
-            size_hint: (1, 0.7)
-            font_size: 20
-            on_text: root.storeCity(self.text)
-
-        Label: 
-            text_size: self.size
-            halign: 'right'
-            valign: 'middle'
-            text: 'Country: '
-            font_size: 20
-            color: "#000000"
-
-        TextInput:
-            id: country
-            multiline: False
-            size_hint: (1, 0.7)
-            font_size: 20
-            on_text: root.storeCountry(self.text)
-
-        Button:
-            text: 'Cancel'
-            font_size: 20
-            background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'Patient Home Page'
-
-        Button:
-            text: 'Make Changes'
-            font_size: 20
-            background_color: 0, 0, 8, 0.5
-            on_press: 
-                root.makeChanges()
-                root.manager.current = 'Patient Home Page'
-
 """)
 
 class EditPatient(Screen):
@@ -975,32 +862,54 @@ class PatientScreen(Screen):    #Comes from clicking button for existing patient
         self.insurance = self.patient.getAllInsurances()
         self.examDetail = self.patient.getAllExamDetails()
 
-        format = f"Details for {self.name} \n\tAHC: {self.AHC} \n\tSex: {self.sex} \n\tDate of Birth: {self.DOB} \n\tAddress: {self.address}, {self.pCode}, {self.city}, {self.country}"
-        format += "\nInvoices: "
+        format = f"Details for {self.name} \n    AHC: {self.AHC} \n    Sex: {self.sex} \n    Date of Birth: {self.DOB} \n    Address: {self.address}, {self.pCode}, {self.city}, {self.country}"
+        format += "\n\nInvoices: "
         i = 0
         while(i < len(self.invoices)):
-            format += f"\n\tInvoice ID: {self.invoices[i].getInvoiceID()}\n"
+            format += f"\n    Invoice ID: {self.invoices[i].getInvoiceID()}\n"
             i += 1
 
         format += f"\nInsurance: "
         i = 0
-        while(i < len(self.Insurance)):
-            format += f"\n\tInvoice ID: {self.insurance[i].getMemberID()}"
-            format += f"\n\tInvoice ID: {self.insurance[i].getPolicyNO()}\n"
+        while(i < len(self.insurance)):
+            format += f"\n    Member ID: {self.insurance[i].getMemberID()}"
+            format += f"\n    Policy No.: {self.insurance[i].getPolicyNO()}\n"
             i += 1
 
         format += f"\nExam Details: "
         i = 0
         while(i < len(self.examDetail)):
-            format += f"\n\tDate: {self.examDetail[i].getDate()}"
-            format += f"\n\tPerformed By: {self.examDetail[i].getPerformed()}"
-            format += f"\n\tReferral Required: {self.examDetail[i].getReferralRequired()}"
-            format += f"\n\tNotes: {self.insurance[i].getNotes()}\n"
+            format += f"\n    Date: {self.examDetail[i].getDate()}"
+            format += f"\n    Performed By: {self.examDetail[i].getPerformed()}"
+            format += f"\n    Referral Required: {self.examDetail[i].ReferralRequired()}"
+            format += f"\n    Notes: {self.examDetail[i].getNotes()}\n"
             i += 1
 
+        app.root.get_screen('View Patient Details').patientDetails.text = format
 
 class AddInvoice(Screen):
-    pass 
+    ID = 0
+    def getDate(self):
+        self.today = date.today()
+        self.products = []
+        return str(self.today.strftime("%Y-%b-%d"))
+    
+    def createID(self):
+        self.ID += 1
+        return str(self.ID)
+
+    def checkbox_click(self, instance, value, id):
+        if value is True:
+            self.products.append(id) 
+        else:
+            self.products.remove(id)
+
+        print(self.products)
+
+    def addInvoice(self):
+        self.AHC = app.root.get_screen('Choose Patient').AHC
+        self.addInvoice = Patient(self.AHC).addNewInvoice(self.ID, self.today, self.products)
+
 
 class AddExamDetail(Screen):
     def storeNotes(self, d):
