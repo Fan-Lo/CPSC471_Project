@@ -278,7 +278,12 @@ class Patient:
                 self.database.insert(f"INSERT INTO INSURANCE VALUES ('{policyNo}', '{memberID}', '{self.__name.getFullName()}','{self.__ahcNum}'); ")
                 self.database.close()
                 break
-        
+
+    def addExamDetail(self, examID, dates, notes, empSin):
+        self.__examDetails.append(ExamDetail(examID,dates,notes,empSin))
+        self.database = DatabaseConnect()
+        self.database.insert(f"INSERT INTO EXAM_DETAIL VALUES ('{examID}', '{self.__ahcNum}', '{dates}','{notes}','{empSin}'); ")
+        self.database.close()
 
 if __name__ == '__main__':
     px = Patient('123456789')
