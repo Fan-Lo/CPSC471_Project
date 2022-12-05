@@ -198,7 +198,9 @@ Builder.load_string("""
             text: 'Edit Personal Information'
             font_size: 30
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'Edit Patient'
+            on_press: 
+                root.formatEditPatient()
+                root.manager.current = 'Edit Patient Info'
 
         Button:
             text: 'View Exam Detail'   
@@ -210,7 +212,9 @@ Builder.load_string("""
             text: 'Appointments'
             font_size: 30
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'menu'
+            on_press: 
+                root.manager.current = 'PAppointment'
+                app.root.get_screen('PAppointment').AHC = app.root.get_screen('Patient Login').username
 
         Button:
             text: 'Logout'
@@ -287,6 +291,41 @@ class PatientHomePage(Screen):
         self.name = Patient(self.AHC).getName().getFullName()
         return 'Welcome ' + str(self.name) + '!'
 
+    def formatEditPatient(self):
+        self.AHC = app.root.get_screen('Patient Login').username
+        self.patient = Patient(self.AHC)
+        app.root.get_screen('Edit Patient Info').n.text = str(self.patient.getName().getFullName())
+        app.root.get_screen('Edit Patient Info').ahc.text = str(self.patient.getAHC())
+        app.root.get_screen('Edit Patient Info').sex.text = str(self.patient.getSex())
+        app.root.get_screen('Edit Patient Info').dob.text = str(self.patient.getDOB())
+        app.root.get_screen('Edit Patient Info').address.text = str(self.patient.getAddress().getAddress())
+        app.root.get_screen('Edit Patient Info').pCode.text = str(self.patient.getAddress().getPostalCode())
+        app.root.get_screen('Edit Patient Info').city.text = str(self.patient.getAddress().getCity())
+        app.root.get_screen('Edit Patient Info').country.text = str(self.patient.getAddress().getCountry())
+        phonelist = self.patient.getPatientPhone()
+        disp = ""
+        i = 0
+        while i < len(phonelist):
+            disp += phonelist[i].display()
+            disp += " "
+            i += 1
+            
+        app.root.get_screen('Edit Patient Info').phone.text = disp
+
+    def formatDetails(self):
+        self.AHC = app.root.get_screen('Patient Login').username
+        self.patient = Patient(self.AHC)
+        self.name = self.patient.getName().getFullName()
+        self.sex = self.patient.getSex()
+        self.DOB = self.patient.getDOB()
+        self.address = self.patient.getAddress().getAddress()
+        self.pCode = self.patient.getAddress().getPostalCode()
+        self.city = self.patient.getAddress().getCity()
+        self.country = self.patient.getAddress().getCountry()
+        self.invoices = self.patient.getAllInvoices()
+        self.insurance = self.patient.getAllInsurances()
+        self.examDetail = self.patient.getAllExamDetails()
+
 class Error(Screen):
     pass
 
@@ -300,15 +339,19 @@ class MobileApp(App):
         self.sm.add_widget(Error(name='Error'))
         self.sm.add_widget(PatientHomePage(name='Patient Home Page'))
         self.sm.add_widget(AppointmentScreen(name='Appointment'))
+        self.sm.add_widget(PAppointmentScreen(name='PAppointment'))
         self.sm.add_widget(CreateAppointment(name='Create Appointment'))
         self.sm.add_widget(DeleteAppointment(name='Delete Appointment'))
+        self.sm.add_widget(DeletePAppointment(name='Delete PAppointment'))
         self.sm.add_widget(ViewAppointment(name='View Appointment'))
+        self.sm.add_widget(ViewPAppointment(name='View PAppointment'))
         self.sm.add_widget(EditEmployee(name='Edit Employee'))
         self.sm.add_widget(AddEmployee(name='Add Employee'))
         self.sm.add_widget(DeleteEmployee(name='Delete Employee'))
         self.sm.add_widget(ChoosePatient(name = 'Choose Patient'))
         self.sm.add_widget(PatientScreen(name = 'Patient Screen'))
         self.sm.add_widget(EditPatient(name='Edit Patient'))
+        self.sm.add_widget(EditPatientInfo(name='Edit Patient Info'))
         self.sm.add_widget(AddInvoice(name='Add Invoice'))
         self.sm.add_widget(AddExamDetail(name='Add Exam Detail'))
         self.sm.add_widget(AddInsurance(name='Add Insurance'))

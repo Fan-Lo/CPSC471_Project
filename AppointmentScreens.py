@@ -200,11 +200,114 @@ Builder.load_string("""
             background_color: 0, 0, 8, 0.5
             on_press: root.manager.current = 'Appointment'
 
+<PAppointmentScreen>:
+    GridLayout:
+        cols: 1
+        spacing: 20, 20
+
+        Button:
+            text: 'Delete Appointment'   
+            font_size: 30
+            background_color: 0, 0, 8, 0.5
+            on_press: root.manager.current = 'Delete PAppointment'
+
+        Button:
+            text: 'View Appointment'
+            font_size: 30
+            background_color: 0, 0, 8, 0.5
+            on_press: 
+                app.root.get_screen('View PAppointment').message.text = root.getPAppointments()
+                root.manager.current = 'View PAppointment'
+
+        Button:
+            text: 'Back'
+            font_size: 30
+            background_color: 0, 0, 8, 0.5
+            on_press: root.manager.current = 'Patient Home Page'
+
+<DeletePAppointment>:
+    GridLayout:
+        cols: 1
+
+        Label: 
+            text: 'Enter Patient AHC'
+            font_size: 50
+            color: "#000000"
+        
+        TextInput:
+            id: AHC
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 30
+            on_text: root.storeAHC(self.text)
+
+        Label: 
+            text: 'Enter Time of Appointment'
+            font_size: 50
+            color: "#000000"
+        
+        TextInput:
+            id: time
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 30
+            on_text: root.storeTime(self.text)
+        
+        Label: 
+            text: 'Enter Date of Appointment'
+            font_size: 50
+            color: "#000000"
+        
+        TextInput:
+            id: date
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 30
+            on_text: root.storeDate(self.text)
+
+        Button:
+            text: 'Delete Appointment'
+            font_size: 30
+            background_color: 0, 0, 8, 0.5
+            on_press: 
+                root.deleteAppointment()
+                root.manager.current = 'PAppointment'
+
+        Button:
+            text: 'Cancel'
+            font_size: 30
+            background_color: 0, 0, 8, 0.5
+            on_press: root.manager.current = 'PAppointment'
+
+<ViewPAppointment>:
+    message: message
+    GridLayout:
+        cols: 1
+
+        Label: 
+            id: message 
+            font_size: 20
+            color: "#000000"
+            text_size: self.size
+            halign: 'left'
+            valign: 'middle'
+
+        Button:
+            text: 'Back'
+            font_size: 20
+            background_color: 0, 0, 8, 0.5
+            on_press: root.manager.current = 'PAppointment'
+
 """)
 
 class AppointmentScreen(Screen):
     def getAppointments(self):
         self.allAppointment = Appointment().viewAppointments(self.SIN)
+        return self.allAppointment
+
+class PAppointmentScreen(Screen):
+    def getPAppointments(self):
+        self.allAppointment = Appointment().viewPAppointments(self.AHC)
         return self.allAppointment
 
 class CreateAppointment(Screen):
@@ -236,7 +339,23 @@ class DeleteAppointment(Screen):
     def deleteAppointment(self):
         self.newAppointment = Appointment().deleteAppointment(self.AHC, self.date, self.time) 
 
+class DeletePAppointment(Screen):
+    def storeAHC(self, AHC):
+        self.AHC = AHC 
+
+    def storeDate(self, date):
+        self.date = date 
+
+    def storeTime(self, time):
+        self.time = time 
+
+    def deletePAppointment(self):
+        self.newAppointment = Appointment().deletePAppointment(self.AHC, self.date, self.time) 
+
 class ViewAppointment(Screen):
+    pass
+
+class ViewPAppointment(Screen):
     pass
 '''
 class MobileApp(App):
