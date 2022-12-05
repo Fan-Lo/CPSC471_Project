@@ -4,21 +4,22 @@ from Services import Service
 from DatabaseConnect import *
 
 class Invoice:
-    def __init__(self, invoiceID, invoiceDate):
+    def __init__(self, invoiceID, invoiceDate,  fromDB=True):
+        
         self.__invoiceID = invoiceID
         self.__invoiceDate = invoiceDate
         self.__contains = []
         self.__service = []
         self.database = DatabaseConnect()
 
-        productIDs = self.database.performQuery(f"SELECT * FROM CONTAINS WHERE InvoiceID = {invoiceID}")
-        productIDs = self.parsingDatabaseTuples(productIDs, [0])
-        for i in productIDs:
-            product = self.database.performQuery(f"SELECT * FROM PRODUCTS WHERE ID = {i[0]};")
-            product = self.parsingDatabaseTuples(product,[1,2,3])
-            for j in product:
-                self.__contains.append(Products(j[0],j[1],j[2]))
-        
+        if fromDB:
+            productIDs = self.database.performQuery(f"SELECT * FROM CONTAINS WHERE InvoiceID = {invoiceID}")
+            productIDs = self.parsingDatabaseTuples(productIDs, [0])
+            for i in productIDs:
+                product = self.database.performQuery(f"SELECT * FROM PRODUCTS WHERE ID = {i[0]};")
+                product = self.parsingDatabaseTuples(product,[1,2,3])
+                for j in product:
+                    self.__contains.append(Products(j[0],j[1],j[2]))
 
         self.database.close()
 
@@ -45,9 +46,9 @@ class Invoice:
 
     def addProduct(self, p, pxAHC):
         self.__contains.append(Products(p,self.getProductSupplierFromName(p),self.getProductCostFromName(p)))
-        self.database = DatabaseConnect()
         productID = self.getProductIDFromName(p)
-        self.database.performQuery(f"INSERT INTO CONTAINS VALUES ({productID}, {self.__invoiceID}, {pxAHC});")
+        self.database = DatabaseConnect()
+        self.database.insert(f"INSERT INTO CONTAIN VALUES ({productID}, {self.__invoiceID}, {pxAHC});")
         self.database.close()
 
 
