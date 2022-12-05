@@ -109,7 +109,7 @@ Builder.load_string("""
             text: 'Add Patient'
             font_size: 30
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'Edit Patient'
+            on_press: root.manager.current = 'Add Patient'
 
         Button:
             text: 'Edit Existing Patient'   
@@ -352,6 +352,7 @@ class MobileApp(App):
         self.sm.add_widget(PatientScreen(name = 'Patient Screen'))
         self.sm.add_widget(EditPatient(name='Edit Patient'))
         self.sm.add_widget(EditPatientInfo(name='Edit Patient Info'))
+        self.sm.add_widget(AddPatient(name='Add Patient'))
         self.sm.add_widget(AddInvoice(name='Add Invoice'))
         self.sm.add_widget(AddExamDetail(name='Add Exam Detail'))
         self.sm.add_widget(AddInsurance(name='Add Insurance'))

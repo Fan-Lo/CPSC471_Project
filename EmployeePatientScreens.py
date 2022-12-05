@@ -68,7 +68,7 @@ Builder.load_string("""
             text: 'Add Invoices'
             font_size: 20
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'Add Invoices'
+            on_press: root.manager.current = 'Add Invoice'
  
         Button:
             text: 'Add Insurance'
@@ -274,6 +274,186 @@ Builder.load_string("""
             on_press: 
                 root.makeChanges()
                 root.manager.current = 'Patient Screen'
+
+<AddPatient>:
+    n: n 
+    sex: sex
+    ahc: ahc
+    dob: dob
+    phone: phone
+    address: address
+    pCode: pCode
+    city: city
+    country: country
+
+    GridLayout:
+        spacing: 20, 20
+        cols: 2
+
+        Label: 
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle'
+            text: 'Name:    '
+            font_size: 20
+            color: "#000000"
+
+        TextInput:
+            id: n
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            on_text: root.storeName(self.text)
+        
+        Label: 
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle'
+            text: 'Sex: '
+            font_size: 20
+            color: "#000000"
+
+        TextInput:
+            id: sex
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            text: 'Ex. F'
+            on_text: root.storeSex(self.text)
+
+        Label:
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle' 
+            text: 'Alberta Health Card Number:  '
+            font_size: 20
+            color: "#000000"
+
+        TextInput:
+            id: ahc
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            on_text: root.storeAHC(self.text)
+        
+        Label: 
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle'        
+            text: 'Date of Birth:   '
+            font_size: 20
+            color: "#000000"
+
+        TextInput:
+            id: dob
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            text: 'YYYY-MM-DD'
+            on_text: root.storeDOB(self.text)
+
+        Label: 
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle'        
+            text: 'Phone Number:   '
+            font_size: 20
+            color: "#000000"
+
+        TextInput:
+            id: phone
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            text: 'XXX-XXX-XXXX'
+            on_text: root.storePhone(self.text)
+
+        Button:
+            text: 'Add Phone'
+            font_size: 20
+            background_color: 0, 0, 8, 0.5
+            on_press: root.addPhone()
+
+        Button:
+            text: 'Remove Phone'
+            font_size: 20
+            background_color: 0, 0, 8, 0.5
+            on_press:root.removePhone()
+
+        Label:
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle' 
+            text: 'Address: '
+            font_size: 20
+            color: "#000000"
+
+        TextInput:
+            id: address
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            on_text: root.storeAddress(self.text)
+
+        Label: 
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle'
+            text: 'Postal Code: '
+            font_size: 20
+            color: "#000000"
+
+        TextInput:
+            id: pCode
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            on_text: root.storePostalCode(self.text)
+                
+        Label: 
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle'
+            text: 'City:    '
+            font_size: 20
+            color: "#000000"
+
+        TextInput:
+            id: city
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            on_text: root.storeCity(self.text)
+
+        Label: 
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle'
+            text: 'Country: '
+            font_size: 20
+            color: "#000000"
+
+        TextInput:
+            id: country
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            on_text: root.storeCountry(self.text)
+
+        Button:
+            text: 'Cancel'
+            font_size: 20
+            background_color: 0, 0, 8, 0.5
+            on_press: root.manager.current = 'Employee Page'
+
+        Button:
+            text: 'Make Changes'
+            font_size: 20
+            background_color: 0, 0, 8, 0.5
+            on_press: 
+                root.makeChanges()
+                root.manager.current = 'Patient Screen'
+
 
 <AddInvoice>:
     GridLayout:
@@ -686,6 +866,67 @@ class EditPatientInfo(Screen):
         self.patient.setSex(self.sex)  
         self.patient.setAddress(self.address, self.city, self.country, self.pCode)
 
+class AddPatient(Screen):
+    def storeName(self, n = None):
+        self.n = n
+    
+    def storeAHC(self, a = None):
+        self.AHC = a
+
+    def storeDOB(self, d = None):
+        self.DOB = d
+
+    def storePhone(self, p = None):
+        self.phone = p
+    
+    def storeSex(self, s = None):
+        self.sex = s
+
+    def storeAddress(self, a = None):
+        self.address = a
+
+    def storePostalCode(self, p = None):
+        self.pCode = p
+
+    def storeCity(self, c = None):
+        self.city = c
+
+    def storeCountry(self, c = None):
+        self.country = c
+    
+    def addPhone(self):
+        self.exists = Patient().searchPatient(self.AHC)
+        if (self.exists == False):
+            return
+        if(self.phone != None):
+            self.addPhone = Patient(self.AHC).addPatientPhone(self.phone)
+
+    def removePhone(self):
+        self.exists = Patient().searchPatient(self.AHC)
+        if (self.exists == False):
+            return
+        if (self.phone != None):
+            self.removePhone = Patient(self.AHC).removePhoneNumber(self.phone)
+
+    def makeChanges(self):
+        #if patient doesn't exist then create new patient
+        self.exists = Patient().searchPatient(self.AHC)
+        
+        if(self.exists == False):
+            self.patient = Patient().addPatient(self.AHC, self.sex, self.DOB, self.n, self.address, self.city, self.country, self.pCode)
+            if(self.phone != None):
+                self.patient.addPatientPhone(self.phone)
+            return
+
+        #first check if patient SIN already exists in database
+        #if it does exist then make changes to that patient and make changes only to things the user has changed
+        # AHC can nver change once it has been set (No reason why it should ever change)
+
+        self.patient = Patient(self.AHC)
+        self.patient.setName(self.n)
+        self.patient.setSex(self.sex)  
+        self.patient.setAddress(self.address, self.city, self.country, self.pCode)
+
 class ChoosePatient(Screen):
     def storeAHC(self, a):
         self.AHC = a
@@ -792,6 +1033,7 @@ class MobileApp(App):
         self.sm.add_widget(PatientScreen(name = 'Patient Screen'))
         self.sm.add_widget(EditPatient(name='Edit Patient'))
         self.sm.add_widget(EditPatientInfo(name='Edit Patient Info'))
+        self.sm.add_widget(AddPatient(name='Add Patient'))
         self.sm.add_widget(AddInvoice(name='Add Invoice'))
         self.sm.add_widget(AddExamDetail(name='Add Exam Detail'))
         self.sm.add_widget(AddInsurance(name='Add Insurance'))
