@@ -94,6 +94,8 @@ CREATE TABLE INVOICE (
 	FOREIGN KEY(PatAHC) references PATIENT(AHC) ON DELETE CASCADE
 );
 
+
+
 DROP TABLE IF EXISTS EXAM_DETAIL;
 CREATE TABLE EXAM_DETAIL (
 	ExamID 	int(5) AUTO_INCREMENT,
@@ -178,10 +180,10 @@ CREATE TABLE WRITES
   
 DROP TABLE IF EXISTS PRODUCTS;   
 CREATE TABLE PRODUCTS (
-	ID			int(7) not null,
+	ID			int(7),
 	PName		varchar(20),
 	Supplier 	varchar(25),
-    
+    cost		decimal(15,2),
     PRIMARY KEY(ID)
 );
 
