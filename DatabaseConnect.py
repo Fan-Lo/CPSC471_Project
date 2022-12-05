@@ -7,7 +7,7 @@ class DatabaseConnect:
         # u = input("Enter Database Username: ")
 
         try:
-            self.connection = mysql.connector.connect(user ='root', password = 'ajoke0306', host='127.0.0.1', database='471')
+            self.connection = mysql.connector.connect(user ='CPSC', password = '471', host='127.0.0.1', database='471')
 
         except mysql.connector.Error as error:
             print("Failed to create table in MySQL: {}".format(error))

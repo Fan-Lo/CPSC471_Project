@@ -44,17 +44,9 @@ class Patient:
             invoices = self.database.performQuery(f"SELECT * FROM INVOICE WHERE PatAHC = {self.__ahcNum};")
             self.database.close()
             #parse attributes stored in INVOICE table
-<<<<<<< HEAD
             invoices = self.parsingDatabaseTuples(invoices,[0,2])
             for i in invoices:
                 self.__invoice.append(Invoice(i[0], i[1]))
-=======
-            invoices = self.parsingDatabaseTuples(invoices,[0,1, 2, 3])
-            print(invoices)
-            for i in invoices:
-                print(i)
-                self.__invoice.append(Invoice(i[0], i[1], i[2], i[3]))
->>>>>>> ae6c343f26523e773a3d202afb16fb920470df22
         return self.__invoice
 
     def getAllInsurances(self):
@@ -180,9 +172,10 @@ class Patient:
         (f"INSERT INTO INVOICE VALUES ({invoiceID}, {self.__ahcNum}, {invoiceDate})")
         for i in products:
             #addProduct adds it to the database too
-            newInvoice.addProduct(i)
+            newInvoice.addProduct(i, self.__ahcNum)
 
         self.__invoice.append(newInvoice)
+        self.database.close()
 
     def getName(self):
         return self.__name
@@ -269,7 +262,7 @@ class Patient:
             if AHC in self.AHC[i]:
                 return True
             i += 1
-
+        self.database.close()
         return False
 
     def addInsurance(self, memberID, policyNo):
@@ -289,10 +282,8 @@ class Patient:
                 break
         
 if __name__ == '__main__':
-<<<<<<< HEAD
     px = Patient('123456789')
-    invoice = px.getInvoice(0)
-    invoice.removeProduct("Tylenol")
+    px.addNewInvoice(200,"2022-10-12",["Advil","Tylenol"],[])
 
     # invoices = px.getAllInvoices()
     # for i in invoices:
@@ -300,46 +291,6 @@ if __name__ == '__main__':
     #     for j in products:
     #         print(j.getName())
     #     print(i.calculateTotal())
-=======
-    patient = Patient('123456789')
-    AHC = patient.getAHC()
-    name = patient.getName().getFullName()
-    sex = patient.getSex()
-    DOB = patient.getDOB()
-    address = patient.getAddress().getAddress()
-    pCode = patient.getAddress().getPostalCode()
-    city = patient.getAddress().getCity()
-    country = patient.getAddress().getCountry()
-    invoices = patient.getAllInvoices()
-    insurance = patient.getAllInsurances()
-    examDetail = patient.getAllExamDetails()
-
-    format = f"Details for {name} \n\tAHC: {AHC} \n\tSex: {sex} \n\tDate of Birth: {DOB} \n\tAddress: {address}, {pCode}, {city}, {country}"
-    format += "\nInvoices: "
-    i = 0
-    while(i < len(invoices)):
-        format += f"\n\tInvoice ID: {invoices[i].getInvoiceID()}\n"
-        i += 1
-
-    format += f"\nInsurance: "
-    i = 0
-    while(i < len(Insurance)):
-        format += f"\n\tInvoice ID: {insurance[i].getMemberID()}"
-        format += f"\n\tInvoice ID: {insurance[i].getPolicyNO()}\n"
-        i += 1
-
-    format += f"\nExam Details: "
-    i = 0
-    while(i < len(examDetail)):
-        format += f"\n\tDate: {examDetail[i].getDate()}"
-        format += f"\n\tPerformed By: {examDetail[i].getPerformed()}"
-        format += f"\n\tReferral Required: {examDetail[i].getReferralRequired()}"
-        format += f"\n\tNotes: {examDetail[i].getNotes()}\n"
-        i += 1
-
-    
-    # px = Patient('123456789')
->>>>>>> ae6c343f26523e773a3d202afb16fb920470df22
     # px.setName('Mike T Ann')
     # px.setDOB('1996-08-09')
     # px.setSex('f')
