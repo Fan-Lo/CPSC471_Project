@@ -61,12 +61,6 @@ Builder.load_string("""
                 root.manager.current = 'Edit Patient'
 
         Button:
-            text: 'Add Exam Detail'
-            font_size: 20
-            background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'Add Exam Detail'
-
-        Button:
             text: 'Add Invoice'
             font_size: 20
             background_color: 0, 0, 8, 0.5
@@ -85,12 +79,6 @@ Builder.load_string("""
             on_press: 
                 root.formatDetails()
                 root.manager.current = 'View Patient Details'
-
-        Button:
-            text: 'Create Referral Letter'
-            font_size: 20
-            background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'Create Referral Letter'
 
         Button:
             text: 'Back'
@@ -542,32 +530,6 @@ Builder.load_string("""
             background_color: 0, 0, 8, 0.5
             on_press: root.manager.current = 'Patient Screen'
 
-<AddExamDetail>:
-    GridLayout:
-        spacing: 20, 20 
-        cols: 1
-    
-        TextInput:
-            id: notes
-            multiline: True
-            size_hint: (1, 0.7)
-            font_size: 20
-            on_text: root.storeNotes(self.text)
-
-        Button:
-            text: 'Add Exam Detail'
-            font_size: 20
-            background_color: 0, 0, 8, 0.5
-            on_press: 
-                root.addExamDetail()
-                root.manager.current = 'Patient Screen'
-
-        Button:
-            text: 'Cancel'
-            font_size: 20
-            background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'Patient Screen'
-
 <AddInsurance>:
     GridLayout:
         spacing: 20, 20
@@ -613,10 +575,8 @@ Builder.load_string("""
 
 <ViewPatientDetails>:
     patientDetails: patientDetails 
-    
     GridLayout: 
         cols: 1
-
         Label: 
             id: patientDetails 
             font_size: 20
@@ -629,6 +589,7 @@ Builder.load_string("""
             font_size: 20
             background_color: 0, 0, 8, 0.5
             on_press: root.manager.current = 'Patient Screen' 
+
 """)
 
 class EditPatient(Screen):
@@ -911,12 +872,12 @@ class AddInvoice(Screen):
         self.addInvoice = Patient(self.AHC).addNewInvoice(self.ID, self.today, self.products)
 
 
-class AddExamDetail(Screen):
-    def storeNotes(self, d):
-        self.notes = d
+# class AddExamDetail(Screen):
+#     def storeNotes(self, d):
+#         self.notes = d
 
-    def addExamDetail(self):
-        self.patient = Patient()
+#     def addExamDetail(self):
+#         self.patient = Patient()
 
 class AddInsurance(Screen):
     def storeMemberID(self, m):
@@ -932,8 +893,8 @@ class AddInsurance(Screen):
 class ViewPatientDetails(Screen):
     pass 
 
-class CreateReferralLetter(Screen):
-    pass
+# class CreateReferralLetter(Screen):
+#     pass
 
 class MobileApp(App):
     def build(self):
@@ -944,10 +905,10 @@ class MobileApp(App):
         self.sm.add_widget(EditPatientInfo(name='Edit Patient Info'))
         self.sm.add_widget(AddPatient(name='Add Patient'))
         self.sm.add_widget(AddInvoice(name='Add Invoice'))
-        self.sm.add_widget(AddExamDetail(name='Add Exam Detail'))
+        # self.sm.add_widget(AddExamDetail(name='Add Exam Detail'))
         self.sm.add_widget(AddInsurance(name='Add Insurance'))
         self.sm.add_widget(ViewPatientDetails(name='View Patient Details'))
-        self.sm.add_widget(CreateReferralLetter(name='Create Referral Letter'))
+        # self.sm.add_widget(CreateReferralLetter(name='Create Referral Letter'))
 
         return self.sm
         
