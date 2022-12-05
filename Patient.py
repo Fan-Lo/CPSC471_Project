@@ -26,8 +26,6 @@ class Patient:
         self.__insurance = []
         self.__examDetails = []
 
-
-
         #parse attributes stored in PATIENT Table
         self.parsePxInfo(pxInfo)
 
