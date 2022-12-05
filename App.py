@@ -354,10 +354,10 @@ class MobileApp(App):
         self.sm.add_widget(EditPatientInfo(name='Edit Patient Info'))
         self.sm.add_widget(AddPatient(name='Add Patient'))
         self.sm.add_widget(AddInvoice(name='Add Invoice'))
-        self.sm.add_widget(AddExamDetail(name='Add Exam Detail'))
+        # self.sm.add_widget(AddExamDetail(name='Add Exam Detail'))
         self.sm.add_widget(AddInsurance(name='Add Insurance'))
         self.sm.add_widget(ViewPatientDetails(name='View Patient Details'))
-        self.sm.add_widget(CreateReferralLetter(name='Create Referral Letter'))
+        # self.sm.add_widget(CreateReferralLetter(name='Create Referral Letter'))
 
         return self.sm
         
