@@ -57,4 +57,25 @@ SELECT * FROM EXAM_DETAIL;
 
 INSERT INTO INVOICE
 VALUES ('100','123456789','2002-05-17');
+
+INSERT INTO PRODUCTS(ID,PName, Supplier, cost)
+VALUES 
+ (1, 'Tylenol', 'Tylenol', '20.00'),
+ (2, 'Advil', 'Advil', '19.65'),
+ (3, 'IBProfen', 'IBProfen', '7.89'),
+ (4, 'Aspirin', 'Aspirin', '9.87'),
+ (5, 'Morphine', 'Morphine', '7.34');
+
+INSERT INTO CONTAINS(ProductID, InvoiceID, PatAHC)
+VALUES ('01','100','123456789');
+INSERT INTO CONTAINS(ProductID, InvoiceID, PatAHC)
+VALUES ('02','100','123456789');
+
 SELECT * FROM INVOICE;
+SELECT * FROM PRODUCTS;
+SELECT * FROM CONTAINS;
+SELECT * FROM INSURANCE;
+SELECT ID FROM PRODUCTS WHERE PName = "Tylenol";
+
+
+

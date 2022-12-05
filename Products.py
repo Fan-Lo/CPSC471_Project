@@ -1,10 +1,9 @@
 
 class Products:
-    def __init__(self, names, Supplier, cost, amountInStock):
+    def __init__(self, names, Supplier, cost):
         self.__names = names
         self.__Supplier = Supplier
         self.__cost = cost
-        self.__amountInStock = amountInStock
 
     def getName(self):
         return self.__names
@@ -21,5 +20,3 @@ class Products:
     def setCost(self, c):
         self.__cost = c
 
-    def getAmountInStock(self):
-        return self.__amountInStock
