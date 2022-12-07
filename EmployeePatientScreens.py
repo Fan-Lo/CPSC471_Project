@@ -1,6 +1,7 @@
 from Employee import *
 from Patient import *
 from Invoice import *
+# from App import *
 from datetime import date 
 
 from kivy.uix.gridlayout import GridLayout
@@ -896,22 +897,22 @@ class ViewPatientDetails(Screen):
 # class CreateReferralLetter(Screen):
 #     pass
 
-class MobileApp(App):
-    def build(self):
-        self.sm = ScreenManager()
-        self.sm.add_widget(ChoosePatient(name = 'Choose Patient'))
-        self.sm.add_widget(PatientScreen(name = 'Patient Screen'))
-        self.sm.add_widget(EditPatient(name='Edit Patient'))
-        self.sm.add_widget(EditPatientInfo(name='Edit Patient Info'))
-        self.sm.add_widget(AddPatient(name='Add Patient'))
-        self.sm.add_widget(AddInvoice(name='Add Invoice'))
-        # self.sm.add_widget(AddExamDetail(name='Add Exam Detail'))
-        self.sm.add_widget(AddInsurance(name='Add Insurance'))
-        self.sm.add_widget(ViewPatientDetails(name='View Patient Details'))
-        # self.sm.add_widget(CreateReferralLetter(name='Create Referral Letter'))
+# class MobileApp(App):
+#     def build(self):
+#         self.sm = ScreenManager()
+#         self.sm.add_widget(ChoosePatient(name = 'Choose Patient'))
+#         self.sm.add_widget(PatientScreen(name = 'Patient Screen'))
+#         self.sm.add_widget(EditPatient(name='Edit Patient'))
+#         self.sm.add_widget(EditPatientInfo(name='Edit Patient Info'))
+#         self.sm.add_widget(AddPatient(name='Add Patient'))
+#         self.sm.add_widget(AddInvoice(name='Add Invoice'))
+#         # self.sm.add_widget(AddExamDetail(name='Add Exam Detail'))
+#         self.sm.add_widget(AddInsurance(name='Add Insurance'))
+#         self.sm.add_widget(ViewPatientDetails(name='View Patient Details'))
+#         # self.sm.add_widget(CreateReferralLetter(name='Create Referral Letter'))
 
-        return self.sm
+#         return self.sm
         
-if __name__ == "__main__":
-    app = MobileApp()
-    app.run()
+# if __name__ == "__main__":
+#     app = MobileApp()
+#     app.run()

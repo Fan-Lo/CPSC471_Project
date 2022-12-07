@@ -13,7 +13,7 @@ class Invoice:
         self.database = DatabaseConnect()
 
         if fromDB:
-            productIDs = self.database.performQuery(f"SELECT * FROM CONTAINS WHERE InvoiceID = {invoiceID}")
+            productIDs = self.database.performQuery(f"SELECT * FROM CONTAIN WHERE InvoiceID = {invoiceID}")
             productIDs = self.parsingDatabaseTuples(productIDs, [0])
             for i in productIDs:
                 product = self.database.performQuery(f"SELECT * FROM PRODUCTS WHERE ID = {i[0]};")
@@ -57,7 +57,7 @@ class Invoice:
             if i.getName() == p:
                 self.__contains.remove(i)
                 self.database = DatabaseConnect()
-                self.database.insert(f"DELETE FROM CONTAINS WHERE ProductID = {self.getProductIDFromName(p)} AND PatAHC = {pxAHC};")
+                self.database.insert(f"DELETE FROM CONTAIN WHERE ProductID = {self.getProductIDFromName(p)} AND PatAHC = {pxAHC};")
                 self.database.close()
 
     def addService(self, s):
