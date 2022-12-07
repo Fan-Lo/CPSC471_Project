@@ -1202,6 +1202,7 @@ class EditPatientInfo(Screen):
 
         self.patient = Patient(self.AHC)
         self.patient.setName(self.n)
+        self.patient.setDOB(self.DOB)
         self.patient.setSex(self.sex)  
         self.patient.setAddress(self.address, self.city, self.country, self.pCode)
 

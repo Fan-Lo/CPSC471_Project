@@ -182,10 +182,10 @@ class Patient:
     
     def setDOB(self, date):
         self.__DOB = date
-        dt = datetime.strptime(date,'%Y-%m-%d')
+        dt = datetime.datetime.strptime(date,'%Y-%m-%d')
         self.database = DatabaseConnect()
         self.database.insert(
-            f"UPDATE PATIENT SET DOB = '{dt}' WHERE AHC = {self.__ahcNum}; ")
+            f"UPDATE PATIENT SET DOB = '{dt}' WHERE AHC = '{self.__ahcNum}';")
         self.database.close()
     
     def getDOB(self):
