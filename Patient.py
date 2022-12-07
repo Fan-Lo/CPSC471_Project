@@ -1,5 +1,6 @@
 from PhoneNumber import PhoneNumber
-from datetime import datetime, date
+from datetime import date
+from datetime import datetime
 from DatabaseConnect import *
 from Name import *
 from Address import *
@@ -78,7 +79,7 @@ class Patient:
         # simple attributes
         self.__ahcNum = AHC
         self.__sex = sex
-        self.__DOB = datetime.strptime(DOB, '%Y-%m-%d')
+        self.__DOB = datetime.datetime.strptime(DOB, '%Y-%m-%d')
         if HeadAHC != None:
             self.__headAHC = HeadAHC
         else:
@@ -285,9 +286,11 @@ class Patient:
         self.database.insert(f"INSERT INTO EXAM_DETAIL VALUES ('{examID}', '{self.__ahcNum}', '{dates}','{notes}','{empSin}'); ")
         self.database.close()
 
-if __name__ == '__main__':
-    px = Patient('123456789')
-    px.addNewInvoice(200,"2022-10-10",["Morphine"],[])
+# if __name__ == '__main__':
+#     px = Patient()
+#     px.addPatient(222222222,'f','1996-06-06','Test m Test','111 Test Rd','TestCity','Canada','T1T0T0')
+    # px = Patient('123456789')
+    # px.addNewInvoice(200,"2022-10-10",["Morphine"],[])
     # invoice = px.getInvoice(0)
     # invoice.removeProduct("Tylenol",px.getAHC())
 

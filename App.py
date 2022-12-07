@@ -203,13 +203,13 @@ Builder.load_string("""
             on_press: 
                 root.formatEditPatient()
                 root.manager.current = 'Edit Patient Info'
-
         Button:
             text: 'View Exam Detail'   
             font_size: 30
             background_color: 0, 0, 8, 0.5
-            on_press: root.manager.current = 'Choose Patient'
-
+            on_press: 
+                app.root.get_screen('View Exam Detail').message.text = root.getExamDetail()
+                root.manager.current = 'View Exam Detail'
         Button:
             text: 'Appointments'
             font_size: 30
@@ -217,12 +217,12 @@ Builder.load_string("""
             on_press: 
                 root.manager.current = 'PAppointment'
                 app.root.get_screen('PAppointment').AHC = app.root.get_screen('Patient Login').username
-
         Button:
             text: 'Logout'
             font_size: 30
             background_color: 0, 0, 8, 0.5
             on_press: root.manager.current = 'menu'
+
 
 <ChoosePatient>:
     GridLayout: 
@@ -796,6 +796,182 @@ Builder.load_string("""
             background_color: 0, 0, 8, 0.5
             on_press: root.manager.current = 'Patient Screen' 
 
+<EditPatientInfo>:
+    n: n 
+    sex: sex
+    ahc: ahc
+    dob: dob
+    phone: phone
+    address: address
+    pCode: pCode
+    city: city
+    country: country
+    GridLayout:
+        spacing: 20, 20
+        cols: 2
+        Label: 
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle'
+            text: 'Name:    '
+            font_size: 20
+            color: "#000000"
+        TextInput:
+            id: n
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            on_text: root.storeName(self.text)
+        
+        Label: 
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle'
+            text: 'Sex: '
+            font_size: 20
+            color: "#000000"
+        TextInput:
+            id: sex
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            text: 'Ex. F'
+            on_text: root.storeSex(self.text)
+        Label:
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle' 
+            text: 'Alberta Health Card Number:  '
+            font_size: 20
+            color: "#000000"
+        TextInput:
+            id: ahc
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            on_text: root.storeAHC(self.text)
+        
+        Label: 
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle'        
+            text: 'Date of Birth:   '
+            font_size: 20
+            color: "#000000"
+        TextInput:
+            id: dob
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            text: 'YYYY-MM-DD'
+            on_text: root.storeDOB(self.text)
+        Label: 
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle'        
+            text: 'Phone Number:   '
+            font_size: 20
+            color: "#000000"
+        TextInput:
+            id: phone
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            text: 'XXX-XXX-XXXX'
+            on_text: root.storePhone(self.text)
+        Button:
+            text: 'Add Phone'
+            font_size: 20
+            background_color: 0, 0, 8, 0.5
+            on_press: root.addPhone()
+        Button:
+            text: 'Remove Phone'
+            font_size: 20
+            background_color: 0, 0, 8, 0.5
+            on_press:root.removePhone()
+        Label:
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle' 
+            text: 'Address: '
+            font_size: 20
+            color: "#000000"
+        TextInput:
+            id: address
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            on_text: root.storeAddress(self.text)
+        Label: 
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle'
+            text: 'Postal Code: '
+            font_size: 20
+            color: "#000000"
+        TextInput:
+            id: pCode
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            on_text: root.storePostalCode(self.text)
+                
+        Label: 
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle'
+            text: 'City:    '
+            font_size: 20
+            color: "#000000"
+        TextInput:
+            id: city
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            on_text: root.storeCity(self.text)
+        Label: 
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle'
+            text: 'Country: '
+            font_size: 20
+            color: "#000000"
+        TextInput:
+            id: country
+            multiline: False
+            size_hint: (1, 0.7)
+            font_size: 20
+            on_text: root.storeCountry(self.text)
+        Button:
+            text: 'Cancel'
+            font_size: 20
+            background_color: 0, 0, 8, 0.5
+            on_press: root.manager.current = 'Patient Home Page'
+        Button:
+            text: 'Make Changes'
+            font_size: 20
+            background_color: 0, 0, 8, 0.5
+            on_press: 
+                root.makeChanges()
+                root.manager.current = 'Patient Home Page'
+
+<ViewExamDetail>:
+    message: message
+    GridLayout:
+        cols: 1
+        Label: 
+            id: message 
+            font_size: 20
+            color: "#000000"
+            text_size: self.size
+            halign: 'left'
+            valign: 'middle'
+        Button:
+            text: 'Back'
+            font_size: 20
+            background_color: 0, 0, 8, 0.5
+            on_press: root.manager.current = 'Patient Home Page'
+
 <Error>:
     GridLayout:
         cols: 1     
@@ -899,6 +1075,11 @@ class PatientHomePage(Screen):
         self.invoices = self.patient.getAllInvoices()
         self.insurance = self.patient.getAllInsurances()
         self.examDetail = self.patient.getAllExamDetails()
+
+    def getExamDetail(self):
+        self.AHC = app.root.get_screen('Patient Login').username
+        self.allDetail = ExamDetail().viewExamDetail(self.AHC)
+        return self.allDetail
 
 class EditPatient(Screen):
     def storeName(self, n = None):
@@ -1182,13 +1363,12 @@ class AddInvoice(Screen):
         self.AHC = app.root.get_screen('Choose Patient').AHC
         self.addInvoice = Patient(self.AHC).addNewInvoice(self.ID, self.today, self.products)
 
+class AddExamDetail(Screen):
+    def storeNotes(self, d):
+        self.notes = d
 
-# class AddExamDetail(Screen):
-#     def storeNotes(self, d):
-#         self.notes = d
-
-#     def addExamDetail(self):
-#         self.patient = Patient()
+    def addExamDetail(self):
+        self.patient = Patient()
 
 class AddInsurance(Screen):
     def storeMemberID(self, m):
@@ -1203,6 +1383,9 @@ class AddInsurance(Screen):
 
 class ViewPatientDetails(Screen):
     pass 
+
+class ViewExamDetail(Screen):
+    pass
 
 class Error(Screen):
     pass
@@ -1236,6 +1419,7 @@ class MobileApp(App):
         self.sm.add_widget(AddInsurance(name='Add Insurance'))
         self.sm.add_widget(ViewPatientDetails(name='View Patient Details'))
         # self.sm.add_widget(CreateReferralLetter(name='Create Referral Letter'))
+        self.sm.add_widget(ViewExamDetail(name='View Exam Detail'))
 
         return self.sm
 

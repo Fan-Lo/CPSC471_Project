@@ -2,7 +2,6 @@ from DatabaseConnect import *
 from Employee import * 
 from Patient import *
 from datetime import datetime 
-import datetime
 
 class Appointment:
     def __init__(self):
@@ -38,26 +37,26 @@ class Appointment:
             
         return format
 
-    # def viewPAppointments(self, AHC):
-    #     self.database = DatabaseConnect()
-    #     self.appointments = self.database.performQuery(f"SELECT * FROM APPOINTMENT WHERE PatAHC = '{AHC}';")
-    #     self.database.close()
-    #     if(len(self.appointments) == 0):
-    #         return 'You have no appointments currently'
+    def viewPAppointments(self, AHC):
+        self.database = DatabaseConnect()
+        self.appointments = self.database.performQuery(f"SELECT * FROM APPOINTMENT WHERE PatAHC = '{AHC}';")
+        self.database.close()
+        if(len(self.appointments) == 0):
+            return 'You have no appointments currently'
 
-    #     i = 0
-    #     format = ''
-    #     while (i < len(self.appointments)):
-    #         num = i+1
-    #         format += 'Appointment ' + str(num) + ': \n'
-    #         format += '     ' + 'Patient AHC: ' + self.appointments[i][0] + '\n'
-    #         self.employee = Employee(self.appointments[i][1])
-    #         format += '     ' + 'Employee Name: ' + self.employee.getName() + '\n'
-    #         dt = self.appointments[i][2].strftime('%Y-%m-%d %I:%M')
-    #         format += '     ' + 'Date and Time: ' + dt + '\n'
-    #         i += 1
+        i = 0
+        format = ''
+        while (i < len(self.appointments)):
+            num = i+1
+            format += 'Appointment ' + str(num) + ': \n'
+            format += '     ' + 'Patient AHC: ' + self.appointments[i][0] + '\n'
+            self.employee = Employee(self.appointments[i][1])
+            format += '     ' + 'Employee Name: ' + self.employee.getName() + '\n'
+            dt = self.appointments[i][2].strftime('%Y-%m-%d %I:%M')
+            format += '     ' + 'Date and Time: ' + dt + '\n'
+            i += 1
             
-    #     return format
+        return format
 
     def deleteAppointment(self,AHC, d, t):
         #SIN = Employee(name).getSIN()

@@ -1,4 +1,6 @@
 from DatabaseConnect import *
+from datetime import datetime 
+import datetime
 
 class ExamDetail:
     __performedBy = []
@@ -42,9 +44,11 @@ class ExamDetail:
             format += ' Exam Detail ' + str(num) + ': \n'
             format += '     ' + 'Exam ID: ' + str(self.exam_details[i][0]) + '\n'
             format += '     ' + 'Patient AHC: ' + str(self.exam_details[i][1]) + '\n'
-            dt = self.exam_details[i][2].strftime('%Y-%m-%d')
-            format += '     ' + 'Date' + dt + '\n'
+            
+            # dt = self.exam_details[i][2].strftime('%Y-%m-%d')
+            
+            # format += '     ' + 'Date' + dt + '\n'
             format += '     ' + 'Notes: ' + str(self.exam_details[i][3]) + '\n'
-            format += '     ' + 'Employee SIN: ' + str(self.exam_details[i][4]) + '\n' 
+            format += '     ' + 'Performed By: ' + str(self.exam_details[i][4]) + '\n' 
             i += 1
         return format

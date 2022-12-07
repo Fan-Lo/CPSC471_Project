@@ -270,7 +270,7 @@ Builder.load_string("""
             font_size: 30
             background_color: 0, 0, 8, 0.5
             on_press: 
-                root.deleteAppointment()
+                root.deletePAppointment()
                 root.manager.current = 'PAppointment'
 
         Button:
@@ -350,7 +350,7 @@ class DeletePAppointment(Screen):
         self.time = time 
 
     def deletePAppointment(self):
-        self.newAppointment = Appointment().deletePAppointment(self.AHC, self.date, self.time) 
+        self.newAppointment = Appointment().deleteAppointment(self.AHC, self.date, self.time) 
 
 class ViewAppointment(Screen):
     pass
